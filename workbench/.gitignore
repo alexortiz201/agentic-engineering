@@ -1,0 +1,44 @@
+# Local Workbench overlays/state are environment-owned and never portable source:
+# - `.profile/` holds operator and machine preferences/observations;
+# - `.memory/` holds accumulated session context; and
+# - `.workgroup/` holds workgroup-specific context and run scratch.
+#
+# The package-root patterns below are a safety net. The current runtime reads `.memory/`
+# and `.workgroup/` from its configured local state root, while `.profile/` is local to the
+# package root. Never add any real environment's contents here. Sanitized contracts live in
+# `templates/layout/`; an optional backup, if one exists, is owned by that environment and is
+# outside this public package.
+/.profile/
+/.memory/
+/.workgroup/
+
+# ── OS and editor droppings ───────────────────────────────────────────────────
+# Duplicated from the repository root on purpose. This package is handed to adopters as a
+# standalone unit, so its own ignore file has to stand up without the root's.
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# ── Machine-local overrides ───────────────────────────────────────────────────
+# `*.local` / `*.local.*` is the conventional marker for a file that belongs to ONE bench and
+# must never travel. The two `settings.local.json` files below are the exception and are
+# negated: they are reference copies an adopter is meant to receive, not local overrides.
+#
+# Negation is required because these patterns are UNANCHORED and so match the name at any depth
+# -- the same shape that once silently swallowed `templates/layout/`, whose whole purpose is to
+# be committed. The failure was invisible until something checked. Anchor with a leading slash,
+# or negate the intended survivors, but never leave it to luck.
+*.local
+*.local.*
+!config/claude/settings.local.json
+!templates/claude_home/settings.local.json
+
+# Template seeds are canonical package content even where a machine-global ignore excludes
+# local working-memory directories.
+!templates/layout/.memory/
+!templates/layout/.memory/**
+!templates/layout/.profile/
+!templates/layout/.profile/**
+!templates/layout/.workgroup/
+!templates/layout/.workgroup/**

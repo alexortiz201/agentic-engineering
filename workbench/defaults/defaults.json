@@ -1,0 +1,975 @@
+{
+  "schema": "agentic_engineering/defaults/1",
+  "version": "1.0.0",
+  "captured": "2026-09-16",
+  "doc": "handbook/14_THE_DEFAULTS_FILE.md",
+  "readme": "defaults/README.md",
+  "about": {
+    "purpose": "The parameterisation of a bench: where the stores live, where workflow output goes, what has to be installed, and what an installer substitutes. One operator's bench today, a team's onboarding later.",
+    "read_with": "defaults/README.md says what this folder is for and how it differs from config/, templates/claude_home/ and the live harness home. handbook/14_THE_DEFAULTS_FILE.md is the schema doc. It says what an installer does with each field and how a new value is added. Do not extend this file without reading it.",
+    "format_note": "Indented JSON, deliberately. The package's record-format rule makes machine-read append-only records compact JSONL; this is neither append-only nor machine-only -- a person opens it, reads the reasons, and edits the instance column. Indentation is correct here for the same reason it is wrong there.",
+    "public_repository": "This package -- the workbench tool -- is public. Every identifying instance value is a __TOKEN__, never a literal. Adding a literal employer, customer, host or account name to this file is a leak, not a convenience. Organisation-specific material does not belong in this repository at all: it goes to the workbench home at __WORKBENCH__/<org>/, and gitignoring it here is not the remedy, because an ignore rule in a public repository is itself published."
+  },
+  "scope_legend": {
+    "default": "The shipped value is sensible for anyone adopting this. A teammate inherits it unchanged.",
+    "instance": "The shipped value is this operator's current answer, tokenised. A teammate replaces it with their own.",
+    "ask": "Present and true on an entry that has no sensible default at all -- the installer must ask a human. A null value with ask:true is an honest gap, not an omission."
+  },
+  "tokens": [
+    {
+      "token": "__HOME__",
+      "means": "absolute home directory",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": false,
+      "why": "used only in JSON, because hook command strings are not guaranteed to undergo shell expansion"
+    },
+    {
+      "token": "__PACKAGE_ROOT__",
+      "means": "where this package is cloned; the local .profile/ overlay lives here",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": false,
+      "why": "the face a session sees. Distinct from the configured local state root for .memory/ and .workgroup/"
+    },
+    {
+      "token": "__WORKBENCH__",
+      "means": "the workbench-home local state root holding environment-owned .memory/ and .workgroup/ directories",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "the local environment and workgroup name cannot be defaulted"
+    },
+    {
+      "token": "__HARNESS_HOME__",
+      "means": "the harness configuration directory -- the live bench",
+      "spelling": "script_and_json",
+      "scope": "default",
+      "ask": false,
+      "why": "the harness fixes this path; it is a default, not a choice"
+    },
+    {
+      "token": "__STATE_ROOT__",
+      "means": "retained spelling for the one directory a session reads state from",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": false,
+      "why": "kept for the existing hook scripts and CRITICAL_RULES.md. It is the configured local root for .memory/ and .workgroup/ only -- see stores.split_warning"
+    },
+    {
+      "token": "__WORK_ROOT__",
+      "means": "solution root -- the folder housing all work repositories",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "employer identifier"
+    },
+    {
+      "token": "__PERSONAL_ROOT__",
+      "means": "personal and tool-work root",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": false,
+      "why": null
+    },
+    {
+      "token": "__SOLUTION__",
+      "means": "name of the multi-repo grouping whose topology map the boot instruction points at",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "employer identifier"
+    },
+    {
+      "token": "__EMPLOYER__",
+      "means": "organisation name, where a rule is genuinely organisation-scoped",
+      "spelling": "prose",
+      "scope": "instance",
+      "ask": true,
+      "why": "employer identifier"
+    },
+    {
+      "token": "__UNFAMILIAR_STACK__",
+      "means": "the stack this operator wants extra explanation on",
+      "spelling": "prose",
+      "scope": "instance",
+      "ask": true,
+      "why": "a person's current gap; unobservable"
+    },
+    {
+      "token": "__STACK_BOOT_CMD__",
+      "means": "the one command that starts the whole local stack",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "internal tool name"
+    },
+    {
+      "token": "__CANARY_PHRASE__",
+      "means": "two or three words appearing nowhere else on the machine",
+      "spelling": "prose",
+      "scope": "instance",
+      "ask": true,
+      "why": "must be unique per machine; a shipped default would defeat the check it exists to perform"
+    },
+    {
+      "token": "__MODEL__",
+      "means": "default model identifier, as the harness spells it",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": false,
+      "why": null
+    },
+    {
+      "token": "__MARKETPLACE_NAME__",
+      "means": "plugin marketplace key",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "keys a private organisation-owned repository"
+    },
+    {
+      "token": "__MARKETPLACE_REPO__",
+      "means": "plugin marketplace repository",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "employer identifier; private, so the name is useless to an outsider anyway"
+    },
+    {
+      "token": "__PLUGIN_NAME__",
+      "means": "the bundle enabled from that marketplace",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": null
+    },
+    {
+      "token": "__TRACKER__",
+      "means": "the issue tracker that is the source of truth",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "varies per workgroup -- two members of this one use a different tracker from the rest"
+    },
+    {
+      "token": "__PROTECTED_BRANCH__",
+      "means": "a branch autonomous mode must never push to",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "employer topology"
+    },
+    {
+      "token": "__DB_ENDPOINT__",
+      "means": "hostname of a remote data checkout",
+      "spelling": "script_and_json",
+      "scope": "instance",
+      "ask": true,
+      "why": "internal hostname"
+    }
+  ],
+  "token_spellings": {
+    "script_and_json": {
+      "form": "__NAME__",
+      "used_in": [
+        "shell scripts",
+        "JSON",
+        "this file"
+      ],
+      "why": "an angle bracket is syntax or a redirect inside a script or a JSON string"
+    },
+    "prose": {
+      "form": "<NAME>",
+      "used_in": [
+        "templates/TEMPLATE_CLAUDE.md"
+      ],
+      "why": "pure prose, where <NAME> reads naturally and parses nothing"
+    },
+    "rule": "The two spellings carry the SAME values -- __STATE_ROOT__ and <STATE_ROOT> are one setting. Fill them together; never run one file's substitution over the other's files."
+  },
+  "stores": [
+    {
+      "id": "package",
+      "role": "the discipline, the templates, the installer",
+      "location": {
+        "scope": "instance",
+        "value": "__PACKAGE_ROOT__",
+        "shape": "$HOME/Projects/<org>/<package>"
+      },
+      "visibility": "public",
+      "version_controlled": true,
+      "holds": [
+        "foundations/",
+        "handbook/",
+        "templates/",
+        "harnesses/",
+        "tools/",
+        "config/",
+        "defaults/"
+      ],
+      "materialised_by": "clone",
+      "why": "Public is the constraint that shapes every other row. Nothing organisation-, account- or machine-identifying may land here as a literal."
+    },
+    {
+      "id": "workbench",
+      "name": "the workbench home, also the workbench folder",
+      "role": "the environment-owned local state root for workgroup context and accumulated session state",
+      "location": {
+        "scope": "instance",
+        "value": "__WORKBENCH__",
+        "shape": "$HOME/.workbench"
+      },
+      "visibility": "local_environment",
+      "version_controlled": false,
+      "holds": [
+        "<org>/.memory/",
+        "<org>/.workgroup/"
+      ],
+      "materialised_by": "direct",
+      "why": "These overlays may contain employer, team, repository, account, machine, and in-flight workflow context. They belong to the local environment, are never public package content, and are not automatically copied to a personal repository or backup.",
+      "status": "local environment state; initialize from sanitized seeds only when absent.",
+      "placement_note": "The current readers use __WORKBENCH__/<org>/ directly. This location is a runtime convention, not a public package path or a mandate to synchronize state between environments."
+    },
+    {
+      "id": "harness_home",
+      "role": "the live bench -- real files the harness reads every session",
+      "location": {
+        "scope": "default",
+        "value": "__HARNESS_HOME__",
+        "shape": "$HOME/.claude"
+      },
+      "visibility": "not_version_controlled",
+      "version_controlled": false,
+      "holds": [
+        "the global instruction file",
+        "CRITICAL_RULES.md",
+        "SHORTCUTS.md",
+        "settings.json",
+        "hooks/",
+        "skills/"
+      ],
+      "materialised_by": "installer",
+      "why": "Deliberately not a git repository, and deliberately real files rather than symlinks. Re-cloning, wiping or moving any repo cannot destroy it, and a dangling symlink here would read as ABSENT rather than as an error -- the one failure mode that is silent from inside a session.",
+      "cost": "No history. An accidental overwrite is unrecoverable, which is why an off-machine copy exists in config/ and templates/claude_home/."
+    }
+  ],
+  "local_folders": [
+    {
+      "id": ".memory",
+      "canonical_location": "__WORKBENCH__/<org>/.memory",
+      "materialised_by": "direct",
+      "scope": "default",
+      "seed": "templates/layout/.memory",
+      "why": "A session reads it where it lives. Moved out of the package on 2026-09-16 and NOT surfaced back: symlinks were rejected outright, so every reader names __WORKBENCH__/<org>/.memory directly. That is why the hook scripts and instruction files carry the path rather than inheriting it by proximity.",
+      "hazard": "No symlink, so no dangling-link failure. The replacement hazard is PROSE: roughly forty files spell this path, and a reader repointed by hand is silently wrong rather than broken. Any future move must sweep with `rg --no-ignore --hidden`, because these directories are gitignored and a default ripgrep search over them matches nothing and reports success."
+    },
+    {
+      "id": ".workgroup",
+      "canonical_location": "__WORKBENCH__/<org>/.workgroup",
+      "materialised_by": "direct",
+      "scope": "default",
+      "seed": "templates/layout/.workgroup",
+      "why": "Same as .memory. Its records are falsified by repositories, trackers and forges, so they belong beside the work rather than inside the discipline.",
+      "hazard": "As above."
+    },
+    {
+      "id": ".profile",
+      "canonical_location": "__PACKAGE_ROOT__/.profile",
+      "materialised_by": "generated_local",
+      "scope": "default",
+      "seed": "templates/layout/.profile",
+      "why": "GENERATED by the installer from templates plus answers, never shipped. The package therefore never contains one operator's values, and a fork cannot leak by someone forgetting to strip a directory.",
+      "populate_by": "observation, not interview. A setup walkthrough is already probing the machine -- resolving paths, running the equivalent of `command -v` -- and that probing IS the data collection. A profile assembled from questions records what a person believes about their machine; one derived from the probes records what is there.",
+      "exception": "Preferences are the one thing that cannot be observed and are asked once. 'I prefer homebrew' is a question; 'homebrew is installed' is a probe.",
+      "probe_output": "templates/layout/.profile/observed.json -- the seed already carries this file, so the probe results have a declared home rather than being narrated into prose",
+      "location_note": "The profile is a package-root local overlay. It may be initialized from the seed but is never copied from another environment or prescribed backup source. The three stores do not share a runtime root."
+    }
+  ],
+  "split_warning": {
+    "id": "state_root_splits_into_two_roots",
+    "scope": "default",
+    "what": "__STATE_ROOT__ names only the local root for .memory/ and .workgroup/. .profile/ is a separate local overlay at __PACKAGE_ROOT__/.profile.",
+    "resolution": "__STATE_ROOT__ now resolves to __WORKBENCH__/<org>/ and covers .memory/ and .workgroup/ ONLY. The earlier plan -- resolve it to the package root and let symlinks make all three appear in one place -- is dead, because symlinks were rejected.",
+    "why_this_is_safe_here": "The only consumer of __STATE_ROOT__ is boot_memory.sh, and that script has never referenced .profile/. It was checked rather than assumed. A SECOND variable was therefore not introduced: it would name a root nothing reads.",
+    "consequence": "Anything NEW that needs .profile/ must spell __PACKAGE_ROOT__/.profile itself and must not reach for __STATE_ROOT__. A script that assumes __STATE_ROOT__ covers all three will find two folders and silently miss the third -- the same failure the old warning named, just relocated.",
+    "status": "resolved for the current consumer set; no external profile repository is required or prescribed."
+  },
+  "adw_output": {
+    "principle": "A workflow library is placed by the LEVEL its subject spans, never by the project that happens to have prompted it. The level is legible from the member dependency headers: a workflow reaching only inside one member is repo-level; one crossing SERVICE_DEPS or TOOLING_DEPS is workgroup-level.",
+    "levels": [
+      {
+        "level": "repo",
+        "location": "<repo>/adws/",
+        "scope": "default",
+        "subject": "one repository",
+        "decided_by": "the workflow touches no member outside its own",
+        "version_controlled": true
+      },
+      {
+        "level": "workgroup",
+        "location": "<solution_root>/adws/",
+        "scope": "default",
+        "subject": "several members worked on together",
+        "decided_by": "the workflow crosses a SERVICE_DEPS or TOOLING_DEPS edge",
+        "version_controlled": false,
+        "caveat": "The solution root is a plain folder holding repositories, not a repository itself -- so a library placed literally at <solution_root>/adws/ is not version controlled. The live example is therefore placed in the workgroup's documentation member instead: __WORK_ROOT__/<docs-member>/adws/. Record which member carries it; do not assume the bare root.",
+        "instance": "__WORK_ROOT__/<docs-member>/adws/"
+      },
+      {
+        "level": "operator",
+        "location": "__PACKAGE_ROOT__/tools/",
+        "scope": "default",
+        "subject": "the bench itself, across every workgroup",
+        "decided_by": "the workflow's subject is this package or this machine, not any delivered product",
+        "version_controlled": true
+      }
+    ],
+    "member_header_fields": {
+      "scope": "default",
+      "fields": [
+        "CLASS",
+        "RUNTIME",
+        "PORTS",
+        "SERVICE_DEPS",
+        "TOOLING_DEPS",
+        "EXTERNAL",
+        "BRANCH",
+        "TRACKER"
+      ],
+      "why": "These are what make the level decidable rather than a judgement call, and what makes 'read the member you are in and each of its SERVICE_DEPS' an executable instruction instead of an aspiration.",
+      "written_in": ".workgroup/<member>/README.md, as a fenced block at the top of the file"
+    },
+    "layout_inside_a_library": {
+      "scope": "default",
+      "note": "Defined in handbook/05_AGENTIC_LAYER_LAYOUT.md; not restated here. The filename is the phase sequence; adw_modules/ is extracted when the second phase proves what is shared, not before.",
+      "language": "TypeScript, run with bun",
+      "generated_and_ignored": [
+        "runs/<run_id>/",
+        "trees/<run_id>/"
+      ]
+    }
+  },
+  "tooling": [
+    {
+      "id": "ripgrep",
+      "install": "ripgrep",
+      "manager": "brew",
+      "binary": "rg",
+      "capability": "content search",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "the search every skill and instruction calls instead of grep",
+      "breaks_without": "searches fall back to grep, which is slower and triggers a permission prompt per call -- so the cost is paid in interruptions, not just seconds",
+      "version": null,
+      "version_reason": null,
+      "trap": "The harness injects a shell FUNCTION named rg, so `command -v rg` can succeed in an interactive shell while the real binary is absent. Probe the brew prefix, not the name."
+    },
+    {
+      "id": "fd",
+      "install": "fd",
+      "manager": "brew",
+      "binary": "fd",
+      "capability": "filesystem search",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "the find substitute every instruction calls",
+      "breaks_without": "same as ripgrep -- slower fallback plus a permission prompt per call",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "bat",
+      "install": "bat",
+      "manager": "brew",
+      "binary": "bat",
+      "capability": "file display",
+      "tier": "recommended",
+      "scope": "default",
+      "purpose": "cat replacement",
+      "breaks_without": "slower fallback only; nothing depends on it",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "zoxide",
+      "install": "zoxide",
+      "manager": "brew",
+      "binary": "z",
+      "capability": "directory navigation",
+      "tier": "recommended",
+      "scope": "instance",
+      "purpose": "the directory jump written into every shell example for this operator",
+      "breaks_without": "shell examples in the instruction files name a command that does not exist",
+      "version": null,
+      "version_reason": null,
+      "setup": "needs `eval \"$(zoxide init zsh)\"` in the shell rc -- installing the binary alone does nothing"
+    },
+    {
+      "id": "fzf",
+      "install": "fzf",
+      "manager": "brew",
+      "binary": "fzf",
+      "capability": "fuzzy selection",
+      "tier": "recommended",
+      "scope": "default",
+      "purpose": "interactive history and path search",
+      "breaks_without": "convenience only",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "forge_cli",
+      "install": "gh",
+      "manager": "brew",
+      "binary": "gh",
+      "capability": "forge access",
+      "tier": "required",
+      "scope": "instance",
+      "purpose": "pull requests, reviews, and the auth check that gates repository setup",
+      "breaks_without": "no scriptable path to the forge -- PR creation, review response and the gate that reads PR state all stop",
+      "version": null,
+      "version_reason": null,
+      "note": "instance-scoped because which forge CLI is correct depends on the forge"
+    },
+    {
+      "id": "jq",
+      "install": "jq",
+      "manager": "brew",
+      "binary": "jq",
+      "capability": "JSON parsing in shell",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "every hook parses its stdin with it",
+      "breaks_without": "THE MOST DANGEROUS ABSENCE IN THIS LIST. The hooks check for jq and exit 0 without it -- they degrade to silence by design. The triggers stop firing and nothing says so.",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "node_version_manager",
+      "install": "n",
+      "manager": "brew",
+      "binary": "n",
+      "capability": "runtime version switching",
+      "tier": "required",
+      "scope": "instance",
+      "purpose": "selecting the Node version a repository pins",
+      "breaks_without": "no way to honour a repository's pin",
+      "version": null,
+      "version_reason": null,
+      "default_alternative": "any node version manager; this operator chose n over nvm and fnm",
+      "trap": "n switches Node GLOBALLY and has no per-directory auto-switching. Changing it for one repository moves every other repository onto a different runtime, and the failure surfaces later looking like a code problem rather than a version problem."
+    },
+    {
+      "id": "node",
+      "install": "node",
+      "manager": "n",
+      "capability": "javascript runtime",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "runs the repositories' own tooling",
+      "breaks_without": "nothing in a JS repository builds or tests",
+      "version": "whatever the repository pins",
+      "version_reason": "The pin is the instruction, not a suggestion. Latest stable only where nothing is pinned. Members of one workgroup pin DIFFERENT versions and some pin none, so there is no single correct global value -- a tool demanding a newer runtime than a repository pins is a conflict to RAISE, never a switch to make quietly.",
+      "instance": "varies per member; recorded in each .workgroup/<member>/README.md RUNTIME= field, not here"
+    },
+    {
+      "id": "bun",
+      "install": "bun",
+      "manager": "brew",
+      "binary": "bun",
+      "capability": "typescript runtime",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "runs every ADW controller",
+      "breaks_without": "no workflow in this discipline executes -- controllers are .ts run with bun",
+      "version": null,
+      "version_reason": null,
+      "note": "A repository declaring a different package manager in its own instruction file wins for that repository's scripts. This is about the controllers, not about a product's build."
+    },
+    {
+      "id": "ruby_version_manager",
+      "install": "rbenv",
+      "manager": "brew",
+      "binary": "rbenv",
+      "capability": "runtime version switching",
+      "tier": "conditional",
+      "scope": "default",
+      "condition": "the workgroup contains a Ruby member",
+      "purpose": "selecting the Ruby version a repository pins",
+      "breaks_without": "the shell falls back to the operating system's READ-ONLY system Ruby, and `gem install` fails on permissions -- which reads as a permissions problem rather than a version-manager problem",
+      "version": null,
+      "version_reason": null,
+      "setup": "needs `eval \"$(rbenv init - zsh)\"` in the shell rc. Installing the binary alone leaves the fallback in place."
+    },
+    {
+      "id": "bundler",
+      "install": "bundler",
+      "manager": "gem",
+      "capability": "ruby dependency resolution",
+      "tier": "conditional",
+      "scope": "default",
+      "condition": "the workgroup contains a Ruby member",
+      "purpose": "installs a Ruby repository's gems",
+      "breaks_without": "`bundle install` fails with 'You must use Bundler 2'",
+      "version": "2.x",
+      "version_reason": "The major version is pinned by the repositories' lockfiles; a 1.x bundler cannot read them."
+    },
+    {
+      "id": "mysql_client",
+      "install": "mysql-client",
+      "manager": "brew",
+      "capability": "database client",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "connecting to a remote data checkout by hand, and any introspection outside the application's own console",
+      "breaks_without": "no way to verify which database you are pointed at -- which is the check that separates a local run from one reading real customer data",
+      "version": "8.4",
+      "version_reason": "A checkout's users authenticate with mysql_native_password, which was REMOVED from the MySQL 9.x/26.x client line. The current unversioned formula fails with `ERROR 2059 ... cannot be loaded`. The versioned client still ships it, and is invoked by absolute path from the versioned prefix.",
+      "trap": "PREFER mysql-client OVER mysql. The full formula also installs a SERVER, and starting it contends for 127.0.0.1:3306 with the local development database the stack already runs there. Installing it is harmless as long as the service is never started -- and that is the danger: the failure would present as the local database misbehaving rather than as a port conflict.",
+      "second_order": "The same gap hits the APPLICATION, not only the CLI. A native MySQL driver links against libmysqlclient; if that resolves to a 9.x/26.x library the application fails to connect to a checkout with the identical error. Local development never shows it, because the local database is on the 8.4 line.",
+      "open_discrepancy": "The source runbook says `brew install mysql-client` in one row and invokes /opt/homebrew/opt/mysql@8.4/bin/mysql two paragraphs later -- a client-only formula and a versioned server formula. Both facts are recorded; which single formula satisfies both is unresolved and must be settled before this row drives an installer."
+    },
+    {
+      "id": "socat",
+      "install": "socat",
+      "manager": "brew",
+      "binary": "socat",
+      "capability": "port forwarding",
+      "tier": "required",
+      "scope": "default",
+      "condition": "a container must reach a remote endpoint that is only routable over the host's VPN",
+      "purpose": "forwarding a local port to a remote checkout so a container can reach it through the host's VPN",
+      "breaks_without": "the container cannot reach the database at all, and the obvious fix does not work",
+      "version": null,
+      "version_reason": null,
+      "trap": "`--network host` DOES NOT HELP on macOS. The container runtime runs containers inside a Linux VM, so 'host' means the VM rather than the Mac, and the VPN client is on the Mac. Run the forwarder on the host and have the container connect to host.docker.internal: the host does the VPN, the container stays a plain client."
+    },
+    {
+      "id": "container_runtime",
+      "install": "docker",
+      "manager": "cask",
+      "binary": "docker",
+      "capability": "container runtime",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "runs the search index and its dashboard for local work",
+      "breaks_without": "the search-backed features have no data, and an empty surface LOOKS LIKE nothing to test rather than like a missing dependency",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "local_tls",
+      "install": "mkcert",
+      "manager": "brew",
+      "binary": "mkcert",
+      "capability": "local certificate authority",
+      "tier": "required",
+      "scope": "default",
+      "purpose": "generating a trusted local certificate for services that require TLS on 127.0.0.1",
+      "breaks_without": "those services cannot establish TLS locally and the stack does not come fully up",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "cloud_cli",
+      "install": "awscli",
+      "manager": "brew",
+      "binary": "aws",
+      "capability": "cloud object storage and credentials",
+      "tier": "required",
+      "scope": "instance",
+      "purpose": "the core service fetches boot configuration from object storage, and data-location lookups are done with it",
+      "breaks_without": "the core service cannot boot -- it needs working cloud credentials before it needs anything else",
+      "version": null,
+      "version_reason": null
+    },
+    {
+      "id": "stack_runner",
+      "install": "__STACK_BOOT_CMD__",
+      "manager": "internal",
+      "capability": "process supervision",
+      "tier": "recommended",
+      "scope": "instance",
+      "purpose": "reads a Procfile and runs the whole local stack, with a headless mode a script or an agent can drive",
+      "breaks_without": "falls back to a bare Procfile runner, which works but loses the dashboard and multi-member support",
+      "version": null,
+      "version_reason": null,
+      "default_alternative": "foreman",
+      "note": "Run from the SOLUTION ROOT, not from the member being edited. The directory a phase edits and the directory that boots the services are different, and an ADW touching a running application has to carry both."
+    },
+    {
+      "id": "knowledge_graph_cli",
+      "install": null,
+      "manager": "uv",
+      "capability": "repository knowledge-graph query",
+      "tier": "optional",
+      "scope": "instance",
+      "ask": true,
+      "purpose": "structured repository queries instead of raw text search",
+      "breaks_without": "searches stay raw. Nothing fails; the accelerator is simply absent",
+      "version": null,
+      "version_reason": null,
+      "note": "Deliberately skipped on this bench -- it needs a separate toolchain. Left unnamed here rather than named, because its provenance was not confirmed and this file is public."
+    },
+    {
+      "id": "python_extraction",
+      "install": "python@3.10",
+      "manager": "brew",
+      "capability": "language runtime",
+      "tier": "optional",
+      "scope": "default",
+      "condition": "working on the document-extraction service",
+      "purpose": "that service pins the 3.10 interpreter explicitly rather than taking the default",
+      "breaks_without": "the optional extraction feature is unavailable; nothing else is affected",
+      "version": "3.10",
+      "version_reason": "pinned by the service, not chosen",
+      "companion": "ghostscript"
+    },
+    {
+      "id": "go",
+      "install": "go",
+      "manager": "brew",
+      "binary": "go",
+      "capability": "language runtime",
+      "tier": "conditional",
+      "scope": "default",
+      "condition": "the workgroup contains a Go member",
+      "purpose": "builds and runs the search indexer",
+      "breaks_without": "that member cannot be built or its indexer re-run",
+      "version": null,
+      "version_reason": "none recorded -- if a pin exists it is not written down, which is itself worth closing"
+    }
+  ],
+  "harness": {
+    "note": "What an installer must PLACE. Keyed by capability where the manifest keys it that way, so the row survives a change of harness. Reproduction detail is in templates/claude_home/README.md and is not restated here.",
+    "place": [
+      {
+        "id": "critical_rules",
+        "path": "__HARNESS_HOME__/CRITICAL_RULES.md",
+        "capability": "instruction:always-loaded-by-mechanism",
+        "requirement": "required",
+        "scope": "default",
+        "content_scope": "instance",
+        "why": "Injected every session by a session-opened hook, so the must-never-be-missed set does not depend on any file being FOUND. The mechanism is required; its contents are one operator's."
+      },
+      {
+        "id": "global_instruction",
+        "path": "__HARNESS_HOME__/CLAUDE.md",
+        "capability": "instruction:always-loaded",
+        "requirement": "required",
+        "scope": "instance",
+        "source": "templates/TEMPLATE_CLAUDE.md",
+        "why": "Read at the top of every session before the harness knows the task. A REAL FILE, never a symlink.",
+        "manual": true,
+        "manual_reason": "the harness refuses agent writes to this path, so installing it is always the operator's own step"
+      },
+      {
+        "id": "shortcuts",
+        "path": "__HARNESS_HOME__/SHORTCUTS.md",
+        "capability": "instruction:on-demand",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "The procedure behind each shortcut. Only the trigger has to be recognised before this file is read, which is why the trigger index is duplicated into the global instruction file and the procedures are not."
+      },
+      {
+        "id": "hook_session_guard",
+        "path": "__HARNESS_HOME__/hooks/guard_claude_md.sh",
+        "capability": "trigger:session-opened",
+        "requirement": "required",
+        "scope": "default",
+        "why": "Emits the critical rules and warns on a dangling or empty instruction file and on broken watched symlinks. This is what converts a silent absence into a first-message warning."
+      },
+      {
+        "id": "hook_boot_memory",
+        "path": "__HARNESS_HOME__/hooks/boot_memory.sh",
+        "capability": "trigger:session-opened",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Emits the state-store read order, AND parses the priority queue out of the durable todo list into a numbered list the session turns into TUI tasks. Only the priority queue: the three-queue structure exists so the other two do not compete for attention, and importing all of them would undo that. Assumes the three-folder arrangement in a particular repository -- drop it, or repoint __STATE_ROOT__.",
+        "hazard": "state root is overridable via AGENT_STATE_ROOT but DEFAULTS to an absolute path; if the path moves and the variable is unset, the boot instruction names a directory that does not exist and the queue import reports the master list as missing"
+      },
+      {
+        "id": "hook_cleanup_git",
+        "path": "__HARNESS_HOME__/hooks/cleanup_on_git.sh",
+        "capability": "trigger:tool-completed",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Fires the completion sweep on a commit or a push. Debounced, and filtered on command POSITION rather than mention."
+      },
+      {
+        "id": "hook_cleanup_phrase",
+        "path": "__HARNESS_HOME__/hooks/cleanup_on_stop_phrase.sh",
+        "capability": "trigger:prompt-submitted",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Fires the stopping-point sweep on sign-off language.",
+        "companion": "hooks/stopping_phrases.txt"
+      },
+      {
+        "id": "hook_reconcile_task",
+        "path": "__HARNESS_HOME__/hooks/reconcile_on_task_done.sh",
+        "capability": "trigger:tool-completed",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Demands the write-back when a session task is set completed. The session task list is a SESSION-SCOPED VIEW of the durable todo list, so a completion there changes nothing durable unless it is reconciled. Deduped by (session, taskId) identity rather than by a timer -- a timer cannot tell two different closures apart.",
+        "hazard": "filters on the task tool payload carrying status == completed, which is undocumented and was read off live transcripts. If that field is renamed the hook goes quiet, which looks identical to no tasks being completed."
+      },
+      {
+        "id": "hook_state_dir",
+        "path": "__HARNESS_HOME__/hooks/state/",
+        "capability": "trigger:tool-completed",
+        "requirement": "required",
+        "scope": "default",
+        "why": "Created EMPTY. Two triggers write here -- the git hooks 60-second debounce, and the per-session (session, taskId) dedupe for the task-completion hook. Its contents are meaningless on another machine."
+      },
+      {
+        "id": "settings_hooks",
+        "path": "__HARNESS_HOME__/settings.json#hooks",
+        "capability": "trigger:registration",
+        "requirement": "required",
+        "scope": "default",
+        "why": "Nothing fires without it.",
+        "manual": true,
+        "manual_reason": "merged by hand -- blind JSON merging breaks a working bench"
+      },
+      {
+        "id": "settings_local",
+        "path": "__HARNESS_HOME__/settings.local.json",
+        "capability": "gate:declarative-tool-policy",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Personal override scaffold."
+      },
+      {
+        "id": "automode_environment",
+        "path": "__HARNESS_HOME__/settings.json#autoMode.environment",
+        "capability": "gate:autonomous-mode-policy",
+        "requirement": "required",
+        "scope": "instance",
+        "ask": true,
+        "why": "Tells autonomous mode which branches, paths and infrastructure scopes are dangerous.",
+        "hazard": "ITS ABSENCE IS SILENT. Autonomous mode does not report running without an environment definition -- it treats a protected branch like any other. Restore it BEFORE running anything unattended, not after noticing where something unattended went.",
+        "canonical_home": "__WORKBENCH__"
+      },
+      {
+        "id": "skills_authored",
+        "path": "__HARNESS_HOME__/skills/",
+        "capability": "capability:packaged",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Locally authored skills that exist in exactly one unversioned directory get a committed copy; third-party skills are re-cloned and re-linked, never copied."
+      },
+      {
+        "id": "plugin_bundle",
+        "path": "__PLUGIN_NAME__@__MARKETPLACE_NAME__",
+        "capability": "bundle:installed-set",
+        "requirement": "preference",
+        "scope": "instance",
+        "ask": true,
+        "why": "Reinstalled through the harness's own commands, never by copying its cache -- a copied cache carries a resolved version and an install path that are both wrong here.",
+        "hazard": "autoUpdate moves the floor: behaviour can change between two sessions with no action taken and no record of it"
+      },
+      {
+        "id": "model_default",
+        "path": "__HARNESS_HOME__/settings.json#model",
+        "capability": "invocation:default-model",
+        "requirement": "preference",
+        "scope": "instance",
+        "why": "Falls back to a smaller context window if unset."
+      },
+      {
+        "id": "mcp_tracker",
+        "path": "__TRACKER__",
+        "capability": "tool:external-protocol-server",
+        "requirement": "required",
+        "scope": "instance",
+        "ask": true,
+        "why": "The tracker is the source of truth; losing it breaks the ticket workflow end to end.",
+        "hazard": "account-provisioned -- there is nothing on disk to copy and it must be re-authorised by hand"
+      },
+      {
+        "id": "mcp_browser",
+        "path": null,
+        "capability": "tool:browser-control",
+        "requirement": "required",
+        "scope": "instance",
+        "ask": true,
+        "why": "The entire UI-verification flow depends on it. Treat it as a harness capability behind an adapter, never as a named tool written into a workflow."
+      }
+    ],
+    "symlinks": {
+      "rule": "A symlink is an INSTRUCTION, never an artifact. Copying one produces a link whose target does not exist on the new machine, and a broken link reads as absent rather than as an error.",
+      "record_three_things": [
+        "what it points at",
+        "why it is a link rather than a copy",
+        "the command that recreates it"
+      ],
+      "register_at_creation": "Add every link to WATCHED_LINKS in guard_claude_md.sh at the moment you create it. That is what turns the next dangle into a first-message warning, and creation is the only moment you reliably remember."
+    },
+    "verification": {
+      "rule": "An unverified bench is not an installed one. Run every check in a FRESH session, not the one you installed from.",
+      "checks": [
+        {
+          "id": "no_placeholder_survived",
+          "how": "grep the installed tree for __[A-Z_]*__",
+          "why": "an unsubstituted path is a valid string -- the script still runs, still exits 0, and points at a directory that does not exist"
+        },
+        {
+          "id": "scripts_executable",
+          "how": "pipe each hook its expected stdin and read the output",
+          "why": "a copy loses the executable bit"
+        },
+        {
+          "id": "emitted_paths_exist",
+          "how": "extract every path the boot hook emits and test each one",
+          "why": "a boot instruction naming a missing directory produces no error"
+        },
+        {
+          "id": "canary",
+          "how": "ask for the canary phrase in a fresh session",
+          "why": "the ONLY proof from inside a session that the global instruction file actually loaded. A missing one produces no error -- just an agent that quietly behaves like a default one"
+        },
+        {
+          "id": "dangle_guard_fires",
+          "how": "temporarily point a watched link at a nonexistent path and start a session",
+          "why": "the check people skip and the one that proves the most -- it is the only check that exercises the machinery whose whole job is to report a silent failure"
+        }
+      ]
+    }
+  },
+  "installer": {
+    "ordered": [
+      {
+        "step": 1,
+        "action": "read templates/TEMPLATE_CLAUDE.md before installing it",
+        "deterministic": true,
+        "why": "the one file that changes how every session behaves, and the one nobody should adopt blind"
+      },
+      {
+        "step": 2,
+        "action": "back up the existing harness home",
+        "deterministic": true,
+        "why": "there is usually no version control there"
+      },
+      {
+        "step": 3,
+        "action": "collect answers for every token with ask:true",
+        "deterministic": false,
+        "why": "these have no sensible default; see unanswerable[]"
+      },
+      {
+        "step": 4,
+        "action": "probe the machine for every tooling row and record what is present",
+        "deterministic": true,
+        "why": "this probing IS the .profile/ data collection -- observed, not reported"
+      },
+      {
+        "step": 5,
+        "action": "create the local state root if it is absent; do not import another environment's state",
+        "deterministic": true,
+        "why": "the state root belongs to its current environment, not to this public package or personal dotfiles"
+      },
+      {
+        "step": 6,
+        "action": "seed absent .memory/ and .workgroup/ directories at __STATE_ROOT__ from templates/layout/",
+        "deterministic": true,
+        "why": "initialize only the current environment; the runtime readers name this root directly and use no symlinks"
+      },
+      {
+        "step": 7,
+        "action": "generate package-root .profile/ from templates/layout/.profile plus the step-3 answers and the step-4 probe results",
+        "deterministic": true,
+        "why": "generated locally, never shipped -- so the package carries no operator values to leak"
+      },
+      {
+        "step": 8,
+        "action": "run templates/claude_home/install.sh with the token values",
+        "deterministic": true,
+        "why": null
+      },
+      {
+        "step": 9,
+        "action": "merge the hooks key into settings.json by hand",
+        "deterministic": false,
+        "why": "blind JSON merging breaks a working bench"
+      },
+      {
+        "step": 10,
+        "action": "place the global instruction file with its canary phrase",
+        "deterministic": false,
+        "why": "the harness refuses agent writes to that path"
+      },
+      {
+        "step": 11,
+        "action": "configure any environment-specific autonomous-mode policy only through that environment's approved process",
+        "deterministic": false,
+        "why": "it may contain employer-specific scope and must not be imported from another environment"
+      },
+      {
+        "step": 12,
+        "action": "reinstall plugins and external integrations through the harness's own commands",
+        "deterministic": false,
+        "why": "a copied cache carries a resolved version and an install path that are both wrong here"
+      },
+      {
+        "step": 13,
+        "action": "run harness.verification in a fresh session",
+        "deterministic": true,
+        "why": "an unverified bench is not an installed one"
+      }
+    ]
+  },
+  "unanswerable": [
+    {
+      "id": "canary_phrase",
+      "why_no_default": "It works only because it appears nowhere else on the machine. A shipped default would appear in the package and defeat the check.",
+      "how_to_get_it": "ask for two or three words"
+    },
+    {
+      "id": "automode_environment",
+      "why_no_default": "It enumerates one organisation's protected branches, credential paths, package registry and infrastructure scopes. Nothing reconstructs it from memory, and publishing a real one hands a reader a map of what is worth attacking.",
+      "how_to_get_it": "re-run the harness's auto-mode environment setup against the organisation's repository, which is how it was generated"
+    },
+    {
+      "id": "work_root",
+      "why_no_default": "The solution root's name is an employer identifier and its location is a per-machine choice.",
+      "how_to_get_it": "ask, then verify by resolving the path"
+    },
+    {
+      "id": "stack_boot_cmd",
+      "why_no_default": "An internal tool. foreman is the generic fallback but is not equivalent -- it loses the dashboard and multi-member support.",
+      "how_to_get_it": "ask, or fall back to foreman and record that the fallback is in use"
+    },
+    {
+      "id": "tracker",
+      "why_no_default": "Not even constant within one workgroup -- two members of this one use a different tracker from the rest, so a single global answer would be wrong for them.",
+      "how_to_get_it": "read the TRACKER= field of each member header; ask only where no header exists"
+    },
+    {
+      "id": "protected_branches",
+      "why_no_default": "Employer topology, and the base branch is frequently not the repository default -- one member here takes work from two non-default branches and its default branch is the production surface.",
+      "how_to_get_it": "read the branch protection rules on the forge; do NOT infer from the repository default"
+    },
+    {
+      "id": "marketplace",
+      "why_no_default": "A private organisation-owned repository. The name is of no use to anyone not already inside.",
+      "how_to_get_it": "the organisation's plugin documentation"
+    },
+    {
+      "id": "unfamiliar_stack",
+      "why_no_default": "A statement about one person's current gap, which changes as they learn. Unobservable by construction.",
+      "how_to_get_it": "ask, and re-ask periodically"
+    },
+    {
+      "id": "node_version",
+      "why_no_default": "There is no single correct value. Members pin different versions and some pin none, while the version manager switches globally -- so any default is wrong for some member.",
+      "how_to_get_it": "read each member's pin; treat a conflict as something to raise, never to resolve silently"
+    },
+    {
+      "id": "knowledge_graph_cli",
+      "why_no_default": "Its provenance was not confirmed, and this file is public. Naming a tool that turns out to be organisation-internal is the leak this file exists to prevent.",
+      "how_to_get_it": "confirm the tool is third-party, then name it here"
+    }
+  ]
+}
