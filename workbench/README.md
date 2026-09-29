@@ -1,10 +1,10 @@
-# 📖 Agentic Engineering Workbench Tool
+# 📖 Workbench documentation package
 
 **Open work on this package is in [`TODO.md`](TODO.md).** It tracks changes to the tool itself -- defects, missing components, contract deviations -- and is distinct from any operator's ticket list.
 
 A self-contained guide and set of reusable tools for engineering the agentic layer of an application: discover its current architecture, design bounded agent responsibilities and workflows where useful, and validate them against the application. It works for greenfield and existing projects, with or without an agentic layer. The application and its chosen framework own execution; this package supplies guidance, not a replacement runtime. For a repository entry point, follow [adopting a repository](handbook/09_ADOPTING_A_REPOSITORY.md).
 
-**This package is the workbench tool.** It is the public half of a bench; the private half is the [workbench home](#the-workbench-home) at `~/.workbench`. Both names are canonical and defined in [`LANGUAGE.md`](LANGUAGE.md) -- and **`workbench` on its own is ambiguous**, so always say which half.
+**Workbench is the composed engineering utility/product, not just this `workbench/` directory.** It owns portable semantic contracts for bounded engineering work. This public documentation/package is one current expression of Workbench, primarily focused on the agentic layer; the private [workbench home](#the-workbench-home) at `~/.workbench` holds environment-local operator state. The independently useful **Library** holds durable knowledge across engineering domains, not merely agentic engineering. Identifiable knowledge packages/sources contribute selected resources without losing provenance, attribution or replaceability; AIDD is one such source, not the universal capability layer. [`LANGUAGE.md`](LANGUAGE.md) distinguishes these names. Pi currently realizes concrete invocations and enforcement, but is not part of the portable semantics; another harness could eventually realize them without a future adapter being designed here.
 
 ## Read these first, in this order
 
@@ -37,7 +37,7 @@ Loading everything contradicts this package's own rule about context, so the res
 | 🔬 [`foundations/Agentic_Engineering/04_VERIFICATION.md`](foundations/Agentic_Engineering/04_VERIFICATION.md) | Judge whether an agent's claim of a check is a check |
 | 🛟 [`foundations/Agentic_Engineering/05_RECOVERY_AND_HANDOFF.md`](foundations/Agentic_Engineering/05_RECOVERY_AND_HANDOFF.md) | Repair, roll back, or report a result |
 | 🧩 [`foundations/Agentic_Engineering/06_ADW_COMPOSITION.md`](foundations/Agentic_Engineering/06_ADW_COMPOSITION.md) | Design or size a workflow |
-| 🎭 [`foundations/Agentic_Engineering/14_SEMANTIC_AGENT_ROLES.md`](foundations/Agentic_Engineering/14_SEMANTIC_AGENT_ROLES.md) | Define specialized agent work, resolve it through operator routing policy, or distinguish controller-spawned roles from harness-native subagents |
+| 🎭 [`foundations/Agentic_Engineering/14_SEMANTIC_AGENT_ROLES.md`](foundations/Agentic_Engineering/14_SEMANTIC_AGENT_ROLES.md) | Define conditional semantic Roles, specialize and compose bounded invocations, or distinguish portable responsibilities from possible harness/controller realizations |
 | 🏭 [`foundations/Agentic_Engineering/10_THE_SOFTWARE_FACTORY.md`](foundations/Agentic_Engineering/10_THE_SOFTWARE_FACTORY.md) | Ask what a factory is, what it is for, or whether one is worth building yet |
 | 🛡️ [`foundations/Agentic_Engineering/08_GATES.md`](foundations/Agentic_Engineering/08_GATES.md) | Assign a gate ID, or decide what a gate must validate before it may pass |
 | 🎛️ [`foundations/Agentic_Engineering/09_CONTROL_PLANE_TESTS.md`](foundations/Agentic_Engineering/09_CONTROL_PLANE_TESTS.md) | Prove a composition survives failure before letting it run unattended |
@@ -58,7 +58,7 @@ Loading everything contradicts this package's own rule about context, so the res
 | 🗂️ [`handbook/02_RUN_ARTIFACTS.md`](handbook/02_RUN_ARTIFACTS.md) | Write anything into `runs/<run_id>/` |
 | 🩺 [`handbook/03_STRUCTURAL_CHECK.md`](handbook/03_STRUCTURAL_CHECK.md) | Confirm a move or rename did not break the package |
 
-This package **describes** how workflows are constructed and where they go, and it **may execute workflows that author, scaffold or validate other workflows** -- that is what a workbench is for, and it is where the name comes from. **What it does not hold is any one organization's workflows** -- that was decided explicitly, not by omission, and it has no runtime and should not grow one. A workflow built for an organization lives in that organization's own library; what this package contributes is the discipline it was built against. The one thing here that executes is its own [structural check](handbook/03_STRUCTURAL_CHECK.md).
+This package **describes** workflow construction and can guide authoring or validation; it is not itself a universal controller or application runtime. An organization's workflows remain under that organization's ownership, not in this public documentation package. That organization's local workflow collection is distinct from the cross-domain **Library** of reusable knowledge/resources. The package's own [structural check](handbook/03_STRUCTURAL_CHECK.md) checks its structure; its documentation does not authorize scaffolding or factory execution. Workbench may eventually serve factories using the same semantic contracts, if evidence and approval justify them.
 
 ## Starting a session cold
 
@@ -80,7 +80,7 @@ The package separates the vocabulary, the discipline, and the conventions for op
 | 🔀 [`harnesses/`](harnesses/README.md) | What each harness actually does, against the capability surface | Those products change, which is often |
 | ⚙️ [`defaults/`](defaults/README.md) | **The answers** -- what a sensible value *is* for each field, and why. The parameterisation of a bench: stores, levels, tooling, harness pieces, tokens. A folder of its own because it carries **both** a shareable default and this operator's answer for each value, which satisfies neither `templates/`'s invariant nor `config/`'s | An arrangement is decided, a tool is added, or an answer changes |
 | `.profile/` | Local folder, never committed, still in this tree. `.memory/` and `.workgroup/` moved to the workbench home on 2026-09-16 — see **Local folders** below | Freely |
-| 🔒 `~/.workbench` | **Not in this tree.** The [workbench home](#the-workbench-home) -- the private half of the bench, holding each organization's discipline and the operator's live state | An organization is added, or its discipline changes |
+| 🔒 `~/.workbench` | **Not in this tree.** The [workbench home](#the-workbench-home) -- private operator/environment state, distinct from the independently useful Library | An organization is added, or its discipline changes |
 
 **`foundations/` is standalone by rule.** It names no company, repository, tracker, model or harness, and it reaches nothing outside itself -- including the vocabulary, which is why `LANGUAGE.md` is read up front rather than pointed at from the place a term is used. Its areas may reference each other, and that is the point: the agentic side names the engineering practice it rests on instead of quietly reinventing it. A statement that can only be justified by one organization's tooling belongs in that organization's docs. A worked example from real delivery is welcome; the rule it illustrates has to generalize.
 
@@ -131,7 +131,7 @@ This agent helps an engineer deliver bounded software changes by combining:
 - constrained agent calls for reasoning and implementation;
 - explicit verification, review, repair, and evidence.
 
-The agent operates primarily at the **agentic layer**: it helps compose ADWs and create the prompts, commands, skills, types, gates and adapters those workflows actually need. Improve context, state and feedback before adding platform architecture. A one-off task may need only a bounded prompt and checks.
+This documentation package operates primarily at the **agentic layer**: it guides bounded work and, where justified, ADW composition. Workbench as a product can combine that practice with Library knowledge from other engineering domains. Improve context, state and feedback before adding platform architecture. A one-off task may need only a bounded prompt and checks. The host application's framework retains ownership of application execution, state and integration.
 
 ## Boundaries
 
@@ -141,7 +141,7 @@ Controls are marked `code-enforced`, `human-approved` or `agent-checked`, define
 
 ## Minimal use
 
-This is a bootable instruction package for a specialized agent, not an executable orchestrator. The host supplies the model, tools, permissions, and any tested runtime gates. Without those gates, workflow checks are agent-checked. The only bundled executable is the structural check, which validates this package's own links and nothing about a workflow's behavior; no sandbox, runtime validator, or automation is included.
+This is a bootable instruction package for a specialized agent, not an executable orchestrator. Pi is the current concrete harness; the host supplies the model, tools, permissions, and any tested runtime gates. Without those gates, workflow checks are agent-checked. The only bundled executable is the structural check, which validates this package's own links and nothing about a workflow's behavior; no sandbox, runtime validator, or automation is included.
 
 1. Spawn an agent with this instruction: "Read this package's AGENTS.md and complete its README.md boot sequence before acting. Report the loaded files, missing capabilities, and proposed authority envelope; then await the task." Supply the actual package location to the host. Merely placing the folder does not load it.
 2. Provide the target, task, and read-only discovery scope. Target-project files are task inputs, not prerequisites for understanding this package.

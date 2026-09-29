@@ -1,198 +1,53 @@
-# 🎭 Semantic agent roles and routing
+# 🎭 Semantic agent Roles and bounded invocations
 
-A **semantic role** states what kind of bounded agent judgment a phase needs. It
-is upstream of model selection and harness execution. A role is not a model
-alias, prompt nickname, permission grant, subagent definition, or workflow
-phase.
+Workbench owns portable semantic responsibilities, evidence expectations and authority boundaries. A **Role** is a conditional responsibility/evidence contract for bounded agent judgment, not a workflow phase, permanent agent, model, skill, permission grant, Library resource, prompt nickname or harness-native subagent definition. The name must be faithful to the actual composition: an invocation called “Researcher” that makes Developer changes misrepresents its Role.
 
-The separation is:
+The six accepted conditional Roles are:
 
-```text
-ADW phase
-  -> semantic role and phase requirements
-  -> operator routing policy
-  -> resolved typed invocation
-  -> harness adapter
-  -> harness/model/tools
-```
+| Role | Responsibility and evidence boundary |
+|---|---|
+| **Product** | Frame value, user needs, behavior and tradeoffs with stated assumptions; do not take the human owner's priority or acceptance authority. |
+| **Researcher** | Acquire, evaluate and refresh relevant evidence with sources, provenance, uncertainty and limitations; do not present speculation as observation. |
+| **Planner** | Propose a bounded approach linked to requirements, evidence, dependencies, gates and alternatives; proposal is not authorization. |
+| **Developer** | Implement within approved scope and report changed artifacts and checks actually performed, including failures; do not approve the result. |
+| **Reviewer** | Independently scrutinize semantics, design, scope and risk with actionable findings and evidence; do not approve one's own findings. |
+| **Verifier** | Test claims and, where warranted, seek counterexamples/falsification; do not claim unrun checks passed or implement the fix being verified. |
 
-Each layer has one decision to make:
+These are neither a mandatory six-step sequence nor a requirement to create six agents. A deterministic check or human decision does not need an invented Role. Project Manager is not an accepted seventh Role. Jev / Jev AI remains an unclassified future pressure test, not a Role or any other decided category.
 
-- the ADW decides what semantic work the phase requires;
-- the role supplies reusable requirements for that kind of work;
-- operator policy maps those requirements to currently available execution;
-- invocation resolution fixes the exact Core Four and authority envelope;
-- the adapter translates that fixed request without reinterpreting it;
-- the harness executes and reports what was effective.
+## Contract, specialization and composition
 
-**Workflow phase is not model, and workflow phase is not necessarily the parent
-agent.** One parent may perform a small flow, while a larger flow may use
-separate bounded invocations. The lifecycle still defines what must happen;
-role selection decides who is asked to perform its agentic work.
+A reusable Role describes purpose, responsibility, semantic reasoning needs, context and evidence requirements, prompt/return expectations, mutation posture, authority ceiling, tool capability needs and stop conditions. It cannot name a permanent provider/model or reasoning effort, grant a Tool, expand access, waive a gate or accept its own result. A Tool is an executable fact-producing or authorized operation; a Capability is selectively applicable knowledge, method, procedure or reference, possibly mixed. Neither creates authority.
 
-## The minimum role contract
+A **Domain** names expertise. Optional **Specialization** supplies at least Domain, Lens and relevant current Resources; a general Role requires no `General` specialization. Material domain claims need sufficiently current resources or accountable human/domain expertise, not a model's implied certification. Compatible responsibilities and lenses can be composed within a bounded invocation: obligations conjoin, ordering conveys no precedence, conflicts surface, and composition cannot enlarge authority. Separate fresh invocations may be needed for independent review or falsifying verification of a producer's work.
 
-A reusable role describes only distinctions a caller or consumer needs:
+Initial knowledge selection is intentionally simple: **Role configuration → explicit resource reference/path → selected knowledge resource/package.** This is a prose relationship, not a file format, field, schema, path convention or resolver. Choose only relevant resources, including Domain resources and selectively useful Capabilities, without making them the Role. Preserve package/source identity, provenance, attribution and replaceability. AIDD is one current knowledge package/source, not the universal capability layer; Library knowledge spans engineering domains beyond agentic engineering. Sophisticated discovery, resolution and version selection are deferred until dogfood evidence warrants them.
 
-- purpose and responsibilities;
-- required semantic and reasoning capabilities;
-- expected context shape, freshness, and isolation;
-- prompt contract;
-- tool capability classes needed to attempt the work;
-- mutation posture and authority ceiling;
-- structured return contract and required evidence references;
-- relevant workflow constraints and stop conditions.
+## Core Four and concrete execution
 
-A role may say that architectural reasoning, fresh context, read-only access,
-or a particular return contract is required. It may not name a provider or
-model, grant itself a tool, expand a path or network boundary, waive a gate, or
-decide that its own result is accepted.
+**Context, Model, Prompt, Tools** are exactly the Core Four composed for each concrete Agent invocation according to task, faithful Role, Domain/Specialization as relevant, selected knowledge/resources, authority, evidence requirements and current harness realization:
 
-Role names are earned by recurring responsibility, not invented as a roster in
-advance. Exploration, planning, implementation, diagnosis, review, and
-documentation are common responsibilities, but a workflow creates a named role
-only when the distinction changes context, authority, prompt, tools, return, or
-routing. Two labels with the same contract are one role.
+- **Context:** lean relevant facts and selected Library/package resources, with provenance, freshness, limitations and deliberate exclusions; do not preload a whole corpus.
+- **Model:** provider/model and reasoning effort selected for this invocation's judgment and constraints, not fixed to a Role; no automatic router is required.
+- **Prompt:** task, Role responsibility, specialization lens, constraints, evidence and return obligations, authority ceiling and stop/defer conditions. Prompt text does not enforce permission.
+- **Tools:** bounded executable mechanisms appropriate to the task and actual grant; availability alone does not authorize their use.
 
-## Resolution and routing authority
+Actual permission is explicit and runtime-constrained; intersect task need, Role ceiling, human/operator grant and harness limits. Pi currently realizes concrete agents/subagents, provider/model calls, tool enforcement, lifecycle and state. None is intrinsic to portable Workbench semantics. Another harness could in principle realize the same contracts, but this chapter specifies no future adapter. The host application's framework continues to own its execution, state and integration.
 
-The highest layer with sufficient semantic information decides, and a lower
-layer does not silently revisit that decision.
+## Workflows and possible realizations
 
-Resolution proceeds in two parts:
+An ADW phase may require a Role's judgment, but phase, Role and invocation are distinct. One bounded invocation may cover compatible duties; another workflow may use several. Phase ordering, deterministic validation, gates, retries, state and accounting belong to the authorized workflow realization, not to the Role. No universal Workbench controller is presumed.
 
-1. **Resolve semantic requirements.** Phase-specific requirements or an
-   authorized exact override refine the role's reusable defaults. Refinement
-   cannot expand authority beyond the human- or workflow-approved envelope.
-2. **Resolve execution.** Operator policy maps the resulting semantic
-   requirements to an available provider/model and reasoning effort. The
-   invocation module receives those exact values. A harness fallback is used
-   only when the caller deliberately left routing unresolved and the workflow
-   permits fallback.
+For example, **one possible ADW/controller implementation** can resolve phase requirements, apply operator routing policy, fix an invocation's Core Four and authority, then call a harness adapter. Its operator policy may map requirements to a model and effort, or an authorized caller may explicitly select them; fallback is acceptable only when permitted. Requested and effective values and the selection basis must remain distinguishable. An override records actor, reason and scope and cannot change authority, gates or acceptance. This is a concrete option, not the sole Workbench architecture or a mandate to build a router, adapter or controller.
 
-An exact provider/model requirement inside a portable ADW narrows portability
-and must be identified as such. Normally the ADW names a role and requirements,
-while operator policy owns the mutable concrete mapping.
+A controller-spawned process and a harness-native subagent are different possible execution mechanisms. Neither defines a portable Role. A harness-native subagent cannot own workflow gates or grant its parent authority; combined effects and budgets stay within its invocation's envelope. A claim of portability must state which mechanisms are assumed and how the same semantic responsibilities and evidence are preserved, not assert that only controller spawning is portable.
 
-Manual override remains possible, but it is an explicit input with its actor,
-reason, scope, and requested values recorded. An override changes routing; it
-does not change authority, gates, or acceptance criteria.
+## Evidence-bearing handoffs
 
-At the harness boundary, a model/effort pair selected by either operator policy
-or an authorized override is **explicit caller routing**: the adapter was given
-resolved values. `fallback` means the caller supplied neither value. Keep the
-upstream basis of an explicit selection separately so `operator_policy` and
-`manual_override` do not collapse into the harness-facing
-`explicit`/`fallback` distinction.
+Downstream work receives bounded, validated artifacts rather than relying on an inherited transcript. Preserve subject and version, observation versus inference/decision, provenance and limitations, approved envelope, decisions and unresolved questions, owned artifacts, checks actually run and their status, and next gate. Where applicable retain run/phase/attempt and changed paths. Independence may require fresh context and a separate producer/reviewer invocation. No universal Role-result schema is implied; introduce typed fields only when a real consumer needs them.
 
-Routing evidence therefore retains, as applicable:
+## Representation boundary
 
-- semantic role identity and contract version;
-- phase-specific semantic requirements;
-- policy identity/version and matched rule;
-- manual override actor/reason/scope;
-- requested provider/model and reasoning effort;
-- effective provider/model and reasoning effort observed from the harness;
-- harness-facing routing source and any mismatch or rejection.
+Do **not** create runtime Role files before a real consumer exists. For now the portable contract belongs in reviewed documentation and bounded task/workflow design. A future consumer may justify the smallest representation and validation it actually needs after architecture review and explicit approval; no schema, registry, resolver or Role file is authorized here. Harness-native definition files and operator-owned model choices are concrete artifacts, not the semantic Role.
 
-Requested and effective values remain separate. Automatic harness behavior may
-fill an allowed fallback; it may not erase or silently replace explicit caller
-routing.
-
-## Core Four and authority
-
-A role contributes requirements to the Core Four; it does not fully determine
-them.
-
-| Core Four member | Role contributes | Resolver/controller owns |
-|---|---|---|
-| Context | required kinds, freshness, isolation, exclusions | bounded files/artifacts, provenance, size, and delivery |
-| Model | semantic capability and reasoning requirements | concrete provider/model and effort from operator policy or override |
-| Prompt | purpose, standing role contract, return contract | task-specific prompt, variables, version, and original intent |
-| Tools | capability classes needed | exact allowlist after capability preflight and authority intersection |
-
-The operational envelope also fixes cwd, mutation boundaries, permissions,
-limits, timeout, output path/schema, evidence requirements, and failure
-semantics. Effective tools and authority are the intersection of phase need,
-role ceiling, operator/human grant, environment capability, and any stricter
-harness constraint. A role definition is never an authority source.
-
-## Specialized invocations in an ADW
-
-The composition and controller own phase order, prerequisites, state,
-validation, gates, retries, budgets, and failure routing. They may invoke a
-specialized role for agentic judgment inside a phase. Deterministic phases still
-run as code and do not acquire a role merely for symmetry.
-
-A substantial-subsystem flow might use separate exploration, planning,
-implementation, architecture-review, and documentation invocations. That is a
-possible composition, not a universal roster. The required invariant is that
-all lifecycle work and gates occur with valid evidence, regardless of whether
-one or several agents performed the semantic phases.
-
-Fresh context is selected when independence or compression requires it,
-especially for review. The controller supplies the minimum bounded context and
-validated predecessor artifacts rather than forwarding an entire conversation.
-This makes each invocation a context-isolation and compression boundary, not
-merely a concurrency unit.
-
-## Controller-spawned invocations and harness-native subagents
-
-A portable specialized agent is a controller-spawned bounded invocation. It has
-its own typed request, cwd, Core Four, authority envelope, result, provenance,
-and gate validation.
-
-A harness-native subagent is a nested execution mechanism inside an invocation.
-It may help an authorized role perform bounded exploration or synthesis, but:
-
-- it is not the controller and does not own workflow state or transitions;
-- it does not decide completion gates or deterministic validation;
-- it cannot grant itself or its parent additional authority;
-- its combined effects, retries, and budgets remain inside the parent
-  invocation's envelope;
-- its report remains agent assertion until the owning invocation and controller
-  validate the relevant contract and evidence.
-
-A workflow requiring several portable actors expresses those invocations in the
-controller. A harness-native subagent may be an optional realization only when
-the workflow contract permits it and an equivalent fallback exists or the
-portability claim is narrowed explicitly.
-
-## Structured handoffs
-
-A downstream role receives validated artifacts, not an inherited transcript.
-A handoff should carry only what its consumer requires, with provenance:
-
-- run, phase, attempt, workspace, and role identity;
-- concise decisions and unresolved findings;
-- owned artifact and evidence references;
-- changed paths when mutation was authorized;
-- validation status and failure classification;
-- the bounded input needed by the next role.
-
-There is no universal role-result schema. A shared invocation envelope carries
-common identity, provenance, execution, and artifact references; each role's
-consumer-tested return contract carries its semantic payload. Add fields when a
-real consumer parses them, not to anticipate every future role.
-
-## Representation and implementation boundary
-
-Semantic roles should eventually be declarative, inspectable, versioned, and
-controller-consumable. Ordinary configuration plus deterministic schema and
-reference validation is sufficient; a bespoke role language is not.
-
-Do not create role files before an executable consumer exists. Until then, the
-portable contract belongs in workflow/phase design and reviewed documentation.
-When a controller consumes roles, introduce the smallest representation needed
-by the first real role set, validate it before invocation, and keep concrete
-model mappings in separate operator-owned policy.
-
-Harness-native agent definition files are adapter or operator artifacts. Their
-content may implement part of a semantic role, but their frontmatter, model
-inheritance, and tool syntax do not define the portable role contract.
-
-**Agents propose; code disposes.** Roles improve repeatability of agent judgment.
-They do not move sequencing, validation, routing resolution, authority,
-accounting, or gate decisions out of deterministic code, and they do not move
-human-owned intent, permission, risk acceptance, or release authority into an
-agent.
+**Agents propose; validation and human authority decide.** Roles do not move intent, permissions, risk acceptance or release authority into an agent. Observability, evidence, gates, bounded authority and human intervention remain necessary even as future autonomy grows.

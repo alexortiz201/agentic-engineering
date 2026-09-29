@@ -1,6 +1,6 @@
 # 📋 TODO — work on this package
 
-**Open work on the workbench tool itself.** Distinct from the operator's `.memory/todo_list.md`, which tracks *tickets and projects*; this tracks **changes to this package**. An item here is something that would alter what the tool is or what it can do.
+**Open work and historical hypotheses concerning the current Workbench documentation/package.** Distinct from the operator's `.memory/todo_list.md`, which tracks *tickets and projects*. Workbench is the composed product beyond this directory; an item here is not authorization to build it. Controller-shaped proposals below require a real consumer, demonstrated need, architecture review and explicit approval before implementation.
 
 **Opened 2026-09-17**, from a reading of `tac8_app1__agent_layer_primitives` — a tutorial repository whose README describes a **target** architecture rather than its own state. Items marked *(tac8)* come from comparing this package against that target.
 
@@ -9,34 +9,28 @@
 - **`record.ts` hard-derives its repository root, so runs write their history into the wrong repository.** `REPO` is `import.meta.dir/../..`, which means run directories, `adw_data/history.jsonl` and `config/observed.json` all land beside the *workflow*, not beside the *subject*. **A run about `sunspear` writes its history into the onboarding repo.** The fix is a workspace parameter rather than a derived constant. **It is the thing blocking ADW placement**: a workflow cannot move to the workbench home while its record layer assumes it sits inside the repository it operates on. Touches `adw_assess` and `adw_route`, so it is a shared-layer change, not a per-workflow one.
 - *(tac8)* **No `--working-dir` on any workflow.** The target architecture makes it first class — *"always specify `--working-dir` when operating on different projects"* — because **the agentic layer wraps an application layer and therefore has to be told which application.** Same root cause as the item above.
 
-## 🧱 Missing components — the gap against the target architecture
+## 🧱 Conditional scaled-tier hypotheses from a target architecture
 
-*(tac8)* The target names a **Minimum Viable** and a **Scaled** agentic layer. This package's discipline is complete; the scaffolding is at the minimum-viable tier.
+*(tac8)* The tutorial target names a **Minimum Viable** and a **Scaled** agentic layer. Its proposed components are comparison points, **not missing required Workbench architecture** or evidence that this package's discipline is complete. For each candidate, require a real consumer, demonstrated need, architecture review and explicit approval; distinguish an independently evidenced defect from a speculative scaled-tier feature.
 
 | Component | State | Note |
 |---|---|---|
 | `adw_modules/` | ✅ `actions`, `harness`, `profile`, `record`, `guidance` | the shared layer exists |
-| `worktree_ops` | ❌ | **isolation is a property of every scaled workflow**, carried as an `_iso` suffix — not a feature of some |
-| classifier | ❌ | see below |
-| `adw_triggers/` | ❌ | hooks exist at the *harness* level; nothing triggers an ADW |
-| `adw_tests/` | ❌ | nothing validates agent behaviour |
-| per-run metrics | ❌ | target has `workflow_metrics.json` beside `adw_state.json` |
+| `worktree_ops` | target candidate, not authorized | Isolation needs evidence and explicit boundaries for the actual consumer; an `_iso` suffix is not a Workbench requirement |
+| classifier | target candidate, not authorized | Conditional on observed ambiguous routing need; see below |
+| `adw_triggers/` | target candidate, not authorized | Harness hooks exist; no trigger build is required by this comparison |
+| `adw_tests/` | target candidate, not authorized | Evaluate against actual validation needs rather than infer a missing architecture |
+| per-run metrics | target candidate, not authorized | Target artifact is not a required Workbench format |
 | `trees/` | declared, never used | named in the ADW README as "if isolation is ever needed" |
-| `_iso` variants | ❌ | the target's entire scaled tier is isolated by construction |
+| `_iso` variants | target candidate, not authorized | The target's scaled tier uses them; no Workbench tier is mandated |
 
-## 🏭 The largest gap: blueprints without a scaffolder
+## 🏭 Conditional scaffolder / factory hypothesis
 
-**`primitives/` specifies exactly what a phase, module, gate, trigger, record and observation must contain — and nothing emits one.** Every file is hand-written against a blueprint and checked by a human reading both.
+**`primitives/` specifies what a phase, module, gate, trigger, record and observation must contain; no scaffolder emits one.** Manual authoring against blueprints is not itself a missing factory. Generating a conformant skeleton and a six-case proof could be useful *if* repeated real consumers demonstrate the need, followed by architecture review and explicit approval. Neither a scaffolder nor a factory is implemented or authorized by this observation. Future factories, if justified, should use the same Workbench rather than invent a separate engineering system, retaining evidence, observability, gates, authority boundaries and human intervention. The direction is human in the loop → increasingly on the loop → less routine human execution → factories → dark factories with intervention paths, not a current runtime plan.
 
-**That is the difference between having a standard and having a factory.** The tool should be able to generate a conformant skeleton *from* its own blueprint, so building an agentic layer is generation against a spec rather than transcription of one. It would also make the six-case proof at the consuming interface a generated default rather than a thing each author remembers.
+## 🔀 Conditional classification and routing hypothesis
 
-## 🔀 Classification and routing
-
-**The answer is already in `06_ADW_COMPOSITION.md` and should be promoted, not invented:** *"Classification needs an agent only when meaning is ambiguous; validate its output against an allowed set."* The allowed set is the switch's cases.
-
-What is missing is the **component**: a classifier that reads a subject, names its class, and routes to the workflow for that class — possibly a different flow entirely, not merely a different phase implementation. *(tac8)* names it directly in the scaled output tree as `issue_classifier/`, sitting **before** the planner.
-
-**The `higher order prompt` is how its cases get written.** Each recorded election — candidates, choice, discriminator — is a case body accumulated from real work. **Do not author the switch before the observations exist**; that is extracting an abstraction from zero occurrences.
+`06_ADW_COMPOSITION.md` notes: *"Classification needs an agent only when meaning is ambiguous; validate its output against an allowed set."* This is guidance for a **real** ambiguous case, not a requirement for automatic classification. The tutorial's `issue_classifier/` and a routing switch are target ideas, not missing Workbench components. A `higher order prompt` may record elections and discriminators if a consumer encounters them. **Do not author a switch, classifier or router before real consumer evidence, demonstrated need, architecture review and explicit approval.** Initial knowledge selection remains a prose-level explicit Role-configuration resource reference, not automatic discovery or routing.
 
 ## 🪶 Clean up and slim down everything that is not `foundations/`
 
