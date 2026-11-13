@@ -2,6 +2,12 @@
 
 Not activation approval. The historical Air installation audit is not current Mini evidence.
 
+## Bidirectional repository ownership clarification
+
+The canonical authority is `agentic-engineering`, not Mini's filesystem. Mini remains the primary development host and its accepted installation is unchanged. Air/future Macs may experiment locally, promote accepted portable changes through Git, and apply the same reviewed commits in either direction. The shared workflow in `pi/README.md` and Air documents now separate experiment, promote and sync/apply, refuse dirty/conflicted/divergent Git updates, warn that checkout changes live Stow sources, preserve local defaults/preferences through selected-key review, and document a local applied-revision receipt.
+
+No installer change or synchronization code was needed. Existing installer/settings boundaries were inspected; native Pi 1.5.2's package resolver uses `installedNpmMatchesConfiguredVersion` and installs only missing/mismatched configured npm packages during resource resolution. The workflow avoids blanket updates of local experiments. Settings values are selected from the seed using existing Node JSON handling and a private reviewed candidate, not a new manifest or background merger. No live settings, receipts, packages, auth, sessions or Air state were modified for this clarification. No runtime acceptance suite was repeated; only new documentation command syntax, synthetic selected-key preservation and staged-document boundaries were checked. Commits are local; no push was performed.
+
 ## Accepted Mini deployment handoff
 
 The operator accepted Mini consolidation and authorized the final local package pin and selective commits. `~/.pi/agent/settings.json` now declares exactly `npm:@arhen/pi-core-todo@1.1.0`, matching the canonical seed. Only that declaration changed; the existing installed package, npm lock, both auth files and mode 0600 were preserved. `pi list` reports the exact pin. No upgrade/reinstall, additional session, audit or repeated acceptance suite was used.

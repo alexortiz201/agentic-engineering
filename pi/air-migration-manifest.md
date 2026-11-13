@@ -1,12 +1,12 @@
 # Air native Pi migration manifest — approval pending
 
-This is the bounded deployment manifest for the accepted Mini environment, not permission to execute. **No Air inspection or mutation has occurred in this handoff.** Use the consolidation commit reported with the handoff as `ACCEPTED_COMMIT`, and the reported dotfiles commit only if using its thin resource installer. See [the provisioning procedure](air-provisioning.md) for commands and the official-installer version gate.
+This is the bounded initial Air deployment manifest for the accepted canonical repository configuration, already proven on Mini, not permission to execute. **No Air inspection or mutation has occurred in this handoff.** Use the consolidation commit reported with the handoff as `ACCEPTED_COMMIT`, and the reported dotfiles commit only if using its thin resource installer. See [the provisioning procedure](air-provisioning.md) for commands and the official-installer version gate.
 
 ## Source and scope
 
 - Target Air identity recorded by the existing machine installer: `Alex-O-Air-M2.local`, ComputerName `Alex O Air M2`, arm64, physical local APFS HOME `/Users/alexanderortiz`. Confirm these read-only before approval; a mismatch stops deployment.
-- New source `A=$HOME/Github/agentic-engineering`: a complete, independent **local Git clone**, detached at `ACCEPTED_COMMIT`, with no alternates, linked worktree or SMB symlink. If this path already exists, preserve it and inspect cleanliness/ownership before any checkout. Never reset or overwrite local work.
-- Transfer using normal Git from Mini (SMB is an optional initial transport), SSH or a trusted published remote. Retain Mini's accepted revision, not an Air-developed fork. No publishing is authorized by this manifest.
+- New source `A=$HOME/Github/agentic-engineering`: a complete, independent **local Git clone** of the shared canonical repository, on a normal branch at `ACCEPTED_COMMIT`, with no alternates, linked worktree or SMB symlink. If this path already exists, preserve it and inspect cleanliness/ownership before any checkout. Never reset or overwrite local work.
+- Use the same trusted shared Git remote on every Mac. Either host may propose/accept portable improvements through Git; neither has filesystem authority over the other. Mini/SMB may be an initial Git transport only. No publishing is authorized by this initial activation manifest; future promotion uses the explicit [shared workflow](README.md#experiment-promote-sync--from-either-mac).
 - Runtime: official managed **Pi 1.5.2**; exact portable package **`npm:@arhen/pi-core-todo@1.1.0`**. No global npm Pi, V2 launcher, update interception, extra orchestration or syncing daemon.
 - No changes to shell/terminal/Git/SSH/GH/SMB services or whole-home dotfiles deployment. Any necessary existing shell override removal must be separately identified and included in the exact approved diff.
 
@@ -30,6 +30,7 @@ Paths are Air-local. Before approval, record `lstat`, literal link target or fil
 | `~/.pi/agent/extensions/{agent-lifecycle,subagent,composer-highlight.ts}` | Detach only approved legacy links; keep source/history | No recursive deletion or package uninstall; restore only known unchanged leaves |
 | `~/.pi/agent/extensions` if itself a directory symlink | Review its children first, detach approved directory link, create local container for Herdr reporter | Do not follow/remove directory contents. Unknown extensions require a decision before mutation; keep original directory and targets |
 | Actual startup files containing V2 overrides/aliases, **if found** | Approve exact removal of `PI_CODING_AGENT_DIR`, `PI_SELF_UPDATE_COMMAND` or `pi` interception | No speculative edits to `.zprofile`, `.zshenv`, `.zshrc`, Herdr config or existing processes. Record only real changed hunks and reverse only matching hunks |
+| `~/.local/state/pi/applied-revision` | After complete approved apply, record the accepted full Git commit as local baseline provenance | Keep the previous receipt on failure; it is not a second dependency manifest and does not claim byte-identical preferences/experimental packages |
 | Selected local project checkout `.pi/settings.json`, `.pi/prompts/` or `.claude/commands/` | Preserve project-owned instructions/prompts; optional per-project prompt-path reconciliation | Separate reviewed project list and diffs; no global links or blanket trust. No project changes are implicit in the Pi activation |
 
 **Preserve without migration:** both native and any V2 `auth.json` and session trees; local `deviceId`, trust, provider/MCP configuration, caches and installation receipt; legacy Air clone at `~/Github/dotfiles`; legacy `.pi/design`, `.pi/docs` and non-discovered archived sources. Do not copy Mini's private files or bulk-restore credential/session snapshots. Parent links, dangling links and directory collisions must all be classified before mutation; unknown ownership stops deployment.
@@ -55,7 +56,7 @@ Remove legacy **active declarations** only after per-key approval. Do not uninst
 3. Detach exact approved conflicts, reconcile local settings, and run canonical `scripts/install-pi --target "$HOME"` as a plan. Apply only if it matches this manifest. The dotfiles `pi-resources --source "$A"` entrypoint is an alternative to the same operation, not another configuration.
 4. Materialize todo 1.1.0 only if missing/different; otherwise one-key pin. Keep/reconcile local Herdr reporter and Skill. No package refresh or upgrade as a test.
 5. If native Codex auth is not ready, let the owner run `env -u PI_CODING_AGENT_DIR -u PI_SELF_UPDATE_COMMAND "$HOME/.pi/agent/bin/pi" auth login openai-codex` once. Never merge V2/Mini credentials.
-6. Native `/reload` in an affected existing session; no extra model acceptance sessions. Do not stop unrelated sessions or run the old whole-home Air transaction.
+6. Native `/reload` in an affected existing session; no extra model acceptance sessions. Record `ACCEPTED_COMMIT` in `~/.local/state/pi/applied-revision` only after packages/defaults/resources are reconciled and verification succeeds, with intentional local exceptions understood. Do not stop unrelated sessions or run the old whole-home Air transaction. Later synchronization follows the same Git/Stow/native Pi procedure on either host, not this one-time legacy-link migration.
 
 ## Verification and offline requirements
 

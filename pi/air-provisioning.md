@@ -1,6 +1,6 @@
 # MacBook Air: native Pi handoff
 
-**Prepared, not activated.** Mini is the accepted authoring host; Air consumes reviewed revisions. No Air files, credentials, packages, services or sessions were changed by preparation. This procedure is for Pi only, not authorization for the existing whole-home/SMB migration. The [per-path migration manifest](air-migration-manifest.md) defines exact destinations, guards and rollback; current Air before-state must be recorded before approval.
+**Prepared, not activated.** `agentic-engineering` is authoritative; Mini is the primary development host, not the source-of-truth filesystem. Air and future Macs may also experiment and promote accepted changes through the same repository. No Air files, credentials, packages, services or sessions were changed by preparation. This procedure is for Pi only, not authorization for the existing whole-home/SMB migration. The [per-path migration manifest](air-migration-manifest.md) defines exact destinations, guards and rollback; current Air before-state must be recorded before approval.
 
 ## Ownership and accepted inputs
 
@@ -18,22 +18,23 @@ Do not copy Mini's `~/.pi`, V2 state, npm tree, identity or credentials to Air. 
 
 ## 1. Prepare reviewed local sources (approval before Air execution)
 
-Use the reviewed consolidation commit reported with this handoff as `ACCEPTED_COMMIT`, not an arbitrary Mini branch tip. Unrelated work remains uncommitted and is not part of the deployment. Select the separately reported dotfiles commit too if using its thin resource entrypoint. Commit approval does not authorize pushing or bundling unrelated/private files. The accepted deployment commit contains the complete portable `pi/` package; it intentionally excludes unrelated Workbench WIP.
+Use the reviewed canonical consolidation/synchronization commits reported with this handoff as the initial accepted baseline, not an arbitrary host's branch tip. Set `ACCEPTED_COMMIT` to the approved full commit and `ACCEPTED_BRANCH` to the shared reviewed remote branch containing it. Unrelated work remains uncommitted and is not part of deployment. Select the separately reported dotfiles commit too if using its thin resource entrypoint. No push has been performed by this handoff; ensure the chosen remote has the commits before cloning. The accepted deployment contains the complete portable `pi/` package, not unrelated Workbench WIP.
 
-When SMB is available, a normal clone can consume the Mini's Git repository without sharing a live worktree:
+Use a normal local clone from the trusted shared repository remote (set `CANONICAL_GIT_URL` to its reviewed GitHub/SSH URL):
 
 ```sh
 # Run on Air only after approval; destination must be absent.
 mkdir -p "$HOME/Github"
-git clone --no-local /Volumes/DevDrive/Projects/agentic-engineering "$HOME/Github/agentic-engineering"
+git clone --no-checkout "$CANONICAL_GIT_URL" "$HOME/Github/agentic-engineering" || exit 1
 A="$HOME/Github/agentic-engineering"
-# Set ACCEPTED_COMMIT to the reviewed full Mini revision, not arbitrary Air HEAD.
-git -C "$A" status --short
-git -C "$A" switch --detach "$ACCEPTED_COMMIT"
+git -C "$A" switch --create pi-environment "$ACCEPTED_COMMIT" || exit 1
+git -C "$A" branch --set-upstream-to="origin/$ACCEPTED_BRANCH" pi-environment || exit 1
 git -C "$A" rev-parse HEAD
 ```
 
-A trusted published Git remote or Mini over SSH is an alternative transport for the **same accepted commit**, not an independently developed Air configuration. Use a physically local APFS destination. Do not use `--shared`, Git alternates, linked worktrees, symlinked source directories, or resource links into SMB. Keep the complete local checkout at a stable path; the Workbench Skill resolves into its `workbench/` tree.
+The branch is a local working copy of the **same canonical repository**, not an Air-specific configuration fork. Air may create proposal branches and push accepted improvements through normal review just like Mini. An existing checkout must be clean/conflict-free before selection; never reset or auto-stash it. If Git/SSH to Mini or SMB is used for initial transfer, use an independent clone (`git clone --no-local` for a filesystem source), then configure `origin` to the trusted shared remote before normal bidirectional work. The Mini filesystem is only transport, never authority.
+
+Use physically local APFS storage. Do not use `--shared`, Git alternates, linked worktrees, symlinked source directories, or resource links into SMB. Keep the complete local checkout at a stable path; the Workbench Skill resolves into its `workbench/` tree. Follow [experiment → promote → sync/apply](README.md#experiment-promote-sync--from-either-mac) on either Mac after initial activation.
 
 ## 2. Inspect Air and approve the exact mutation plan
 
@@ -92,7 +93,7 @@ Install required project dependencies while online. Pi, todo, Herdr, the theme, 
 
 After approved activation, use `/reload` in an existing affected native session to rediscover resources/todo. Existing evidence already covers native project-prompt expansion, Sol/Medium, fullscreen, quiet startup and Foundations retrieval; do not repeat model probes. Perform deterministic Air checks: command/profile resolution, version/receipt/lock, strict theme load, exact todo version and `pi list`, skill realpaths and Foundations existence, reporter status, settings defaults and local session preservation. Confirm cold offline resource resolution with SMB unavailable, then reconnect and confirm no duplicate configuration/mount dependency. Rendering and actual offline/reconnect behavior remain **Air acceptance**, not claims from Mini fixtures.
 
-Updates are explicit: review a new canonical commit on Mini, publish/transfer it, fetch on Air, verify the Air checkout has no local changes, and select that approved commit. Stable paths preserve Stow links; plan/reapply Stow if resource layout changes. Do not pull blindly, force-reset local work, or mix SMB and local resources. Native `pi update` updates Pi itself; `pi update --extensions` reconciles packages and respects exact pins. Both require version review and approval; never update merely as a verification step.
+Updates are bidirectional and explicit: either host may test locally, promote portable pins/resources/defaults to `agentic-engineering`, and commit/push for acceptance. The other host fetches/reviews, refuses dirty/conflicted/divergent Git state, fast-forwards to the accepted commit and uses the existing installer/native Pi. Because Stow links point into the checkout, approve fetched source changes before merging. Apply only reviewed local-default keys from the canonical seed; preserve local preferences/identity and experimental declarations. Skip matching installed package versions, `/reload`, then record the applied baseline. Exact commands, selected-key settings propagation and the local revision receipt are in the [shared workflow](README.md#experiment-promote-sync--from-either-mac). Native Pi/runtime or blanket extension updates are not synchronization; no daemon, host-specific fork or new apply script is introduced.
 
 ## Rollback and handoff boundary
 
