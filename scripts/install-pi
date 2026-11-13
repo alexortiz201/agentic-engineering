@@ -1,0 +1,23 @@
+#!/bin/sh
+# Plans by default; target must already exist. No installation of Pi or settings.
+set -eu
+root=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd -P)
+mode=plan
+target=
+action=restow
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --target) [ "$#" -ge 2 ] || exit 2; target=$2; shift 2 ;;
+    --apply) mode=apply; shift ;;
+    --remove) action=delete; shift ;;
+    *) echo "Usage: $0 --target EXISTING_HOME [--apply] [--remove]" >&2; exit 2 ;;
+  esac
+done
+[ -n "$target" ] && [ -d "$target" ] || { echo 'An existing target directory is required.' >&2; exit 2; }
+target=$(CDPATH= cd -- "$target" && pwd -P)
+command -v stow >/dev/null || { echo 'GNU Stow is required.' >&2; exit 1; }
+echo "Preflight: $action pi -> $target"
+stow --dir="$root" --target="$target" --no-folding --simulate --verbose --"$action" pi
+if [ "$mode" = apply ]; then
+  stow --dir="$root" --target="$target" --no-folding --verbose --"$action" pi
+fi
