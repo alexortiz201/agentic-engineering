@@ -1,0 +1,10 @@
+# Additions to Brewfile.shared; Air activation remains separately approved.
+cask "tailscale-app"
+cask "discord"
+cask "postman"
+
+brew "ffmpeg"
+brew "flyctl"
+brew "jq"
+brew "rustup"
+brew "tree"

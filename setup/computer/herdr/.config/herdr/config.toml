@@ -1,0 +1,23 @@
+# Herdr configuration
+# Portable setup source; Stow at ~/.config/herdr/config.toml after approved handoff.
+
+onboarding = false
+
+[theme]
+# Inherit Ghostty's active `purpledreams` palette rather than duplicate it.
+name = "terminal"
+
+[theme.custom]
+# Purpledreams: orange focused pane/highlights; purple navigation/unfocused borders.
+accent = "#bc5329"
+overlay0 = "#9b72cf"
+# Soften chrome text that otherwise uses explicit white.
+text = "#c8c6c5"
+subtext0 = "#c8c6c5"
+
+[ui]
+agent_panel_sort = "spaces"
+
+status_indicators = "symbols"
+[ui.toast]
+delivery = "herdr"

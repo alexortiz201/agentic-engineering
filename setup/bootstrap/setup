@@ -1,0 +1,54 @@
+#!/bin/sh
+# Only a checkout-local Node runtime and locked CLI dependencies. Never Pi/Herdr/Brew.
+set -eu
+root=$(CDPATH= cd -- "$(dirname "$0")/../.." && pwd -P)
+node_version=24.15.0
+bootstrap="$root/.bootstrap"
+if [ "${1:-}" = --help ]; then
+  printf '%s\n' 'Usage: sh setup/bootstrap/setup [setup options]' 'Uses Node >=22.19 if available; otherwise asks to fetch verified official Node 24.15.0 into .bootstrap/. No PATH/profile/global software changes.'
+  exit 0
+fi
+node_cmd=$(command -v node || true)
+if [ -n "$node_cmd" ] && "$node_cmd" -e 'const [a,b]=process.versions.node.split(".").map(Number);process.exit(a>22||a===22&&b>=19?0:1)' 2>/dev/null; then
+  :
+else
+  [ "$(uname -s)" = Darwin ] || { echo 'Automatic runtime bootstrap supports macOS only. Install Node >=22.19 and retry.' >&2; exit 1; }
+  case "$(uname -m)" in arm64) arch=arm64 ;; x86_64) arch=x64 ;; *) echo 'Unsupported architecture' >&2; exit 1 ;; esac
+  release="node-v$node_version-darwin-$arch"
+  node_cmd="$bootstrap/$release/bin/node"
+  if [ ! -x "$node_cmd" ]; then
+    printf 'Download official Node %s into this checkout only? [y/N] ' "$node_version"
+    read -r reply || exit 1
+    case "$reply" in y|Y|yes) ;; *) echo 'Cancelled before download.'; exit 1 ;; esac
+    [ ! -L "$bootstrap" ] || { echo 'Refusing symlinked bootstrap directory' >&2; exit 1; }
+    mkdir -p "$bootstrap"
+    [ ! -e "$bootstrap/$release" ] && [ ! -L "$bootstrap/$release" ] || { echo 'Occupied runtime destination; inspect it manually.' >&2; exit 1; }
+    temp=$(mktemp -d "$bootstrap/download.XXXXXX")
+    trap 'rm -rf -- "$temp"' EXIT HUP INT TERM
+    url="https://nodejs.org/dist/v$node_version"
+    curl --fail --location --proto '=https' --tlsv1.2 "$url/SHASUMS256.txt" -o "$temp/SHASUMS256.txt"
+    curl --fail --location --proto '=https' --tlsv1.2 "$url/$release.tar.gz" -o "$temp/$release.tar.gz"
+    (cd "$temp"; grep "  $release.tar.gz\$" SHASUMS256.txt > selected.sha256; [ "$(wc -l < selected.sha256 | tr -d ' ')" = 1 ]; shasum -a 256 -c selected.sha256)
+    tar -xzf "$temp/$release.tar.gz" -C "$temp"
+    "$temp/$release/bin/node" -e 'if(process.versions.node!=="24.15.0")process.exit(1)'
+    mv "$temp/$release" "$bootstrap/$release"
+    rm -rf -- "$temp"
+    trap - EXIT HUP INT TERM
+  fi
+fi
+# Resolve npm adjacent to the chosen runtime first; otherwise use current npm.
+node_bin=$(dirname "$node_cmd")
+if [ -f "$node_bin/../lib/node_modules/npm/bin/npm-cli.js" ]; then
+  npm_cli="$node_bin/../lib/node_modules/npm/bin/npm-cli.js"
+else
+  npm_cli=$(command -v npm || true)
+fi
+[ -n "$npm_cli" ] || { echo 'npm is missing; install an approved Node distribution with npm.' >&2; exit 1; }
+# npm ci is project-local. No lifecycle scripts, global install, Node-manager or PATH edits.
+if [ ! -d "$root/cli/node_modules/@clack/prompts" ]; then
+  printf 'Install locked CLI dependencies into cli/node_modules (no lifecycle scripts)? [y/N] '
+  read -r reply || exit 1
+  case "$reply" in y|Y|yes) ;; *) echo 'Cancelled.'; exit 1 ;; esac
+  "$node_cmd" "$npm_cli" --prefix "$root/cli" ci --ignore-scripts
+fi
+exec "$node_cmd" --experimental-strip-types "$root/cli/src/index.ts" setup "$@"

@@ -1,0 +1,47 @@
+# Common CLI and GUI baseline for Mini, Air and Other.
+# Host Brewfiles are additive; do not run bundle cleanup against one file alone.
+tap "oven-sh/bun"
+
+brew "gh"
+brew "git"
+brew "herdr"
+brew "just"
+brew "lastpass-cli"
+brew "mas"
+brew "n"
+brew "pnpm"
+brew "ripgrep"
+brew "oven-sh/bun/bun"
+brew "stow"
+brew "tor"
+brew "uv"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+
+# Amphetamine is App Store-only; Homebrew Bundle manages it through mas.
+mas "Amphetamine", id: 937984704
+
+cask "rectangle"
+cask "ghostty"
+cask "visual-studio-code"
+cask "docker-desktop"
+# App includes the CLI; no separate formula/service or model downloads.
+cask "ollama-app"
+# Native Claude Code CLI, not the Claude desktop app or VS Code extension.
+cask "claude-code"
+cask "displaylink"
+cask "chatgpt"
+cask "google-chrome"
+cask "logi-options+"
+cask "obsidian"
+cask "raycast"
+
+vscode "anthropic.claude-code"
+vscode "biomejs.biome"
+vscode "bradlc.vscode-tailwindcss"
+vscode "dbaeumer.vscode-eslint"
+vscode "esbenp.prettier-vscode"
+vscode "ms-python.python"
+vscode "ms-vscode-remote.remote-ssh"
+vscode "ms-vscode.remote-explorer"
+vscode "rust-lang.rust-analyzer"

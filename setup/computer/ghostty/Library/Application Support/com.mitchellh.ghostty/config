@@ -1,0 +1,64 @@
+# ------------------------------------------------------------------------------
+# Ghostty Config
+# App behavior, keybinds, windows, quick terminal
+# ------------------------------------------------------------------------------
+
+theme = purpledreams
+
+# Softer whites without changing the terminal's font size.
+foreground = #c8c6c5
+palette = 7=#c8c6c5
+palette = 15=#d4d2d1
+
+# ------------------------------------------------------------------------------
+# Window behavior
+# ------------------------------------------------------------------------------
+
+# Required for native macOS tabs.
+# Use "hidden" if you prefer the titlebar-less look and do not need tabs.
+macos-titlebar-style = native
+
+# ------------------------------------------------------------------------------
+# Quick terminal
+# ------------------------------------------------------------------------------
+
+# Quick terminal does not support tabs; use normal windows for tabs.
+# Preserve the Air's working top placement and non-autohiding behavior.
+# Do not impose the former menu-bar screen selection or 90% size.
+quick-terminal-position = top
+quick-terminal-size = 98%
+quick-terminal-autohide = false
+
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
+# ------------------------------------------------------------------------------
+# Splits
+# ------------------------------------------------------------------------------
+
+# Keep Ghostty's native Cmd+D (right) and Cmd+Shift+D (down) shortcuts.
+# Cmd+Down jumps to the next prompt and Cmd+Right moves to line end;
+# overriding these with splits would regress the Air's existing behavior.
+
+# ------------------------------------------------------------------------------
+# Tabs
+# ------------------------------------------------------------------------------
+
+# These work in normal windows with macos-titlebar-style = native.
+keybind = super+t=new_tab
+keybind = super+shift+[=previous_tab
+keybind = super+shift+]=next_tab
+
+# ------------------------------------------------------------------------------
+# Shell integration
+# ------------------------------------------------------------------------------
+
+shell-integration-features = no-cursor
+
+# ------------------------------------------------------------------------------
+# Terminal input
+# ------------------------------------------------------------------------------
+
+# Send ESC DEL for backward-word deletion in terminal applications.
+keybind = alt+backspace=text:\x1b\x7f
+# Preserve the physical Shift modifier; Pi recognizes CSI-u Shift+Enter as newline.
+keybind = shift+enter=text:\x1b[13;2u

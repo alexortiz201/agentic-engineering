@@ -40,6 +40,7 @@ specs/
 
 # ── Dependencies / build output ────────────────────────────────────────────────
 node_modules/
+.bootstrap/
 dist/
 build/
 .venv/

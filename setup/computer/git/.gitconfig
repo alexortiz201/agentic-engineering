@@ -1,0 +1,35 @@
+[credential]
+	helper = osxkeychain
+
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+
+[core]
+	excludesfile = ~/.gitignore_global
+
+# Private identity and organization-specific overrides stay local.
+[include]
+	path = ~/.gitconfig.local
+
+[alias]
+	unstage = reset HEAD
+	undo-commit = reset --soft HEAD^
+	poh = push origin HEAD
+	pulloh = pull origin HEAD
+	set-upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`
+
+[mergetool "vscode"]
+	cmd = code -w $MERGED
+	trustExitCode = false
+
+[merge]
+	tool = vscode
+
+[push]
+	default = current
+
+[init]
+	defaultBranch = main
+
+[pull]
+	ff = only

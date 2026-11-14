@@ -1,0 +1,28 @@
+#!/bin/bash
+# Copy explicit stdin to the terminal's clipboard via OSC 52.
+set -o pipefail
+
+for utility in base64 tr; do
+  if ! command -v "$utility" >/dev/null 2>&1; then
+    printf 'aircopy: required utility not found: %s\n' "$utility" >&2
+    exit 1
+  fi
+done
+
+# Base64 is ASCII; remove only the encoder's line breaks, not input bytes.
+if ! encoded=$(base64 | tr -d '\r\n'); then
+  printf 'aircopy: failed to encode stdin\n' >&2
+  exit 1
+fi
+
+# An empty stream is a no-op rather than an accidental clipboard clear.
+[ -n "$encoded" ] || exit 0
+
+# Conservative application cap, not a claim about terminal-specific maxima.
+# Reject instead of risking silent truncation in a terminal layer.
+if [ "${#encoded}" -gt 16384 ]; then
+  printf 'aircopy: input too large (OSC 52 base64 exceeds 16384 bytes); nothing sent\n' >&2
+  exit 1
+fi
+
+printf '\033]52;c;%s\033\\' "$encoded"

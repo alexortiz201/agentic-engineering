@@ -1,0 +1,210 @@
+{
+  "commit": "ef260a2363d72b7ddc092665dfa9220a83dd998b",
+  "dirty": true,
+  "files": [
+    {
+      "source": ".no-stow/brew/Brewfile.air",
+      "destination": "manifests/brew/Brewfile.air",
+      "sha256": "4920f02213fca238d50f91b05e7681cdefeb0ab85493198df89a8eb11e7bfead",
+      "symlink": null
+    },
+    {
+      "source": ".no-stow/brew/Brewfile.mini",
+      "destination": "manifests/brew/Brewfile.mini",
+      "sha256": "55e4a4cb0b29fb1ffd124c05a9a2fa582247c00e10bbad39bd4def7f53850d9f",
+      "symlink": null
+    },
+    {
+      "source": ".no-stow/brew/Brewfile.shared",
+      "destination": "manifests/brew/Brewfile.shared",
+      "sha256": "fec64855a0854481f25f654e40de01e07c63b0092dbcedc6968d00e1b1506635",
+      "symlink": null
+    },
+    {
+      "source": ".no-stow/bun/global-packages.txt",
+      "destination": "manifests/bun/global-packages.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlink": null
+    },
+    {
+      "source": ".no-stow/npm/global-packages.txt",
+      "destination": "manifests/npm/global-packages.txt",
+      "sha256": "be043004c760467f3ef595ba52773e604f14d2660bbbb42bdd65882e6bf66f2c",
+      "symlink": null
+    },
+    {
+      "source": "gh/.config/gh/config.yml",
+      "destination": "gh/.config/gh/config.yml",
+      "sha256": "322334997064fb1123566bf2a683b26c4eeb48c907a764b5b1a5a9e2ac942094",
+      "symlink": null
+    },
+    {
+      "source": "ghostty/.config/ghostty/config",
+      "destination": "ghostty/.config/ghostty/config",
+      "sha256": "dc8508b02a9f0730a97e5ebca05c567da708e8e86ddc461a6574af7e86808b21",
+      "symlink": "../../Library/Application Support/com.mitchellh.ghostty/config"
+    },
+    {
+      "source": "ghostty/.config/ghostty/themes/purpledreams",
+      "destination": "ghostty/.config/ghostty/themes/purpledreams",
+      "sha256": "9c45315176764570c92b3a5775807baa5bbf37ee02b71b5614bf47d32f4478e5",
+      "symlink": null
+    },
+    {
+      "source": "ghostty/Library/Application Support/com.mitchellh.ghostty/config",
+      "destination": "ghostty/Library/Application Support/com.mitchellh.ghostty/config",
+      "sha256": "dc8508b02a9f0730a97e5ebca05c567da708e8e86ddc461a6574af7e86808b21",
+      "symlink": null
+    },
+    {
+      "source": "git/.gitconfig",
+      "destination": "git/.gitconfig",
+      "sha256": "a35ad833109f66abf89b66f1d6e44507d2f2be04a6c830796f048bfe88728747",
+      "symlink": null
+    },
+    {
+      "source": "git/.gitignore_global",
+      "destination": "git/.gitignore_global",
+      "sha256": "54d65858bd40c0310af8f7d731aa62d06b19898ee696fe6f9f225eed1c6f80a7",
+      "symlink": null
+    },
+    {
+      "source": "herdr/.config/herdr/config.toml",
+      "destination": "herdr/.config/herdr/config.toml",
+      "sha256": "9377ee27741f65aa19aa8fc5588330f2e250097ec01b2f2773a8adc27275d029",
+      "symlink": null
+    },
+    {
+      "source": "ssh/.ssh/config",
+      "destination": "ssh/.ssh/config",
+      "sha256": "4a8967eeea78d4ee75d422d8a1cc6e9b2c92900688441b2c858d29d8304f7948",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.local/bin/aircopy",
+      "destination": "zsh/.local/bin/aircopy",
+      "sha256": "9f24282e9fea70460b42ee2f32be2716287fd455a02dc2833454f1f0d277e8cd",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/env.sh",
+      "destination": "zsh/.oh-my-zsh/custom/env.sh",
+      "sha256": "f185316f1b7b34651ce1b13c4067a1dd7f43a8b84f3baf96099115ca17347fae",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/README.md",
+      "sha256": "496154681ece7d760acfba33d4437321f71a3ba32bbc6bd32ffbb42b3bc690ff",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/colored-man-pages.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/colored-man-pages.plugin.zsh",
+      "sha256": "dcfe5f3afd887c76cff7b4cb902a37744ad1e8812c8fe92fef1f4ac4b59b9cfc",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/nroff",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/colored-man-pages/nroff",
+      "sha256": "37c2768e66c6f8635f8c3a5bbe5c19a0528c76c993cb703ff1297e71dea2186d",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker-compose/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker-compose/README.md",
+      "sha256": "f5af9e1848e684efc359fa02a2269275939252bd20bca1e30226ee6664113aaf",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker-compose/_docker-compose",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker-compose/_docker-compose",
+      "sha256": "5fad7e94dc104670794594d39e6264530513e92edab6903cd32ad7c26cbeed93",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker-compose/docker-compose.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker-compose/docker-compose.plugin.zsh",
+      "sha256": "fd4e3f92694ed5ccfe80125ef3c949f103f3486d8377bc6d411910a5e25f9bb0",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker/README.md",
+      "sha256": "65d5ba12430b6d4d7b27d4ff94035d2c41e23ead86ca474bbf6da8dfc00b3b94",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker/completions/_docker",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker/completions/_docker",
+      "sha256": "721b8125d40acb3a9e2995f581db1da8d3c23b92657b27a59d3ef14f7cb4433a",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/docker/docker.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/docker/docker.plugin.zsh",
+      "sha256": "0e7d94301ba625a548fcf61b6111ebc3dc6399302f8b92f540d7850d4780ecf7",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/gh/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/gh/README.md",
+      "sha256": "c183059a8b3735912dcf6f6edd8e149bb5b08390ef0257fba61525203ae8723e",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/gh/gh.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/gh/gh.plugin.zsh",
+      "sha256": "f55456ba2487c023a87e4b9fa33aa496d21889d54f182d6a37ca2caf6df2f090",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/git/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/git/README.md",
+      "sha256": "c261f04d81891d4209707d5b5ad5af1480b50595d1d598b5c0c24d6b0b75813e",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/git/git.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/git/git.plugin.zsh",
+      "sha256": "5da590f18a2271b6121ada6073eeee07e1a732690229f581303629a55d4a80aa",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/ssh-agent/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/ssh-agent/README.md",
+      "sha256": "572b1d8e207fe8415fbb6306e96295844dff7249c57dda18e6447346d521e4bf",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/ssh-agent/ssh-agent.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/ssh-agent/ssh-agent.plugin.zsh",
+      "sha256": "a11fef191d7f70d0dfcf5ccdae4d59e1f789fc441c32bf498ead4b3484470c11",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/vscode/README.md",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/vscode/README.md",
+      "sha256": "ed17e4d6435df15ff0e93afa437f320c0bf7be710911eef90e93104a1b8dc541",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/plugins/vscode/vscode.plugin.zsh",
+      "destination": "zsh/.oh-my-zsh/custom/plugins/vscode/vscode.plugin.zsh",
+      "sha256": "9a27004e94f56fb48f18d01f1a7d8cff22aebb096afc42ebf794ce66c0ecb00b",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.oh-my-zsh/custom/themes/purpledreams.zsh-theme",
+      "destination": "zsh/.oh-my-zsh/custom/themes/purpledreams.zsh-theme",
+      "sha256": "67cbffb18fa25f5725c964ca7c821890febde03c69ff835f722b5c06260e1bd4",
+      "symlink": null
+    },
+    {
+      "source": "zsh/.zshrc",
+      "destination": "zsh/.zshrc",
+      "sha256": "5cce7819d2a807033939f9ad2debd63602d4079782cba92d5cabac0605d0e9cb",
+      "symlink": null
+    }
+  ]
+}

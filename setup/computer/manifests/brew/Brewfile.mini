@@ -1,0 +1,8 @@
+# Canonical workstation additions to Brewfile.shared.
+# Preserve the existing standalone Tailscale app; no VPN variant migration.
+cask "tailscale-app"
+
+brew "pipenv"
+brew "pipx"
+brew "python@3.13"
+brew "rbenv"

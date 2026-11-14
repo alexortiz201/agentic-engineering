@@ -1,0 +1,10 @@
+@anthropic-ai/sdk
+@biomejs/biome
+@devcontainers/cli
+playwright-mcp
+ts-node
+typescript
+typescript-language-server
+vite
+vitest
+yaml
