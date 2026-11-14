@@ -3,7 +3,7 @@ import path from 'node:path';
 import os from 'node:os';
 import type { Component, Context, State } from './types.ts';
 import { legacyMigration } from './migration.ts';
-import { digest, leaves, owned, portableDefaults, readSettings, safePath, stat, isTodoSource, installedTodoVersion } from './files.ts';
+import { digest, leaves, owned, portableDefaults, readSettings, safePath, stat, receiptFingerprint, isTodoSource, installedTodoVersion } from './files.ts';
 function state(status: State['status'], installed: State['installed'], enabled: State['enabled'], evidence: string[], data: unknown): State {
   return { status, available: true, installed, enabled, loaded: 'unknown', evidence, fingerprint: digest(data) };
 }
@@ -44,13 +44,13 @@ export function detect(ctx: Context, c: Component): State {
       const settings = c.id === 'pi-theme' ? readSettings(ctx) : undefined;
       const enabled = count === files.length && (c.id !== 'pi-theme' || settings?.theme === 'purple-dreams');
       return state(foreign ? 'conflict' : enabled ? 'current' : count ? 'partial' : 'missing',
-        count > 0, c.id === 'foundations' ? false : enabled, [foreign ? 'Occupied foreign destination; never adopted' : `${count}/${files.length} exact owned leaf links`, ...(c.id === 'pi-theme' ? ['Theme selection is independently reconciled with a private rollback receipt'] : []), ...files.map(f => f.target)], { details, settings });
+        count > 0, c.id === 'foundations' ? false : enabled, [foreign ? 'Occupied foreign destination; never adopted' : `${count}/${files.length} exact owned leaf links`, ...(c.id === 'pi-theme' ? ['Theme selection is independently reconciled with a private rollback receipt'] : []), ...files.map(f => f.target)], { details, settings, ...(c.id === 'pi-theme' ? { receipt: receiptFingerprint(ctx, '.local/state/ae/theme.json') } : {}) });
     }
     if (c.adapter === 'defaults') {
       const v = readSettings(ctx); const expected = portableDefaults(ctx);
       const equal = Object.entries(expected).every(([k, value]) => JSON.stringify(v[k]) === JSON.stringify(value));
       return state(equal ? 'current' : Object.keys(v).length ? 'partial' : 'missing', Object.keys(v).length > 0, equal,
-        ['Selected-key comparison; theme/packages/discovery and private keys excluded'], v);
+        ['Selected-key comparison; theme/packages/discovery and private keys excluded'], { v, expected, receipt: receiptFingerprint(ctx, '.local/state/ae/defaults.json') });
     }
     if (c.adapter === 'todo') {
       const v = readSettings(ctx);

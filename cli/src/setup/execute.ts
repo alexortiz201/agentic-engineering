@@ -6,7 +6,7 @@ import type { Component, Context, Operation, Plan, Result, Runner } from './type
 import { detect } from './detect.ts';
 import { catalog, configurationPairs } from '../components/catalog.ts';
 import { installTheme, removeTheme, themePreflight } from './theme.ts';
-import { digest, leaves, owned, portableDefaults, privateDir, readSettings, safePath, settingsPath, stat, writeSettings, isTodoSource, installedTodoVersion } from './files.ts';
+import { digest, leaves, owned, portableDefaults, privateDir, readSettings, safePath, settingsPath, stat, writeSettings, replaceReceipt, isTodoSource, installedTodoVersion } from './files.ts';
 export const run: Runner = (command, args, env = {}) => {
   const environment: NodeJS.ProcessEnv = { ...process.env, HOMEBREW_NO_AUTO_UPDATE: '1', HOMEBREW_NO_INSTALL_UPGRADE: '1', ...env };
   // Package commands must use the native HOME profile, never an inherited legacy override.
@@ -27,17 +27,18 @@ function stowArgs(ctx: Context, c: Component, remove: boolean, simulate: boolean
 function receiptPath(ctx: Context) { return safePath(ctx.home, '.local/state/ae/defaults.json'); }
 function readReceipt(ctx: Context): any {
   const p = receiptPath(ctx); const s = stat(p);
-  if (!s || !s.isFile() || s.isSymbolicLink()) throw new Error('No trustworthy defaults receipt; removal requires manual selected-key review');
+  if (!s || !s.isFile() || s.isSymbolicLink() || (s.mode & 0o077)) throw new Error('No trustworthy defaults receipt; removal requires manual selected-key review');
   let value;
   try { value = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { throw new Error('Invalid private defaults receipt; inspect locally'); }
-  if (value.version !== 1 || !value.before || !value.applied) throw new Error('Invalid defaults receipt');
+  const object = (v: any) => v && typeof v === 'object' && !Array.isArray(v);
+  if (!value || value.version !== 1 || !object(value.before) || !object(value.applied)) throw new Error('Invalid defaults receipt');
+  const allowed = portableDefaults(ctx);
+  if (Object.keys(value.applied).some(k => !Object.hasOwn(allowed, k)) || Object.keys(value.before).some(k => !Object.hasOwn(value.applied, k))) throw new Error('Receipt contains unmanaged keys');
+  for (const k of Object.keys(value.applied)) {
+    const old = value.before[k];
+    if (!object(old) || typeof old.present !== 'boolean' || old.present && !Object.hasOwn(old, 'value')) throw new Error('Invalid defaults before-state');
+  }
   return value;
-}
-function saveReceipt(ctx: Context, value: unknown) {
-  privateDir(ctx, '.local/state/ae');
-  const p = receiptPath(ctx);
-  if (stat(p)) throw new Error('Existing defaults receipt requires reconciliation, not overwrite');
-  fs.writeFileSync(p, JSON.stringify(value, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
 }
 function defaultRemoval(ctx: Context): Record<string, unknown> {
   const receipt = readReceipt(ctx); const current = readSettings(ctx);
@@ -79,7 +80,10 @@ function preflight(ctx: Context, c: Component, op: Operation) {
   }
   if (c.adapter === 'defaults' || c.adapter === 'todo') {
     settingsPath(ctx); readSettings(ctx);
-    if (op.kind === 'remove' && c.adapter === 'defaults') defaultRemoval(ctx);
+    if (c.adapter === 'defaults') {
+      if (op.kind === 'remove') defaultRemoval(ctx);
+      else if (stat(receiptPath(ctx))) readReceipt(ctx);
+    }
   }
   if (op.selection.scope === 'review') {
     const review = cleanupReview(ctx, c);
@@ -104,9 +108,14 @@ function apply(ctx: Context, c: Component, op: Operation) {
       writeSettings(ctx, defaultRemoval(ctx));
     } else {
       const values = portableDefaults(ctx); const current = readSettings(ctx);
-      const before = Object.fromEntries(Object.keys(values).map(k => [k, { present: Object.hasOwn(current, k), ...(Object.hasOwn(current, k) ? { value: current[k] } : {}) }]));
-      // Record rollback data first. A failed write leaves an explicit recovery receipt, not a silent overwrite.
-      saveReceipt(ctx, { version: 1, before, applied: values });
+      const previous = stat(receiptPath(ctx)) ? readReceipt(ctx) : undefined;
+      const before = Object.fromEntries(Object.keys(values).map(k => [k,
+        previous && Object.hasOwn(previous.applied, k) && JSON.stringify(current[k]) === JSON.stringify(previous.applied[k])
+          ? previous.before[k]
+          : { present: Object.hasOwn(current, k), ...(Object.hasOwn(current, k) ? { value: current[k] } : {}) }]));
+      // Retain rollback for unchanged keys; explicitly reapplied drift gets a new before-state.
+      // Archive prior evidence before publishing the new receipt or changing settings.
+      replaceReceipt(ctx, '.local/state/ae/defaults.json', { version: 1, before, applied: values });
       writeSettings(ctx, { ...current, ...values });
     }
   } else if (c.adapter === 'todo') {

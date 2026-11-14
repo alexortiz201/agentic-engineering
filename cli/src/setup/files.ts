@@ -76,6 +76,23 @@ export function privateDir(ctx: Context, relative: string): string {
   fs.mkdirSync(p, { recursive: true, mode: 0o700 });
   return p;
 }
+// Receipts are part of the reviewed ownership state, not just settings values.
+export function receiptFingerprint(ctx: Context, relative: string) {
+  const p = safePath(ctx.home, relative), s = stat(p);
+  return s ? { mode: s.mode, content: s.isFile() && !s.isSymbolicLink() ? digest(fs.readFileSync(p).toString('base64')) : null } : null;
+}
+export function replaceReceipt(ctx: Context, relative: string, value: unknown) {
+  const p = safePath(ctx.home, relative), s = stat(p);
+  if (s && (!s.isFile() || s.isSymbolicLink() || (s.mode & 0o077))) throw new Error('Unsafe private receipt; reconcile manually');
+  privateDir(ctx, '.local/state/ae');
+  if (s) {
+    const dir = privateDir(ctx, '.local/state/ae/backups');
+    fs.writeFileSync(path.join(dir, `${path.basename(p, '.json')}-${crypto.randomUUID()}.json`), fs.readFileSync(p), { flag: 'wx', mode: 0o600 });
+  }
+  const tmp = `${p}.ae-${crypto.randomUUID()}`;
+  fs.writeFileSync(tmp, JSON.stringify(value, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+  fs.renameSync(tmp, p);
+}
 export function writeSettings(ctx: Context, values: Record<string, unknown>) {
   const p = settingsPath(ctx);
   const dir = privateDir(ctx, '.local/state/ae/backups');
