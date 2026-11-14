@@ -1,6 +1,6 @@
 # Canonical selective Pi source
 
-This directory is the sole authored source for the five selective Pi packages, `settings.example.json` and `accepted.json`. **Prepared source-transition candidate:** Main must verify Air's selective ownership handoff before integrating this change into shared sources. This branch does not authorize deployment, synchronization or live edits.
+This directory is the sole authored source for the five selective Pi packages, `settings.example.json` and `accepted.json`. Both Macs now have verified selective resource links: Mini into its physically local DevDrive checkout, Air into its local offline checkout. See the [Mini](../../plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md) and [Air](../../plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md) evidence. Authorship does not authorize automatic deployment, synchronization or live edits.
 
 ## Supported source workflow
 
@@ -12,6 +12,6 @@ The setup CLI installs **only selected** packages: instructions, theme, Workbenc
 
 ## Frozen compatibility and recovery
 
-All 13 files under [`pi/`](../../pi/README.md), including five old resource copies, seed, Stow ignore contract, four historical Markdown files and both exact managed-lock files, remain unchanged. They are frozen compatibility/recovery material, not another editable source. Retained consumers include Air's old local links until its separately verified handoff, the dirty dotfiles `.no-stow/scripts/pi-resources` caller, `scripts/install-pi` and its fixture, old-root conflict diagnostics, and documented runtime audit/recovery paths. Historical path statements remain evidence, not instructions to repeat accepted migrations.
+All 13 files under [`pi/`](../../pi/README.md), including five old resource copies, seed, Stow ignore contract, four historical Markdown files and both exact managed-lock files, remain unchanged. They are frozen compatibility/recovery material, not another editable source. Air's old links have been handed off and both old/new source bytes retained. Remaining consumers include the dirty dotfiles `.no-stow/scripts/pi-resources` caller, `scripts/install-pi` and its fixture, old-root conflict diagnostics, and documented runtime audit/recovery paths. Historical path statements remain evidence, not instructions to repeat accepted migrations.
 
 Do not mirror new authored edits into root `pi/`, add forwarding wrappers, move locks/docs, remove old paths or run the legacy installer over selective ownership. Root/installer/dotfiles retirement requires named-consumer disposition and separate approval. See the [current transition gate](../../setup/MIGRATION.md#prepared-canonical-source-transition) and [result report](../../plans/handoffs/SOURCE_TRANSITION_RESULT.md). Existing host runtime/offline acceptance is retained; fixture success is not new runtime acceptance.

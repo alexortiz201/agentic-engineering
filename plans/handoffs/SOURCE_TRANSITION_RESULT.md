@@ -2,7 +2,7 @@
 
 ## Decision and integration gate
 
-**IMPLEMENTED CANDIDATE — NOT INTEGRATED; AIR HANDOFF VERIFICATION PENDING MAIN.**
+**SETTLED BY MAIN — integrated after verifying actual Air selective handoff.** See [Air execution evidence](AIR_LIVE_HANDOFF_RESULT.md) and [current execution record](LIVE_HANDOFF_EXECUTION.md). The preparation and pending-gate statements below are preserved assignment history, not current blockers.
 
 Assignment: Main Orchestrator `w7:p0`; host `Mac-mini.local`, Pi agent; isolated worktree `/tmp/ae-source-transition`, branch `migration/source-transition`, base `8656a79767b2ef67aedd462b1081a2e0b0ed509f`.
 

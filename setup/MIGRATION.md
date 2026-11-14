@@ -1,10 +1,14 @@
 # Approval-gated source handoff and dotfiles retirement
 
+## Current execution status — 2026-11-14
+
+The current mission explicitly authorized bounded completion and main publication after validation. Both Macs' five selective leaf handoffs are now verified: [Mini evidence](../plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md), [Air execution](../plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md). Air's local source-only update and link transaction preserved old bytes/private state and require no runtime reinstall. Main verified the source-transition gate and integrated the canonical `harness/pi/` workflow; overwrite-prone generation is retired. All 13 root files and the old installer remain frozen for named compatibility/recovery consumers, **not** independently authored source. General computer configuration, dirty dotfiles, SMB services and destructive source retirement remain untouched. Older pending/unapproved statements below describe prior checkpoints, not the current handoff outcome. New live changes still require exact scope and immediate checks. See [current execution decisions](../plans/handoffs/LIVE_HANDOFF_EXECUTION.md).
+
 **Do not execute live mutation steps without approval for that host and exact paths.** Both Macs' Pi migrations are completed and accepted at baseline `e9c0a625`. Do not repeat them. Root Pi and dotfiles sources remain in place. Initial implementation prepared replacement source and a setup CLI; the subsequently approved Mini five-link resource ownership slice below is now applied and verified. Other handoffs, physical Pi relocation and dotfiles retirement remain separately gated.
 
 ## Prepared canonical source transition
 
-**Current source-policy amendment, prepared in isolation:** Main may integrate this candidate only after verifying Air's selective ownership handoff. It does not assert that handoff has occurred or authorize changes to active shared sources, Air synchronization, live links, packages or dotfiles. The earlier staging/authority holds and relocation proposals below are historical checkpoints, superseded **only** for this bounded source-workflow transition.
+**Source-policy amendment, now integrated after Main verified Air's selective ownership handoff.** The preparation below records its bounded scope; integration does not authorize automatic live changes, synchronization, packages or dotfiles operations. The earlier staging/authority holds and relocation proposals below are historical checkpoints, superseded **only** for this bounded source-workflow transition.
 
 - `harness/pi/` becomes the sole authored resource/seed/acceptance-metadata source. Five package files, seed and accepted pins/baseline remain byte-identical. Edit canonical sources directly in future separately reviewed work; never mirror them into root `pi/`.
 - Retire `setup/stage-pi.mjs` and its regeneration/equality tests together. Canonical source tests instead validate exact selective inventories, metadata/seed agreement and isolated Stow install/repeat/remove without legacy root sources. No generator may overwrite active resources.

@@ -1,5 +1,17 @@
 # Setup implementation evidence and remaining gates
 
+## Current mission validation — 2026-11-14
+
+This current addendum supersedes historical absent-Air/uncommitted/staged-only statements below. The approved completion mission reused published setup baseline `8656a797` rather than rebuilding it. Main integrated the canonical-source transition only after actual Air selective handoff verification; `harness/pi/` is the sole authored resource source, and the overwrite generator is retired. Root `pi/`, exact managed locks, old installer and dirty dotfiles remain frozen compatibility/recovery consumers, not deleted or independently authored.
+
+- Fresh Mini actual managed/version/link checks and private-state preservation baseline: [Mini report](../plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md).
+- Fresh Air actual runtime identity, approved source-only update, exact five-leaf transaction, local inspector and private rollback receipt: [Air report](../plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md). Later loader/offline results and publication identities live in that report and the [execution record](../plans/handoffs/LIVE_HANDOFF_EXECUTION.md).
+- Main independently reran strict check/build, **108/108 CLI tests with zero skips**, five real PTY scenarios and legacy Stow fixtures on the integrated source/composer candidate. Composer native Pi 1.5.2 compatibility covers loading/UI registration, 42 renderer parity cases, actual coloring, Unicode/narrow widths and native submission; [independent review](../plans/handoffs/SETUP_REVIEW_RESULT.md). This is native-renderer evidence, not a new visual eyeball acceptance; prior operator-confirmed fresh-session appearance remains retained evidence.
+- Review found and reproduced defaults/theme receipt lifecycle failures; the bounded fix is integrated after independent adversarial review. Drifted keys deliberately rebase rollback to the latest user preference, unchanged keys retain original rollback, and earlier receipts are archived privately. Main reran **129/129 tests, zero failures/skips**, strict check/build, five PTYs and legacy fixtures; [fix evidence](../plans/handoffs/SETUP_REPEATABILITY_RESULT.md), [independent ACCEPT verdict](../plans/handoffs/RECEIPT_FIX_REVIEW.md). Selected-but-unrun operations retain the low-severity `skipped` display label after an explicit failure; no execution continues.
+- External `backup-v1` is absent on both hosts. Existing local private rollback receipts and native recovery material are retained. No destructive source/computer/backup retirement is authorized by this observation.
+
+The remaining sections are preserved chronological evidence. Their historical “do not repeat” acceptance boundaries do not erase the fresh controlled checks explicitly authorized by the current mission. No broad HOME restore, runtime upgrade or general computer-config transition occurred.
+
 ## Current topology and Air evidence — supersedes earlier preparation assumptions
 
 Both Macs intentionally use `/Volumes/DevDrive/Projects/agentic-engineering` as the shared active development workspace. Air's separate local checkout remains the accepted offline Pi resource owner. The operator has already accepted Air runtime/cold resource loading with network and `/Volumes` denied; **do not repeat those checks or reinstall**.
