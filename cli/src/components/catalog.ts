@@ -27,7 +27,7 @@ export function catalog(root: string): Component[] {
     ['workbench-skill', 'Workbench Skill'], ['study-skill', 'Agentic Engineering Study Skill'],
     ['composer', 'Composer highlighting'],
   ]) result.push({ id, name, description: 'Independent Pi discovery leaf; does not load other capabilities',
-    owner: 'harness/pi (staged)', adapter: 'stow', dependencies: ['pi', 'brew-stow'],
+    owner: 'harness/pi', adapter: 'stow', dependencies: ['pi', 'brew-stow'],
     ...(id === 'pi-theme' ? { configuration: { theme: 'purple-dreams' } } : {}),
     packageDir: 'harness/pi/packages', packageName: id });
   result.push(

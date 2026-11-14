@@ -34,32 +34,69 @@ test('every consolidated computer package installs/verifies/removes with actual 
   }
 });
 
-test('staged Pi resources are byte-identical to accepted live source', () => {
+test('canonical Pi packages have exactly the supported regular discovery leaves', () => {
   const mapping: Record<string, string> = {
     'pi-instructions': 'AGENTS.md', 'pi-theme': 'themes/purple-dreams.json',
     'workbench-skill': 'skills/workbench/SKILL.md', 'study-skill': 'skills/agentic-engineering/SKILL.md',
     composer: 'extensions/composer-highlight.ts',
   };
+  const packages = path.join(root, 'harness/pi/packages');
+  assert.deepEqual(fs.readdirSync(packages).sort(), Object.keys(mapping).sort());
   for (const [id, leaf] of Object.entries(mapping)) {
-    assert.deepEqual(fs.readFileSync(path.join(root, 'harness/pi/packages', id, '.pi/agent', leaf)), fs.readFileSync(path.join(root, 'pi/.pi/agent', leaf)));
+    const base = path.join(packages, id);
+    const inventory: string[] = [];
+    function walk(dir: string) {
+      for (const name of fs.readdirSync(dir)) {
+        const file = path.join(dir, name), stat = fs.lstatSync(file);
+        if (stat.isDirectory()) walk(file);
+        else { assert.ok(stat.isFile(), `Non-regular source: ${file}`); inventory.push(path.relative(base, file)); }
+      }
+    }
+    assert.ok(fs.lstatSync(base).isDirectory());
+    walk(base);
+    assert.deepEqual(inventory, [`.pi/agent/${leaf}`]);
+    assert.ok(fs.readFileSync(path.join(base, inventory[0])).length > 0);
   }
-  assert.deepEqual(fs.readFileSync(path.join(root, 'harness/pi/settings.example.json')), fs.readFileSync(path.join(root, 'pi/settings.example.json')));
+  const accepted = JSON.parse(fs.readFileSync(path.join(root, 'harness/pi/accepted.json'), 'utf8'));
+  assert.deepEqual(accepted, {
+    runtime: '1.5.2', todo: 'npm:@arhen/pi-core-todo@1.1.0',
+    baseline: 'e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354',
+  });
+  const seed = JSON.parse(fs.readFileSync(path.join(root, 'harness/pi/settings.example.json'), 'utf8'));
+  assert.deepEqual(seed.packages, [accepted.todo]);
 });
 
-test('temporary Pi staging generation is deterministic and never needs an active installation', t => {
-  const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ae-stage-')));
+test('canonical Pi sources install/repeat/remove without legacy root or generation', t => {
+  const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ae-canonical-')));
   t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
-  fs.cpSync(path.join(root, 'pi'), path.join(dir, 'pi'), { recursive: true });
-  fs.mkdirSync(path.join(dir, 'setup')); fs.copyFileSync(path.join(root, 'setup/stage-pi.mjs'), path.join(dir, 'setup/stage-pi.mjs'));
-  const snapshot = () => {
-    const files: Record<string, string> = {};
-    function walk(base: string) { for (const name of fs.readdirSync(base)) { const p = path.join(base, name); if (fs.statSync(p).isDirectory()) walk(p); else files[path.relative(dir, p)] = fs.readFileSync(p, 'base64'); } }
-    walk(path.join(dir, 'harness')); return files;
-  };
-  for (let i = 0; i < 2; i++) assert.equal(spawnSync(process.execPath, [path.join(dir, 'setup/stage-pi.mjs')]).status, 0);
-  const before = snapshot();
-  assert.equal(spawnSync(process.execPath, [path.join(dir, 'setup/stage-pi.mjs')]).status, 0);
-  assert.deepEqual(snapshot(), before);
+  const source = path.join(dir, 'source'), home = path.join(dir, 'home');
+  fs.cpSync(path.join(root, 'harness/pi'), path.join(source, 'harness/pi'), { recursive: true });
+  fs.mkdirSync(home);
+  const components = catalog(root).filter(c => c.packageDir === 'harness/pi/packages');
+  assert.equal(components.length, 5);
+  assert.equal(fs.existsSync(path.join(source, 'pi')), false);
+  assert.equal(fs.existsSync(path.join(root, 'setup/stage-pi.mjs')), false, 'Retired generator must not overwrite authored resources');
+  assert.equal(fs.existsSync(path.join(source, 'setup/stage-pi.mjs')), false);
+  const before = new Map<string, Buffer>();
+  for (const original of components) {
+    // Exercise discovery leaves only: no runtime, settings/theme preference or package effects.
+    const c = { ...original, dependencies: [], configuration: undefined };
+    const ctx: Context = { root: source, home, platform: 'darwin', run };
+    for (const leaf of leaves(ctx, c)) before.set(leaf.source, fs.readFileSync(leaf.source));
+    const install = plan([c], detectAll(ctx, [c]), { [c.id]: { action: 'install' } });
+    assert.deepEqual(install.conflicts, []);
+    const installed = execute(ctx, [c], install, true);
+    assert.equal(installed[0].status, 'success', JSON.stringify(installed));
+    for (const leaf of leaves(ctx, c)) assert.equal(fs.realpathSync(leaf.target), leaf.source);
+    const repeat = plan([c], detectAll(ctx, [c]), { [c.id]: { action: 'install' } });
+    assert.deepEqual(repeat.conflicts, []);
+    assert.equal(repeat.operations[0].kind, 'noop');
+    assert.equal(execute(ctx, [c], repeat, true)[0].status, 'skipped');
+    const remove = plan([c], detectAll(ctx, [c]), { [c.id]: { action: 'remove', scope: 'configuration', confirmed: true } });
+    assert.equal(execute(ctx, [c], remove, true)[0].status, 'success');
+    for (const leaf of leaves(ctx, c)) assert.equal(fs.existsSync(leaf.target), false);
+  }
+  for (const [file, bytes] of before) assert.deepEqual(fs.readFileSync(file), bytes);
 });
 
 test('shell source parses; portable configuration has no old-repository runtime dependencies', () => {

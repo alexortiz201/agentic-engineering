@@ -14,7 +14,13 @@ Choose a profile, choose components, set `[x]` install/update, `[−]` guided re
 sh setup/bootstrap/setup --dry-run
 ```
 
-**Deployment is not approved by this implementation.** Mini's separately approved five Pi resource links and fresh-session acceptance are complete; Air's equivalent source handoff and all general computer ownership transitions remain pending. Existing configurations/private state are preserved. Source staging alone is not a live ownership transfer. See [ownership](setup/OWNERSHIP.md), [supported operations](cli/README.md#supported-operations), and [migration/retirement gates](setup/MIGRATION.md). The complete fresh-Mac Pi/runtime and Homebrew installation paths still require the manual official-install steps documented there; do not mistake this release for full end-to-end provisioning acceptance.
+**Deployment is not approved by this implementation.** Mini's separately approved five Pi resource links and fresh-session acceptance are complete; Air's equivalent source handoff and all general computer ownership transitions remain pending. Existing configurations/private state are preserved. Source authorship alone is not a live ownership transfer. The prepared `harness/pi/` canonical-source transition is **pending Main's verification of Air's actual selective ownership handoff before integration**; it performs no host action. See [ownership](setup/OWNERSHIP.md), [supported operations](cli/README.md#supported-operations), and [migration/retirement gates](setup/MIGRATION.md). The complete fresh-Mac Pi/runtime and Homebrew installation paths still require the manual official-install steps documented there; do not mistake this release for full end-to-end provisioning acceptance.
+
+## Portable Pi source workflow
+
+The [canonical-source candidate](harness/pi/README.md) edits selective packages, portable seed and acceptance metadata directly under `harness/pi/`; no regeneration command is supported. `setup/stage-pi.mjs` is retired to prevent overwriting active resources. Validate with the [CLI checks](cli/AGENTS.md#paved-road), using isolated dependencies and temporary homes, not a live apply.
+
+All 13 root `pi/` files, historical docs/managed locks and `scripts/install-pi` remain frozen compatibility/recovery inputs for old links, the dirty dotfiles `pi-resources` caller, diagnostics and legacy fixtures. Do not edit them as a second source, run legacy setup over selective ownership, or infer that dotfiles/root cleanup is approved. Main owns host synchronization and live actions; see the [source integration gate](setup/MIGRATION.md#prepared-canonical-source-transition).
 
 ## Shared development and offline Pi
 

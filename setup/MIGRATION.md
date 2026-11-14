@@ -2,6 +2,18 @@
 
 **Do not execute live mutation steps without approval for that host and exact paths.** Both Macs' Pi migrations are completed and accepted at baseline `e9c0a625`. Do not repeat them. Root Pi and dotfiles sources remain in place. Initial implementation prepared replacement source and a setup CLI; the subsequently approved Mini five-link resource ownership slice below is now applied and verified. Other handoffs, physical Pi relocation and dotfiles retirement remain separately gated.
 
+## Prepared canonical source transition
+
+**Current source-policy amendment, prepared in isolation:** Main may integrate this candidate only after verifying Air's selective ownership handoff. It does not assert that handoff has occurred or authorize changes to active shared sources, Air synchronization, live links, packages or dotfiles. The earlier staging/authority holds and relocation proposals below are historical checkpoints, superseded **only** for this bounded source-workflow transition.
+
+- `harness/pi/` becomes the sole authored resource/seed/acceptance-metadata source. Five package files, seed and accepted pins/baseline remain byte-identical. Edit canonical sources directly in future separately reviewed work; never mirror them into root `pi/`.
+- Retire `setup/stage-pi.mjs` and its regeneration/equality tests together. Canonical source tests instead validate exact selective inventories, metadata/seed agreement and isolated Stow install/repeat/remove without legacy root sources. No generator may overwrite active resources.
+- Retain **all 13 root Pi files unchanged**, including old resource/seed/ignore paths, all four historical Markdown files and both exact managed-lock files. Retain `scripts/install-pi`, its regression fixture, old-root conflict diagnostics and handoff/rollback fixtures. These are frozen compatibility/recovery inputs, not independently authored duplicates.
+- Named retained consumers: Air's local old links until its independently verified handoff; dirty dotfiles `.no-stow/scripts/pi-resources` and its delegated installer; old-root ownership diagnostics/fixtures; documented official-runtime comparison/audit and historical setup/recovery navigation. No dotfiles consumer is declared retired. A completed Air link handoff alone does not clear these support consumers.
+- Root source/installer/docs/lock removal or relocation still needs separate exact approval, named consumer disposition and retained recovery. No wrapper, copied lock authority, new deployment mechanism or runtime reacceptance is introduced.
+
+Checks use isolated dependencies and temporary homes; existing Mini resources and accepted runtime/offline behavior remain untouched. Rollback before integration is simply to decline this candidate. After any approved integration, revert only this source-policy/test/generator-retirement patch after checking intervening changes; do not regenerate resources or restore HOME. All legacy paths and existing private link receipts remain available. Main owns cross-host synchronization and exact live actions. See [candidate implementation and evidence](../plans/handoffs/SOURCE_TRANSITION_RESULT.md).
+
 ## Next host decision — Air five-link readiness
 
 Mini acceptance is **closed**. The operator also confirms Air runtime and cold loading with network and `/Volumes` denied are **accepted**; do not repeat or reinstall. Current direction and exact publication proposal: [shared DevDrive handoff](../plans/handoffs/SHARED_DEVDRIVE_PUBLICATION.md). Both machines intentionally use DevDrive as the active project workspace; Air keeps its local checkout as offline Pi resource owner. These are distinct roles.
@@ -323,12 +335,12 @@ The prior phase-A authority-ordering amendment is withdrawn. Complete old-root/i
 
 Once **both** hosts' links are accepted under `harness/pi/packages/`, scan known consumers for root `pi/` references (including private external scripts) and resolve them deliberately. In a separate reviewed commit:
 
-- Make `harness/pi/` the sole authored Pi source; delete the temporary staging generator.
+- The [prepared source transition](#prepared-canonical-source-transition) separates canonical authorship/generator retirement from physical cleanup; integrate that candidate only after Main verifies Air selective ownership.
 - Relocate accepted lock/history documentation and update repository-local links/instructions and installation fixtures.
 - Retire the old whole-package `scripts/install-pi`/root source only after all approved callers use selective packages and no live link resolves there.
 - Preserve historical acceptance evidence as history, not current operational instructions. Do not introduce a compatibility wrapper or two authored source trees.
 
-This implementation deliberately does not perform that destructive source move while live links exist. Root instructions describing Pi ownership are not rewritten ahead of deployment reality. The generated candidate is testable now, not a claim the relocation gate has passed.
+No destructive source move is authorized. The prepared canonical-source candidate above changes authorship/workflow only after its integration gate; it does not claim that the root/support cleanup gate has passed. Retained legacy consumers and recovery paths remain supported and frozen.
 
 ## Dotfiles retirement gate
 
