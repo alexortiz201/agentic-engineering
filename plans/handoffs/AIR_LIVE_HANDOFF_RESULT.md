@@ -251,3 +251,67 @@ Private recovery result `~/.local/state/ae/handoffs/air-pi-five-20261114T172716.
 **Orchestrator-reported interruption evidence (not independently witnessed by absent worker):** Main reports graceful idle Ctrl+D shutdown of only this Pi worker, shell-only foreground verified, Mini retained authority and independently passed **129 tests / zero skips** at Mini commit `f782e32130e801728e84113c4b0890ac01d8f534`, then restarted canonical Pi with `--offline --session` exact existing file in the same local cwd. This worker did not rerun or claim independent observation of Mini's tests. Fresh local identity/metadata checks above establish same-session continuation and recontact after that reported restart. No installation/auth/security approval was encountered during this resumed assignment.
 
 **Evidence boundary:** graceful worker stop/resume/recontact, **not physical host/network/SMB outage**. No server/Claude/network/mount changes or file restoration by this worker. Only this shared report and private continuity result were written. Returning this path through existing Herdr Mini profile and settling idle pending exact-final-update instructions.
+
+## Approved exact prepublication candidate acceptance — 2026-11-14T17:42:25Z
+
+Main explicitly approved Air source-only local transport/fast-forward to **3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1** before GitHub publication. This supersedes the earlier wait at C2 only for this exact candidate and bounded acceptance; no publication or live-apply authority inferred.
+
+**Preflight:** local L clean on `main`, empty index, exact C2, expected unchanged GitHub origin, no configured core.hooksPath or active non-sample hooks. Ordinary local transport command executed:
+
+```sh
+git -C "$L" fetch --no-tags --no-recurse-submodules /Volumes/DevDrive/Projects/agentic-engineering refs/heads/migration/live-handoff:refs/remotes/migration-candidate/live-handoff
+```
+
+Fetched ref exactly matches approved C. C2 ancestor verified. No remote configuration created/changed and no shared Git writes. Exact **23-path** C2..C set verified against this allowlist:
+
+```text
+AGENTS.md
+README.md
+SETUP.md
+cli/src/components/catalog.ts
+cli/src/setup/detect.ts
+cli/src/setup/execute.ts
+cli/src/setup/files.ts
+cli/src/setup/theme.ts
+cli/tests/composer-compat.test.ts
+cli/tests/repeatability.test.ts
+cli/tests/sources.test.ts
+harness/pi/README.md
+plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md
+plans/handoffs/LIVE_HANDOFF_EXECUTION.md
+plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md
+plans/handoffs/RECEIPT_FIX_REVIEW.md
+plans/handoffs/SETUP_REPEATABILITY_RESULT.md
+plans/handoffs/SETUP_REVIEW_RESULT.md
+plans/handoffs/SOURCE_TRANSITION_RESULT.md
+setup/ACCEPTANCE.md
+setup/MIGRATION.md
+setup/OWNERSHIP.md
+setup/stage-pi.mjs
+```
+
+Only generator path deleted. Explicit protected-path diff is empty for all root `pi/` (resources/seed/lock/history), five harness resources/seed/accepted metadata, `workbench/`, legacy installer and fixture. After guards passed, `git -C "$L" merge --ff-only 3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1` succeeded. Source publication status is Main's responsibility; this local acceptance does not assert GitHub publication.
+
+**Fresh actual Air acceptance at exact C:** commands ran from local L, with `JITI_FS_CACHE=0`, existing local dependencies, `npm_config_offline=true`, audit/fund disabled; no dependency install/update invoked.
+
+```sh
+npm --prefix "$L/cli" run check
+npm --prefix "$L/cli" run build
+JITI_FS_CACHE=0 npm --prefix "$L/cli" test
+python3 cli/tests/terminal-probe.py
+node scripts/install-pi.test.js
+```
+
+All exit **0**. Strict check/build pass. Native-composer/source/repeatability and complete CLI suite: **129 tests, 129 pass, 0 fail, 0 skipped, 0 cancelled, 0 todo**, duration **9216.401417 ms**. All **five PTY scenarios pass**. Legacy fixture output: `Stow fixtures passed: plan, repeat, relocation conflict/recovery, removal, foreign conflict and local state`. Test effects remain temporary-home/controlled-manager fixtures; no actual Todo/package/general-config mutation.
+
+Repeated actual bootstrap preview twice:
+
+```sh
+sh "$L/setup/bootstrap/setup" --dry-run --json --profile custom --select pi-instructions,pi-theme,workbench-skill,study-skill,composer
+```
+
+Both exit **0**, each **5 noops / 53 skips / 0 conflicts**; complete plans equal. Local read-only inspector at C: **APFS/local, five selective-pi resources, zero blockers, handoffNeeded:false**.
+
+**Preservation:** settings digest captured privately in one Python runner's memory before source merge/tests/previews and compared afterward: **equal**, no digest/value printed or persisted. Five live literal links, realpaths, hashes, UID/modes all unchanged before/after. No settings/auth/session copies/restoration, auth refresh, runtime/package mutation, model call, live wizard apply or new session. No checkout/reset/stash/clean/shared Git writes, server/Claude/network/mount changes. Final local working tree/index **clean**, exact HEAD **3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1**; ignored existing checkout-local dependencies/build output retained. Both old and new resource trees remain intact.
+
+**Result:** exact prepublication candidate accepted by fresh Air checks. Stopped awaiting Main's separately approved final docs-only postpublication source update and final no-op scope.

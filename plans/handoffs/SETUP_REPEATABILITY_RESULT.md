@@ -1,6 +1,6 @@
 # Setup receipt repeatability — bounded implementation result
 
-**Implementation complete; acceptance/integration pending sole Main `w7:p0`. No publication or live apply.**
+**Settled: Main accepted/integrated after independent adversarial ACCEPT review and 129-test integrated runs on both Macs.** Published implementation is `3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1`; no live defaults/theme apply was needed. Preparation/pending statements below are retained assignment history. See [review](RECEIPT_FIX_REVIEW.md) and [readiness](MIGRATION_READINESS.md).
 
 Identity: `Mac-mini.local`, Pi coding agent. Isolated worktree `/tmp/ae-setup-repeatability`, branch `migration/setup-repeatability`, base `8656a79767b2ef67aedd462b1081a2e0b0ed509f`. Source/canonical inventory work remains Main-owned and is untouched here.
 
