@@ -305,3 +305,39 @@ test('CLI: documented commands work end-to-end, refuse bad input, and never touc
   assert.match(run(['--help'], home).stdout, /ae project/);
   assert.match(run(['setup', '--help'], home).stdout, /ae setup/);
 });
+
+test('F1: nested payload with ordering-sensitive siblings applies, verifies and reruns as a no-op', t => {
+  const root = checkout(t), target = repo(t), skill = path.join(root, 'harness/pi/packages/workbench-skill/.pi/agent/skills/workbench');
+  fs.mkdirSync(path.join(skill, 'refs')); fs.writeFileSync(path.join(skill, 'refs/a.md'), 'a'); fs.writeFileSync(path.join(skill, 'refs-extra.md'), 'extra');
+  fs.mkdirSync(path.join(skill, 'scripts')); fs.writeFileSync(path.join(skill, 'scripts/run.sh'), 'x'); fs.writeFileSync(path.join(skill, 'scripts.md'), 'y');
+  const components = projectCatalog(root), ctx = context(root, target);
+  const result = applyAll(root, target, ['workbench-skill']);
+  assert.equal(result.verification.ok, true);
+  const recorded = JSON.parse(fs.readFileSync(path.join(target, receiptPath), 'utf8')).leaves['workbench-skill'].map((e: any) => e.relative);
+  assert.deepEqual(recorded, [...recorded].sort());
+  assert.ok(recorded.includes('.pi/skills/workbench/refs/a.md') && recorded.includes('.pi/skills/workbench/refs-extra.md'));
+  assert.equal(fs.readFileSync(path.join(target, '.pi/skills/workbench/refs/a.md'), 'utf8'), 'a');
+  const rerun = previewProject(ctx, components, ['workbench-skill']);
+  assert.ok(rerun.operations.every(o => o.kind === 'noop'), JSON.stringify(rerun.operations));
+  assert.deepEqual(applyProject(ctx, components, ['workbench-skill'], rerun.fingerprint).applied, []);
+  assert.equal(verifyProject(ctx, components).ok, true);
+  const mixed = verifyProject(ctx, components, [ID]).capabilities; // study not installed: leaf missing, composition partial
+  assert.equal(mixed.find(c => c.id === 'study-skill')!.status, 'missing'); assert.equal(mixed.find(c => c.id === ID)!.status, 'partial');
+});
+
+test('F2: case-variant spellings of the canonical root and its descendants are rejected (case-insensitive volumes)', t => {
+  const root = checkout(t);
+  fs.mkdirSync(path.join(root, '.git')); fs.mkdirSync(path.join(root, 'inside/.git'), { recursive: true });
+  const swap = (p: string, tail: string) => p.slice(0, p.length - tail.length) + tail.toUpperCase();
+  const variant = swap(root, 'canonical');
+  if (!fs.existsSync(variant) || fs.realpathSync.native(variant) !== root) return t.skip('filesystem is case-sensitive; alias cannot exist');
+  const before = tree(root);
+  assert.throws(() => context(root, variant), /outside the canonical checkout/);
+  assert.throws(() => context(root, path.join(variant, 'inside')), /outside the canonical checkout/);
+  assert.throws(() => context(root, path.join(root, 'INSIDE')), /outside the canonical checkout/);
+  assert.throws(() => context(root, path.join(variant, 'harness')), /outside the canonical checkout|Git repository root/);
+  assert.deepEqual(tree(root), before, 'canonical tree untouched');
+  const target = repo(t); // a non-canonical spelling of an ordinary project is refused with its real spelling
+  const aliased = swap(target, 'project');
+  assert.throws(() => context(root, aliased), /canonical on-disk form; pass its real path/);
+});

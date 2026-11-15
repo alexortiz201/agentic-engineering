@@ -10,14 +10,21 @@ const sha256 = (bytes: Buffer) => crypto.createHash('sha256').update(bytes).dige
 const leafProject = (c: Component) => { if (c.project?.kind !== 'leaf') throw new Error(`${c.id} is not a project leaf`); return c.project; };
 
 // Read-only: the target must be an explicit, existing, real Git repository root outside the canonical checkout.
+// Containment uses native (on-disk case) canonical paths plus a dev:ino ancestor comparison, so case variants of the
+// canonical path on case-insensitive volumes cannot alias it.
 export function projectTarget(root: string, target: string): string {
   const resolved = path.resolve(target);
   const s = stat(resolved);
   if (!s) throw new Error(`Target does not exist: ${resolved}`);
   if (s.isSymbolicLink() || !s.isDirectory()) throw new Error(`Target must be a real directory, not a symlink: ${resolved}`);
-  if (fs.realpathSync(resolved) !== resolved) throw new Error(`Target path passes through a symlink; pass its real path: ${fs.realpathSync(resolved)}`);
-  const repository = fs.realpathSync(root);
-  if (resolved === repository || resolved.startsWith(repository + path.sep)) throw new Error('Target must be outside the canonical checkout');
+  const native = fs.realpathSync.native(resolved), repository = fs.realpathSync.native(root), repositoryId = fs.statSync(repository);
+  const inside = (p: string) => { for (let d = p; ; d = path.dirname(d)) {
+    const k = fs.statSync(d);
+    if (k.dev === repositoryId.dev && k.ino === repositoryId.ino) return true;
+    if (path.dirname(d) === d) return false;
+  } };
+  if (native === repository || native.startsWith(repository + path.sep) || inside(native)) throw new Error('Target must be outside the canonical checkout');
+  if (native !== resolved) throw new Error(`Target path passes through a symlink or is not spelled in its canonical on-disk form; pass its real path: ${native}`);
   if (!stat(path.join(resolved, '.git'))) throw new Error(`Target is not a Git repository root (no .git): ${resolved}`);
   return resolved;
 }
@@ -30,7 +37,9 @@ export function leafEntries(root: string, c: Component): Entry[] {
   if (!s || !s.isDirectory()) throw new Error(`Source for ${c.id} is missing or not a directory: ${p.source}`);
   const files = sourceLeaves({ root }, { packageDir: path.dirname(p.source), packageName: path.basename(p.source) });
   if (!files.length) throw new Error(`Source for ${c.id} contains no files: ${p.source}`);
-  return files.map(f => ({ relative: path.join(p.target, f.relative), source: path.join(p.source, f.relative), sha256: sha256(fs.readFileSync(f.source)) }));
+  // Canonical full-relative-path ordering: must equal the order readReceipt enforces (sourceLeaves walks per directory).
+  return files.map(f => ({ relative: path.join(p.target, f.relative), source: path.join(p.source, f.relative), sha256: sha256(fs.readFileSync(f.source)) }))
+    .sort((a, b) => a.relative < b.relative ? -1 : a.relative > b.relative ? 1 : 0);
 }
 
 export function buildReceipt(source: string, selected: string[], leaves: Record<string, Entry[]>): string {
