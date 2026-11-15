@@ -1,6 +1,6 @@
 # Setup CLI conventions
 
-Inspect existing code/tests before adding dependencies or abstractions. This subtree owns only the setup wizard; root safety and deployment gates still apply.
+Inspect existing code/tests before adding dependencies or abstractions. This subtree owns the setup wizard and bounded project-capability integration; root safety and deployment gates still apply. Project integration uses the existing catalog and must not invoke machine installers.
 
 ## Paved road
 
@@ -11,7 +11,8 @@ Inspect existing code/tests before adding dependencies or abstractions. This sub
 
 ## Boundaries
 
-- `components/`: concrete supported capabilities; `profiles/`: overridable recommendation data.
+- `components/`: single authoritative catalog for concrete capabilities, explicit project applicability and composition dependencies; `profiles/`: overridable machine recommendation data.
+- `project/`: selected-only project linking, pure dependency resolution/planning, ownership reconciliation and verification. No workflow runtime or additional registry; use canonical leaf sources and preserve project-owned files.
 - `setup/detect.ts`: actual read-only observations through `Context.run`/filesystem helpers.
 - `setup/plan.ts`: pure deterministic decisions. No filesystem access, commands, prompts or mutation of caller inputs.
 - `setup/execute.ts`: explicitly approved effects plus exported `verify`; `files.ts`/`theme.ts` own narrow filesystem/settings mechanisms. Reuse Stow/native managers, not a new transaction engine.

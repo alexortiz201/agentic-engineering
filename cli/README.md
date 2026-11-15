@@ -1,6 +1,6 @@
 # Agentic Engineering setup CLI
 
-Standalone TypeScript + `@clack/prompts`; no Pi, Herdr or Workbench runtime dependency. Only `setup` is implemented. No daemon, orchestration framework, model calls or global launcher is installed.
+Standalone TypeScript + `@clack/prompts`; no Pi, Herdr or Workbench runtime dependency. Two commands are implemented: machine `setup` and project-level `project` (below). No daemon, orchestration framework, model calls or global launcher is installed.
 
 ## Start
 
@@ -8,7 +8,7 @@ Standalone TypeScript + `@clack/prompts`; no Pi, Herdr or Workbench runtime depe
 # From repository root; safe on existing machines, asks before prerequisite downloads:
 sh setup/bootstrap/setup
 # Or with Node >=22.19 (24.x recommended) and npm already available:
-npm --prefix cli ci --ignore-scripts
+(cd cli && npm ci --ignore-scripts)   # not `npm --prefix cli ci`, which fails on npm 12
 npm --prefix cli run setup
 # Read-only interactive review:
 npm --prefix cli run setup -- --dry-run
@@ -62,6 +62,38 @@ Targets must exist and not be symlinked. No `~` expansion is performed inside JS
 **Claude Code boundary:** neither Claude component is profile-recommended. A readable CLI version means detected, not authenticated, identity-verified, pinned or latest upstream; no accepted Claude version is enforced. `claude-code` PATH detection and `brew-claude-code` receipts are independent. An npm/native installation can coexist with an absent Homebrew receipt; do not install a second copy or migrate managers merely to make those labels agree. A failed version probe remains unknown/blocked. Any launcher repair or installation-manager transition needs separate approval.
 
 **Homebrew version boundary:** imported declarations are unversioned. `current` means a receipt satisfies that declaration, not latest upstream. Explicit fresh installation resolves the declared formula/cask using Homebrew; exact package artifacts/transitive versions are not pinned. There is deliberately no blind `brew upgrade`, `bundle`, `cleanup`, app adoption, model download, service start, VPN setup, or package-manager ownership migration. This release does not implement accepted Homebrew version updates without reviewed pins. MAS/VS Code entries, taps requiring external setup, npm/Bun global inventories and Air SMB services remain reference declarations, not implemented wizard operations. Formula installs needing an unavailable external tap may fail honestly; the CLI does not invent tap authority.
+
+## Project capabilities
+
+`ae project` installs a *project-level* capability into one explicit existing Git repository. It is separate from machine `setup`: it needs no Homebrew, Stow, Pi installation, HOME access or installer, never edits `AGENTS.md`/`CLAUDE.md`, and copies nothing. Architecture, authority and failure model: [`architecture/project-capabilities.md`](../architecture/project-capabilities.md).
+
+```sh
+node cli/src/index.ts project list                      # discover (catalog data only; no source is read)
+node cli/src/index.ts project inspect project-engineering-skills [--target /abs/repo]
+node cli/src/index.ts project plan   --target /abs/repo --select project-engineering-skills   # read-only, prints a fingerprint
+node cli/src/index.ts project apply  --target /abs/repo --select project-engineering-skills --approve FINGERPRINT
+node cli/src/index.ts project verify --target /abs/repo [--select ID]   # default: the recorded selection
+```
+
+All commands accept `--json` where output is data. `plan` and `verify` exit 1 on conflicts/non-current state; `apply` refuses unless `--approve` equals the fingerprint of the plan that would run *now* (a changed target, receipt or canonical source makes the earlier fingerprint stale).
+
+| Capability | Kind | Project result |
+|---|---|---|
+| `workbench-skill` | leaf | `<repo>/.pi/skills/workbench/SKILL.md` → symlink to the canonical `harness/pi/packages/workbench-skill` payload |
+| `study-skill` | leaf | `<repo>/.pi/skills/agentic-engineering/SKILL.md` → canonical study Skill |
+| `project-engineering-skills` | composition | both leaves above |
+
+Definitions and dependencies come only from `src/components/catalog.ts` (`project` field; compositions are exported separately so machine setup never lists them). A composition's `dependencies` may name leaves or other compositions; resolution is recursive, deterministic and rejects cycles, unknown IDs and members that are not project-applicable. A leaf's machine dependencies (`pi`, `brew-stow`) are not project dependencies; its `project.requires` (`pi`) is advisory and neither installed nor checked.
+
+`.pi/skills/` is Pi's project Skill location (Pi configuration docs); Pi loads project resources only after project trust. Loading is not verified by this command.
+
+Safety:
+
+- Target must be an absolute real path to an existing repository root (`.git` present), not a symlink or under one, and outside this checkout. Parents inside the project that are symlinks or non-directories are conflicts. Only missing directories and missing links are created; nothing existing is replaced, adopted, updated or removed. Rerunning is a no-op.
+- Ownership is the literal symlink to the exact canonical source file. A file, directory, foreign or dangling link at a target is a conflict that blocks the **whole** apply (no partial installs).
+- `.ae/project-capabilities.json` is a small local receipt (selection, source checkout, per-file source digests, self-integrity digest). It is strictly validated; edited, forged (paths outside the declared target), foreign-checkout, symlinked or malformed receipts refuse plan/apply/verify and are never rewritten. The integrity digest detects accidental or partial edits, not an adversary who recomputes it; the symlink check remains the ownership truth.
+- Links are absolute and **depend on this canonical checkout staying at its path**. They are live, so source edits take effect immediately; `verify` reports `update` when recorded digests differ and `apply` refreshes the receipt. Moving the checkout breaks the links (they show as `missing`/conflict; reapply is refused while the receipt names the old checkout—reconcile manually). Links and receipt are machine-local: keep them out of commits yourself (e.g. `.git/info/exclude`); the tool edits no ignore file.
+- Not supported: removal, update of foreign content, autonomous nested workflows, Claude Code project targets.
 
 ## Safety and uninstall
 

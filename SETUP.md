@@ -6,6 +6,8 @@ The standalone setup wizard lives in [`cli/`](cli/README.md). Clone this reposit
 sh setup/bootstrap/setup
 ```
 
+This page covers **computer/home provisioning**. For explicit capability discovery, preview, linking and verification in an existing project, use the separate project commands in [`cli/README.md`](cli/README.md); they never invoke this machine setup flow.
+
 Nothing installs on clone. Bootstrap asks before fetching a checkout-local Node runtime or locked CLI dependencies; it does not install Pi, Herdr, Homebrew or the whole workstation.
 
 Choose a profile, choose components, set `[x]` install/update, `[−]` guided removal or `[ ]` no change, review dependencies/conflicts, then explicitly approve. For preview only:

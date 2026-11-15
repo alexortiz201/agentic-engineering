@@ -5,6 +5,20 @@ import type { Component } from '../setup/types.ts';
 export const configurationPairs: Record<string, string> = {
   'brew-ghostty': 'config-ghostty', 'brew-herdr': 'config-herdr', 'brew-git': 'config-git', 'brew-gh': 'config-gh',
 };
+// Project-applicable leaves reuse the canonical Pi package payloads; targets are project-local discovery paths
+// (Pi `.pi/skills/`, subject to project trust). Nothing is copied: the project links to the canonical checkout.
+const projectLeaves: Record<string, { source: string; target: string }> = {
+  'workbench-skill': { source: 'harness/pi/packages/workbench-skill/.pi/agent/skills/workbench', target: '.pi/skills/workbench' },
+  'study-skill': { source: 'harness/pi/packages/study-skill/.pi/agent/skills/agentic-engineering', target: '.pi/skills/agentic-engineering' },
+};
+// Compositions are project-only: not machine capabilities, so catalog() (setup) excludes them.
+export const compositions: Component[] = [
+  { id: 'project-engineering-skills', name: 'Engineering skills (project)', owner: 'harness/pi',
+    description: 'Workbench and Agentic Engineering study Skills linked into a project for Pi discovery',
+    adapter: 'composition', dependencies: ['workbench-skill', 'study-skill'], project: { kind: 'composition' } },
+];
+// Machine catalog plus project compositions: the single definition/dependency authority for `ae project`.
+export function projectCatalog(root: string): Component[] { return [...catalog(root), ...compositions]; }
 export function catalog(root: string): Component[] {
   const pi = JSON.parse(fs.readFileSync(path.join(root, 'harness/pi/accepted.json'), 'utf8'));
   const seed = JSON.parse(fs.readFileSync(path.join(root, 'harness/pi/settings.example.json'), 'utf8'));
@@ -28,6 +42,7 @@ export function catalog(root: string): Component[] {
     ['composer', 'Composer highlighting'],
   ]) result.push({ id, name, description: 'Independent Pi discovery leaf; does not load other capabilities',
     owner: 'harness/pi', adapter: 'stow', dependencies: ['pi', 'brew-stow'],
+    ...(projectLeaves[id] ? { project: { kind: 'leaf' as const, ...projectLeaves[id], requires: ['pi'] } } : {}),
     ...(id === 'pi-theme' ? { configuration: { theme: 'purple-dreams' } } : {}),
     packageDir: 'harness/pi/packages', packageName: id });
   result.push(

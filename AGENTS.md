@@ -4,7 +4,7 @@ This repository is the bounded orchestration workspace for Agentic Engineering a
 
 ## Topology and ownership
 
-- [`cli/`](cli/README.md) — **OWNED** standalone TypeScript/Clack setup wizard; independent of Pi, Herdr and Workbench runtimes. Only setup is implemented.
+- [`cli/`](cli/README.md) — **OWNED** standalone TypeScript/Clack computer setup and explicit project-capability integration CLI; independent of Pi, Herdr and Workbench runtimes. Project integration is selective resource linking, not workflow execution; see the supported commands in its README.
 - [`setup/`](setup/OWNERSHIP.md) — **OWNED** staged computer provisioning sources, bootstrap and [approval-gated migration/retirement](setup/MIGRATION.md). Old dotfiles remains intact until approved retirement; copied source does not transfer live ownership.
 - [`harness/pi/`](harness/pi/README.md) — **AUTHORED CANONICAL SOURCE** for selective Pi packages, portable seed and accepted metadata. Both hosts' selective ownership handoffs are verified; see `plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md` and `plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md`. Edit only this source; generation from root `pi/` is retired. Root `pi/` remains frozen compatibility/recovery material for retained consumers, never a second authored authority; removal remains separately approval-gated.
 - [`workbench/`](workbench/) — **OWNED** portable Workbench tool: doctrine, contracts, canonical authored resources, templates, and harness descriptions. It is not a runtime/controller. Its [`AGENTS.md`](workbench/AGENTS.md) is authoritative for all work beneath that directory.

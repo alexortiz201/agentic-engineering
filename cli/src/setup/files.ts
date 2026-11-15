@@ -15,7 +15,7 @@ export function safePath(home: string, relative: string): string {
   if (stat(home)?.isSymbolicLink() || !stat(home)?.isDirectory()) throw new Error('Home must be a real existing directory');
   return resolved;
 }
-export function sourceLeaves(ctx: Context, c: Component): { source: string; relative: string }[] {
+export function sourceLeaves(ctx: Pick<Context, 'root'>, c: Pick<Component, 'packageDir' | 'packageName'>): { source: string; relative: string }[] {
   const repository = fs.realpathSync(ctx.root);
   const base = path.join(repository, c.packageDir!, c.packageName!);
   const result: { source: string; relative: string }[] = [];

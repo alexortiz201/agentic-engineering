@@ -72,6 +72,7 @@ Compaction manages context, not task identity, scope or authority. Same-session 
 
 ## Layout
 
+- [`cli/`](cli/README.md) — supported computer setup and selective project-capability commands; project integration does not execute ADWs or install machine prerequisites.
 - [`workbench/`](workbench/) — current portable Workbench documentation/package: doctrine, semantic contracts, templates, and harness-specific documentation; not the whole product or the Library.
 - [`plans/`](plans/) — active migration and Pi-integration plans; [`plans/BACKLOG.md`](plans/BACKLOG.md) is the canonical status, roadmap and ideas index.
 - [`architecture/`](architecture/) — workspace-level boundary and navigation documentation.
