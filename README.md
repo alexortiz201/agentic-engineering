@@ -77,6 +77,8 @@ Compaction manages context, not task identity, scope or authority. Same-session 
 - [`plans/`](plans/) — active migration and Pi-integration plans; [`plans/BACKLOG.md`](plans/BACKLOG.md) is the canonical status, roadmap and ideas index.
 - [`architecture/`](architecture/) — workspace-level boundary and navigation documentation.
 
+Verified setup/recovery and supported project-installation commands: [final consolidation acceptance](plans/handoffs/FINAL_CONSOLIDATION_ACCEPTANCE.md).
+
 Read [`AGENTS.md`](AGENTS.md) before working. For Workbench work, then follow [`workbench/AGENTS.md`](workbench/AGENTS.md) and its documented boot sequence.
 
 ## External boundary

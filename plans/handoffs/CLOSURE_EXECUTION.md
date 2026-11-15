@@ -1,5 +1,7 @@
 # Final readiness closure — execution handoff
 
+**Assignments closed.** See [final acceptance](FINAL_CONSOLIDATION_ACCEPTANCE.md). Briefs/authorizations below are retained execution history, not permission to repeat operations.
+
 Main is sole integration/publication authority. User authorized source backup, scoped publication to main, one project capability vertical, and bounded Air verification. No Salon Expo changes, live relinking, destructive reset/cleanup, force push, runtime migration or secret/session publication.
 
 ## Recovery checkpoint — completed before edits
@@ -24,4 +26,16 @@ Architecture Gate APPLIES: scope/contract → implementation → tests/typecheck
 
 Workbench 52-path WIP is preserved in scoped commits; all original reviewed subjects matched. New project vertical is implemented at `06d6914`, independently reviewed with two material findings, repaired at `e6b42ab448c5c8bc2faf59785795c8ab4758ea80`, and independently re-reviewed PASS with no material findings. Main and reviewer pass check/build/144 tests, zero skips. Original FAIL and passing delta review retained in [PROJECT_CAPABILITY_REVIEW.md](PROJECT_CAPABILITY_REVIEW.md). Main additionally verified a real external repository/isolated home, leaf selection/no-op rerun/composition install, and native Pi discovery with zero diagnostics and metadata-only prompt. Architecture and final report contain supported boundaries, not nested-ADW claims.
 
-Fresh Air read-only checks and acknowledgment passed; [Air report](AIR_CLOSURE_VERIFICATION.md). Publication and exact published-source-only Air alignment are the next Main-owned closing operations. No further worker implementation is authorized.
+Fresh Air read-only checks and acknowledgment passed; [Air report](AIR_CLOSURE_VERIFICATION.md). Initial source publication is complete: exact **`3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a`**, tree **`f47c753b5cda3e8f43262caf412505839043bf5e`**, normal fast-forward push to GitHub main; fresh fetch/ls-remote and exact tree comparison pass. Main applied only that published non-resource source overlay to the active DevDrive files, preserving its old branch/index and all original WIP in history/backup. No further worker implementation is authorized.
+
+### Air exact source-only closing authorization
+
+Air Pi may now advance only its accepted local checkout from clean `b87deaf8` to exact published **`3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a`**. Require expected origin, clean index/worktree, unchanged five resource literals/hashes; fetch only origin main without tags/submodules, require the fetched main equals the exact approved SHA, inspect that `harness/pi/`, frozen `pi/` and installer bytes are unchanged, then ordinary `git merge --ff-only` to that exact SHA. Stop on any drift/conflict; no moving-ref inference, reset or checkout.
+
+Afterward check clean local HEAD, unchanged five resources, Pi/Claude versions and `node cli/src/index.ts project list --json` from the local source. Use existing dependencies; no installs/auth/session reads/relinks/services. Append sanitized observed results to AIR_CLOSURE_VERIFICATION.md on shared DevDrive, send Main the path/ack through Herdr, then stop. Main will publish this closing receipt and final acceptance as documentation-only follow-up.
+
+## Closing result
+
+Air exact source-only alignment completed PASS at `3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a`; Main read the actual durable append and received its Herdr acknowledgment. Source/resource delta and final clean checkout checks passed. Mini canonical CLI passed check/build/144 tests and repeated real external-project/native-discovery acceptance after restoring only locked generated CLI dependencies. Original private metadata and five native resources remain unchanged except normal active-session append.
+
+No worker editing/review assignment remains. Main owns only final documentation receipt publication, fresh GitHub recovery/tree verification and a documentation-only Air fast-forward to that exact published closing tip. No new capability/factory/lifecycle work is authorized.

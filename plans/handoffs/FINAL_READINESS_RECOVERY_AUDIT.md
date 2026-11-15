@@ -1,5 +1,7 @@
 # Final readiness and GitHub recovery audit
 
+**Historical checkpoint.** Closure evidence and the current decision are in [Final consolidation acceptance](FINAL_CONSOLIDATION_ACCEPTANCE.md). The original findings/52-path allowlist below are retained, not current operational instructions.
+
 **Decision: NOT READY for full recovery/composability acceptance.** The Mini can begin ordinary project engineering, but intended Workbench source remains unpublished, the requested backup is absent, and project capability installation is unsupported. No redesign is required or proposed.
 
 Audit: 2026-11-15, Mini; engagement `audit`, L4 → L3 for executable acceptance checks, returned to L4 after checks. Architecture gate NOT APPLICABLE: no subsystem changes. Only this shared report was added; authorized tests used disposable repositories/homes. No publication, live relinking, reset, checkout, cleanup, Salon Expo access, authentication-content reads, model calls, or server/agent restarts. `source: executed` below means this audit ran the check; `inspected` means retained evidence, not a fresh remote-machine observation.

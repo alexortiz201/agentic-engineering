@@ -55,3 +55,30 @@ Saved enabled machine profile **Mini** was discovered through the installed Herd
 ## Boundary / stop
 
 No commits, fetch/advance, relinks, migration reruns, services/settings/auth/session reads, private copying, model calls, agent restarts, or installation changes. Existing local source remains exactly accepted b87deaf8 and clean. **Wait for Main's exact final published commit and explicitly scoped source-only alignment authorization.** No moving-ref alignment inferred.
+
+## Approved exact source-only closing transaction — 2026-11-15T02:04:20Z
+
+Main acknowledged reading/accepting the preceding report within its stated bounds and confirmed the current Local environment check sufficient; no fresh shell launch required. Subsequently Main explicitly authorized the exact published source-only closing transaction in the shared [execution handoff](CLOSURE_EXECUTION.md), which was read before execution. This section supersedes the earlier waiting-at-b87deaf8 status only for that transaction.
+
+**Preflight passed:** accepted local L, clean `main` at exact `b87deaf8cc2591bb617ba33433ee0c8c370ad6c1`, empty index/worktree/untracked status, expected origin `git@github.com:alexortiz201/agentic-engineering.git`, no configured core.hooksPath or active non-sample hooks. All five accepted local resource realpaths, exact canonical relative link literals and hashes matched before fetch.
+
+Executed only this source fetch:
+
+```sh
+GIT_TERMINAL_PROMPT=0 git fetch --no-tags --no-recurse-submodules origin refs/heads/main:refs/remotes/origin/main
+```
+
+Fetch succeeded. Fresh `origin/main` exactly **3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a**, tree exactly **f47c753b5cda3e8f43262caf412505839043bf5e**. Verified accepted base ancestry, unchanged clean base before merge, and **zero changed paths** across `harness/pi/`, frozen `pi/`, `scripts/install-pi`, and `scripts/install-pi.test.js`. No moving-ref inference.
+
+```sh
+git merge --ff-only 3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a
+pi --version
+claude --version
+node cli/src/index.ts project list --json
+```
+
+All exit **0**. Ordinary exact-SHA fast-forward succeeded (77 source/documentation paths). Pi remains **1.5.2**, Claude remains **2.1.325 (Claude Code)**. Project discovery returned two leaves, `workbench-skill` and `study-skill`, and composition `project-engineering-skills` referencing those leaves. Used existing dependencies; no installation/build/apply invoked.
+
+**Final postflight passed:** local `main` HEAD exactly **3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a**, tree exactly **f47c753b5cda3e8f43262caf412505839043bf5e**, working tree/index/untracked status clean. Five exact resource literals, local canonical realpaths and accepted hashes above unchanged. Shared report append does not alter the accepted local checkout.
+
+No relinks, migration/install, settings/auth/session reads, model calls, agent/server restarts, reset/checkout, commits/push, services or private copying. Only local fetch/fast-forward Git changes and this shared report append were authorized/performed. Returning this durable report path and acknowledgment through saved `herdr --machine Mini` to Main `w7:p2B`, then **idle**. Main owns the subsequent documentation-only closing receipt/final acceptance publication; no further source alignment inferred.

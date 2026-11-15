@@ -157,5 +157,20 @@
   "home_untouched": true,
   "source": "executed",
   "privacy": "Actual disposable target/home paths normalized to tokens; no project payload/private state included.",
-  "execution_scope": "Real external git-init repository, isolated HOME, candidate CLI; no Salon Expo access."
+  "execution_scope": "Real external git-init repository, isolated HOME, candidate CLI; no Salon Expo access.",
+  "canonical_devdrive_repetition": {
+    "status": "passed",
+    "published_source_overlay": "3d6bb9f15fba69e45b6956f316cbf75ae9d2b79a",
+    "preserved_active_branch_head": "8656a79767b2ef67aedd462b1081a2e0b0ed509f",
+    "typecheck": "passed",
+    "build": "passed",
+    "cli_tests": 144,
+    "failures": 0,
+    "skips": 0,
+    "external_project_and_isolated_home": "passed",
+    "native_discovery_and_metadata_only_prompt": "passed",
+    "private_metadata_entries_checked": 372,
+    "unchanged_native_resource_leaves": 5,
+    "private_state_change": "normal append to existing active session only"
+  }
 }
