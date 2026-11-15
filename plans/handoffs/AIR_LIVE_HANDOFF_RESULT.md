@@ -315,3 +315,38 @@ Both exit **0**, each **5 noops / 53 skips / 0 conflicts**; complete plans equal
 **Preservation:** settings digest captured privately in one Python runner's memory before source merge/tests/previews and compared afterward: **equal**, no digest/value printed or persisted. Five live literal links, realpaths, hashes, UID/modes all unchanged before/after. No settings/auth/session copies/restoration, auth refresh, runtime/package mutation, model call, live wizard apply or new session. No checkout/reset/stash/clean/shared Git writes, server/Claude/network/mount changes. Final local working tree/index **clean**, exact HEAD **3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1**; ignored existing checkout-local dependencies/build output retained. Both old and new resource trees remain intact.
 
 **Result:** exact prepublication candidate accepted by fresh Air checks. Stopped awaiting Main's separately approved final docs-only postpublication source update and final no-op scope.
+
+## Final published documentation alignment — 2026-11-14T17:47:18Z
+
+Main explicitly approved exact published D **b87deaf8cc2591bb617ba33433ee0c8c370ad6c1**, parent accepted C **3de15bce2c1d39aecf7bf5c05bfbbeddc011a5b1**. Local preflight passed: clean `main` at C, empty index, expected origin, no configured hooksPath/active non-sample hooks. Captured settings digest privately in memory and five resource literals/realpaths/hashes/UID/modes before mutation.
+
+Executed only local Git source synchronization:
+
+```sh
+git -C "$L" fetch --no-tags --no-recurse-submodules origin refs/heads/main:refs/remotes/origin/main
+git -C "$L" merge --ff-only b87deaf8cc2591bb617ba33433ee0c8c370ad6c1
+```
+
+Before merge, fetched `origin/main` required and matched exact D; D's parent matched exact C. Exact six changed paths verified, no others:
+
+- `plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md`
+- `plans/handoffs/LIVE_HANDOFF_EXECUTION.md`
+- `plans/handoffs/MIGRATION_READINESS.md`
+- `plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md`
+- `plans/handoffs/SETUP_REPEATABILITY_RESULT.md`
+- `setup/ACCEPTANCE.md`
+
+Fast-forward succeeded. **Zero executable code/resource delta from accepted C**, so full 129-test suite not needlessly rerun; prior actual Air 129/129, zero-skip acceptance at identical code remains the evidence.
+
+Fresh final checks:
+
+```sh
+GIT_OPTIONAL_LOCKS=0 node "$L/setup/inspect-links.mjs" --pi
+sh "$L/setup/bootstrap/setup" --dry-run --json --profile custom --select pi-instructions,pi-theme,workbench-skill,study-skill,composer
+```
+
+Both exit 0. Inspector: exact D, APFS/local, all five selective resources, **zero blockers, handoffNeeded:false**. Actual preview: **5 noops / 53 skips / 0 conflicts**. Settings digest before/after **equal**, digest/values not printed or persisted. All five literals/realpaths/hashes/UID/modes unchanged. Final local working tree/index **clean**, HEAD **b87deaf8cc2591bb617ba33433ee0c8c370ad6c1**, fetched `origin/main` same exact D.
+
+Read actual **local** `plans/handoffs/MIGRATION_READINESS.md` after fast-forward. No substantive discrepancy with observed Air evidence: safe process-denial versus physical outage, retained visual acceptance, absent backup, session-metadata versus content checks, retained older compatible Air Claude hook and remaining cleanup/manual boundaries are accurately distinguished. Its statement that Air final docs-only fast-forward is pending is the publication-time checkpoint; **this closing action now satisfies it**. Claims about Mini/shared WIP/publication remain attributed to Main's evidence, not newly independently audited by Air.
+
+No shared Git writes/publication, live apply, runtime/session/PATH/hook/package mutation, auth refresh, server/Claude/network/mount changes or additional assignment. Only this shared report receives the final postpublication receipt; local published documentation remains untouched and clean. Returning report path through Mini, then settling idle **ready for orchestrator-controlled graceful worker release**. Main remains sole coordinator.

@@ -1,6 +1,6 @@
 # Shared DevDrive alignment and scoped GitHub publication
 
-Status: **operator approved exactly the two scoped commits and normal publication to `origin/setup/consolidation`; Mini Pi is sole Git operator. Air updates/live ownership and legacy retirement remain unapproved.** Earlier proposal/read-only statements below record the preparation phase; the execution record at the end governs this approved window. This is the current direction; it supersedes earlier advice to make independent local checkouts the day-to-day workspaces, treat SMB-run warnings as proof of foreign Air ownership, or repeat accepted Air runtime/offline checks.
+Status: **published: the two approved commits are verified on `origin/setup/consolidation` at `8656a79767b2ef67aedd462b1081a2e0b0ed509f`. Mini Pi performed all Git writes. Air updates/live ownership, main merge and legacy retirement remain unapproved.** Earlier proposal/read-only statements below record the preparation phase; the execution record at the end governs this approved window. This is the current direction; it supersedes earlier advice to make independent local checkouts the day-to-day workspaces, treat SMB-run warnings as proof of foreign Air ownership, or repeat accepted Air runtime/offline checks.
 
 ## Ownership and file-based coordination
 
@@ -287,4 +287,38 @@ Strict staged precommit validation first stopped before creating any commit: `gi
 
 **C1 created and independently verified:** `1578c7e265d2398e315ccd1550a4d1720c1378d6`, message `feat(setup): consolidate selective provisioning and portable Pi packages`; parent `e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354`; tree `56cdff503cef3078ca38de270bf8d6a5535eff13`. Exactly 81 approved paths. The entire tree equals the accepted base plus only the approved file blobs/modes, including the documented whitespace-only normalization. Strict staged whitespace, targeted Zsh syntax/typecheck and **63 tests** pass. All 50 unrelated changed/untracked files and protected Pi sources/live literals are unchanged.
 
-After publication, append the actual C1/C2 IDs, remote verification and outstanding host steps here. The final self-referencing C2/result receipt necessarily follows C2 and remains a shared working-tree documentation update unless separately approved for a later commit; do not invent a third commit or amend the two approved commits. Air must not fetch/pull/update its local checkout or change links merely because publication completes.
+The final self-referencing C2/result receipt below necessarily follows C2 and remains a shared working-tree documentation update unless separately approved for a later commit; no third commit or amend is authorized. Air must not fetch/pull/update its local checkout or change links merely because publication completes.
+
+## Publication result — executed and remote verified
+
+| Item | Verified value |
+|---|---|
+| C1 / exact proposed message | `1578c7e265d2398e315ccd1550a4d1720c1378d6` — `feat(setup): consolidate selective provisioning and portable Pi packages` |
+| C1 tree / changed paths | `56cdff503cef3078ca38de270bf8d6a5535eff13` / exactly **81** |
+| C2 / exact proposed message | `8656a79767b2ef67aedd462b1081a2e0b0ed509f` — `docs(setup): record shared workspace and durable publication handoff` |
+| C2 tree / changed paths | `bbd88a478748eb1f734533b072cf14c7e5061a6c` / exactly **4** |
+| Ancestry | `e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354` → C1 → C2; exactly these two new commits |
+| Destination | `git@github.com:alexortiz201/agentic-engineering.git`, **`refs/heads/setup/consolidation`** |
+| Actual normal push | `git push origin 8656a79767b2ef67aedd462b1081a2e0b0ed509f:refs/heads/setup/consolidation` succeeded, new branch; no force |
+| Remote verification | Fresh `git ls-remote --heads origin refs/heads/main refs/heads/setup/consolidation` advertises review tip **C2** and unchanged main **`e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354`** |
+| Local branches/index | Still `workbench/construction-slice` at C2; local `main` unchanged at `f1fc7e88e2b292187856176f5dccbdf41a927649`; index empty |
+
+Both complete commit trees were checked against their expected parent tree plus only approved blobs/file modes before and after commit. Thus no unrelated Workbench file or new Workbench commit entered the published range; existing accepted baseline history remains ancestry. The remote C2 object ID binds its verified C1 parent and both verified trees. No fetch, checkout, reset, stash, amend, extra commit or direct-main push was needed.
+
+**Verification:** check/build and **63 tests** pass; after the documented four-line whitespace-only repair, strict staged whitespace, targeted Zsh syntax/typecheck and all 63 tests pass again. The 81/4 staged and committed file sets exactly match the manifests. All **50** unrelated changed/untracked files retain their original content/type/mode fingerprints. All 13 root Pi files, eight harness files, legacy installer/generator and five existing Mini link literals remain unchanged. No credential/private HOME state, generated dependencies/runtime/cache or raw inventory was staged. Original dotfiles/provenance is untouched.
+
+Only this publication-result update is newly uncommitted on top of C2; it is intentional and contains no implementation change. Other pre-existing unrelated dirty work remains in place. This local shared receipt is not silently included in a third commit or pushed amendment. The published C2 contains the approved plan, approval-window record, C1 ID and independent reports.
+
+Review branch: <https://github.com/alexortiz201/agentic-engineering/tree/setup/consolidation>. No PR or merge was created automatically.
+
+### Outstanding steps — explicit separate approvals
+
+1. **GitHub review/merge:** review the two published commits; approve any PR/merge to main separately. Publication did not change main.
+2. **Optional Air local source synchronization:** approve source-only update of clean local `L=/Users/alexanderortiz/Github/agentic-engineering` from recorded `e9c0a625` to exact **C2 `8656a79767b2ef67aedd462b1081a2e0b0ed509f`**. Recheck cleanliness, ordinary hooks, ancestry, reviewed fetched identity and old resource hashes; use the existing fetch + `merge --ff-only` proposal above. No package/dependency/bootstrap/runtime/link operation. Stop on divergence, unexpected changes or hooks; do not reset. All old root files remain in C2, so existing accepted local links need not change.
+3. **Optional Air local-to-local layout handoff:** after local candidates exist, verify old/new accepted byte equality, one-file package scopes, local real parents/ownership and exact current literals, then obtain five-leaf approval. Use local L, private link-only receipt and selective Stow simulation/apply/guarded rollback. Already accepted runtime/offline checks are not repeated; no SMB resource targets.
+4. **General computer ownership:** separately reconcile private includes and folded parents for the six configurations, exact per-host source choice and package ownership. Retain old dotfiles bootstrap/Stow/global inventories and Air snapshot/home/SMB recovery/service owners until their supported behavior has an explicit approved disposition.
+5. **Final source/legacy retirement:** only after actual readers permit it, approve one coordinated installer/generator/test/managed-lock/recovery/docs transition and canonical `harness/pi/` promotion. Never advance Air to a cleanup commit deleting old files while its links still use them. Do not retire dotfiles, delete fallback/recovery material or physically relocate sources under this publication approval.
+
+**Receiving Air agent:** read this actual updated shared result, acknowledge the published IDs/path and stop. Do not fetch/pull/merge, update the local fallback, edit this report or change resources. Mini remains the sole Git operator; any subsequent work requires its own scope/approval.
+
+**Notification completed:** Mini passed this shared result path through the existing Herdr `Air` connection. Air Pi verified accessibility and read the actual publication-result section, acknowledged it, and took no further action. Existing Claude also read the actual result and acknowledged stopped/read-only status. Neither agent performed competing Git operations or modified local Air resources.
