@@ -1,0 +1,161 @@
+{
+  "status": "passed",
+  "source_commit": "e6b42ab448c5c8bc2faf59785795c8ab4758ea80",
+  "checks": [
+    {
+      "args": [
+        "list",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "inspect",
+        "workbench-skill",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "plan",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "plan",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "apply",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "apply",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--approve",
+        "bad"
+      ],
+      "exit_code": 1
+    },
+    {
+      "args": [
+        "apply",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--approve",
+        "c05f38789afa575d9942cc2caba28569a5f923050b33e25a2e4990bfc0036b61",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "verify",
+        "--target",
+        "__TARGET__",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "plan",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "apply",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "workbench-skill",
+        "--approve",
+        "cc0b084ac22a4cd326b2ca5dffc740575d10f070b47161a173c6bf8f34a8d70d",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "plan",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "project-engineering-skills",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "apply",
+        "--target",
+        "__TARGET__",
+        "--select",
+        "project-engineering-skills",
+        "--approve",
+        "4a87fab8a49ed81b9166fede15827310f39ff2be8601477a62aa3085a8197d1c",
+        "--json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "verify",
+        "--target",
+        "__TARGET__",
+        "--json"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "native_project_skill_discovery": {
+    "names": [
+      "agentic-engineering",
+      "existing",
+      "workbench"
+    ],
+    "diagnostics": 0,
+    "prompt_bytes": 1389,
+    "metadata_only": true
+  },
+  "project_owned_files_unchanged": true,
+  "unselected_resources_absent": true,
+  "rerun_noop": true,
+  "home_untouched": true,
+  "source": "executed",
+  "privacy": "Actual disposable target/home paths normalized to tokens; no project payload/private state included.",
+  "execution_scope": "Real external git-init repository, isolated HOME, candidate CLI; no Salon Expo access."
+}

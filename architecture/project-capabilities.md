@@ -2,7 +2,7 @@
 
 **Architecture Gate:** `APPLIES` — new runtime behavior, several cooperating modules, persisted state (a local receipt), filesystem authority boundaries, and an authored-catalog/consumer relationship.
 
-**Lifecycle status (per [`workbench/handbook/16_SUBSTANTIAL_SUBSYSTEM_LIFECYCLE.md`](../workbench/handbook/16_SUBSTANTIAL_SUBSYSTEM_LIFECYCLE.md)):** implementation, tests and validation were run by the implementation worker; **ARCHITECTURE REVIEW is PENDING an independent fresh-context review by Main/another reviewer** and this document does not claim it. Completion and integration belong to Main.
+**Lifecycle status (per [`workbench/handbook/16_SUBSTANTIAL_SUBSYSTEM_LIFECYCLE.md`](../workbench/handbook/16_SUBSTANTIAL_SUBSYSTEM_LIFECYCLE.md)):** IMPLEMENTATION, TESTS, VALIDATION and independent ARCHITECTURE REVIEW **PASS** at executable commit `e6b42ab448c5c8bc2faf59785795c8ab4758ea80`. Main and the fresh reviewer each ran check/build/144 tests, zero failures/skips. The [retained review](../plans/handoffs/PROJECT_CAPABILITY_REVIEW.md) records the initial two material findings and their passing delta re-review; both fixes have independently mutation-tested regressions. Architecture documentation and its path/symbol/link validation are completed by Main in this documentation checkpoint; final publication and machine evidence are in the [closure acceptance report](../plans/handoffs/FINAL_CONSOLIDATION_ACCEPTANCE.md).
 
 ## What this is
 
@@ -82,7 +82,7 @@ Deterministic code makes every decision here; no model, network, process executi
 
 ## Invariants
 
-1. Existing files are never overwritten, adopted, updated or removed; unselected leaves and receipt entries are untouched.
+1. Existing project resource files are never overwritten or removed; only absent resource links are created. Exact canonical links may be recorded, and the managed receipt may be refreshed through an approved plan. Unselected leaf resources and their receipt entries are untouched.
 2. Nothing is written without an approval equal to the freshly recomputed plan fingerprint.
 3. Plan/verify/inspect/list are read-only.
 4. Project dependencies come only from catalog composition edges; a leaf's machine dependencies are never expanded.
@@ -91,8 +91,9 @@ Deterministic code makes every decision here; no model, network, process executi
 ## Implemented, verified, limited, deferred
 
 - **IMPLEMENTED AND VERIFIED (isolated fixtures and the real repository payload, via [`cli/tests/project.test.ts`](../cli/tests/project.test.ts)):** discovery, inspect, requirements, leaf/composition selection, nested composition resolution and cycle rejection (synthetic graph), deterministic dry run, safe apply, installed verification, no-op rerun, untouched unselected/existing files, existing-file conflicts, symlink/unsafe-root/parent refusal, receipt tampering/forgery/foreign-checkout refusal, stale approval, CLI exit codes, absence of HOME writes.
-- **IMPLEMENTED BUT NOT RUNTIME-VERIFIED:** that Pi, once the project is trusted, actually discovers `.pi/skills/*/SKILL.md` through these symlinks. Target path chosen from the Pi configuration/skills documentation only; no live Pi was run.
-- **Known limitations:** links are absolute and depend on the canonical checkout path being stable; the receipt integrity digest is not tamper-proof against a deliberate re-signer (symlink ownership remains authoritative); no TOCTOU-proof transaction (the fingerprint recheck narrows but does not close the race); POSIX/macOS only; no concurrent-writer lock; source updates are live through links and only surfaced as `update`.
+- **IMPLEMENTED AND VERIFIED (Main external-project acceptance):** native Pi 1.5.2 `loadSkills` with the target as `cwd`, an explicit empty isolated `agentDir`, `includeDefaults:true` and no explicit Skill paths discovers both installed Skills and a pre-existing project Skill with zero diagnostics. `formatSkillsForPrompt` emits metadata only (1,389 bytes for those three), without body injection. No auth/settings/session APIs or model invocation were used. See [executed evidence](../plans/evidence/project-capabilities/acceptance.json).
+- **IMPLEMENTED BUT NOT RUNTIME-VERIFIED:** a new interactive Pi project's trust/approval UI and subsequent full session; loading still requires the harness's ordinary project-trust decision.
+- **Known limitations:** payload symlinked directories fail closed with a raw `EISDIR` before writes (regular files and real nested directories are tested); a failed receipt rename may leave a temporary receipt file; the tool does not edit Git exclusions, so keep machine-local links/receipts out of commits. Links are absolute and depend on the canonical checkout path being stable; the receipt integrity digest is not tamper-proof against a deliberate re-signer (symlink ownership remains authoritative); no TOCTOU-proof transaction (the fingerprint recheck narrows but does not close the race); POSIX/macOS only; no concurrent-writer lock; source updates are live through links and only surfaced as `update`.
 - **DEFERRED / PLANNED:** removal and receipt-driven update/migration of moved checkouts, Claude Code project targets, additional project capabilities, any ADW/nested workflow execution.
 
 ## How to trace
