@@ -2,9 +2,9 @@
 
 **Open work on this package is in [`TODO.md`](TODO.md).** It tracks changes to the tool itself -- defects, missing components, contract deviations -- and is distinct from any operator's ticket list.
 
-A self-contained guide and set of reusable tools for engineering the agentic layer of an application: discover its current architecture, design bounded agent responsibilities and workflows where useful, and validate them against the application. It works for greenfield and existing projects, with or without an agentic layer. The application and its chosen framework own execution; this package supplies guidance, not a replacement runtime. For a repository entry point, follow [adopting a repository](handbook/09_ADOPTING_A_REPOSITORY.md).
+A self-contained guide and set of reusable construction tools for engineering a project's agentic system. **Workbench contains construction capability, not project solutions.** It discovers existing architecture, determines the smallest needed capabilities, organizes and creates project artifacts, and helps validate, observe and evolve them. It works for greenfield and existing projects, with or without an agentic layer. The host and its framework own execution; this package is not a replacement runtime. Start with [adopting a repository](handbook/09_ADOPTING_A_REPOSITORY.md).
 
-**Workbench is the composed engineering utility/product, not just this `workbench/` directory.** It owns portable semantic contracts for bounded engineering work. This public documentation/package is one current expression of Workbench, primarily focused on the agentic layer; the private [workbench home](#the-workbench-home) at `~/.workbench` holds environment-local operator state. The independently useful **Library** holds durable knowledge across engineering domains, not merely agentic engineering. Identifiable knowledge packages/sources contribute selected resources without losing provenance, attribution or replaceability; AIDD is one such source, not the universal capability layer. [`LANGUAGE.md`](LANGUAGE.md) distinguishes these names. Pi currently realizes concrete invocations and enforcement, but is not part of the portable semantics; another harness could eventually realize them without a future adapter being designed here.
+**The repository-root `README.md` is the canonical top-level direction:** Resources → Workbench → Project Artifacts, composing Primitive → ADW → Factory only as needed. This `workbench/` guide is the package entry point, not a second vision document. The package holds construction vocabulary, Resources (doctrine, blueprints, practices and examples), tools and templates; resulting project solutions remain project-owned. The [workbench home](#the-workbench-home) holds private environment-local state. The independently useful cross-domain **Library** and identifiable knowledge packages contribute Resources with provenance, attribution and replaceability; AIDD is one source, not universal capability ownership. [`LANGUAGE.md`](LANGUAGE.md) defines these distinctions. Pi is currently the default supporting harness, not a peer product layer or portable semantic owner.
 
 ## Read these first, in this order
 
@@ -27,6 +27,7 @@ Loading everything contradicts this package's own rule about context, so the res
 | 🏗️ [`foundations/Software_Engineering/`](foundations/Software_Engineering/README.md) | Ask whether something is engineering practice rather than an agentic concern |
 | 🚀 [`foundations/DevOps/`](foundations/DevOps/README.md) | Sandbox an agent, touch an environment, handle credentials, or ship |
 | 🔌 [`foundations/Harness_Engineering/`](foundations/Harness_Engineering/README.md) | Decide what a workflow may assume of its harness, or make one run on two |
+| 🧰 [`tools/construct/`](tools/construct/README.md) | Validate an explicitly authored objective/context/requirements/plan and render self-contained bounded assignments; construction is not execution readiness or a controller |
 | 🔭 [`tools/observe/`](tools/observe/README.md) | **Watch how something is actually done**, before trying to encode it as a workflow |
 | 🔀 [`harnesses/`](harnesses/README.md) | Answer what a *specific* harness does, compare the two, or port a flow between them |
 | 🎓 [`foundations/Coaching/`](foundations/Coaching/README.md) | Teach this work, or run in `coaching` mode |
@@ -42,7 +43,7 @@ Loading everything contradicts this package's own rule about context, so the res
 | 🛡️ [`foundations/Agentic_Engineering/08_GATES.md`](foundations/Agentic_Engineering/08_GATES.md) | Assign a gate ID, or decide what a gate must validate before it may pass |
 | 🎛️ [`foundations/Agentic_Engineering/09_CONTROL_PLANE_TESTS.md`](foundations/Agentic_Engineering/09_CONTROL_PLANE_TESTS.md) | Prove a composition survives failure before letting it run unattended |
 | 🎓 [`foundations/Agentic_Engineering/07_COACHING.md`](foundations/Agentic_Engineering/07_COACHING.md) | Work in `coaching` mode -- and only then |
-| 🧱 [`foundations/Agentic_Engineering/primitives/`](foundations/Agentic_Engineering/primitives/README.md) | Create a primitive. Load the one you need, not all twelve |
+| 🧱 [`foundations/Agentic_Engineering/primitives/`](foundations/Agentic_Engineering/primitives/README.md) | Construct a unit, composition or supporting artifact. Load the relevant blueprint, not the whole Resources catalogue |
 | 🛠️ [`handbook/06_BUILDING_AN_ADW.md`](handbook/06_BUILDING_AN_ADW.md) | Build a workflow end to end |
 | 🧪 [`handbook/07_VALIDATING_A_WORKFLOW.md`](handbook/07_VALIDATING_A_WORKFLOW.md) | Check a workflow does what it claims, before trusting it |
 | 📋 [`handbook/08_GATE_ENFORCEMENT_CENSUS.md`](handbook/08_GATE_ENFORCEMENT_CENSUS.md) | Count what actually holds each gate shut, and watch the ratio move |
@@ -58,7 +59,7 @@ Loading everything contradicts this package's own rule about context, so the res
 | 🗂️ [`handbook/02_RUN_ARTIFACTS.md`](handbook/02_RUN_ARTIFACTS.md) | Write anything into `runs/<run_id>/` |
 | 🩺 [`handbook/03_STRUCTURAL_CHECK.md`](handbook/03_STRUCTURAL_CHECK.md) | Confirm a move or rename did not break the package |
 
-This package **describes** workflow construction and can guide authoring or validation; it is not itself a universal controller or application runtime. An organization's workflows remain under that organization's ownership, not in this public documentation package. That organization's local workflow collection is distinct from the cross-domain **Library** of reusable knowledge/resources. The package's own [structural check](handbook/03_STRUCTURAL_CHECK.md) checks its structure; its documentation does not authorize scaffolding or factory execution. Workbench may eventually serve factories using the same semantic contracts, if evidence and approval justify them.
+This package **describes** construction and guides authoring/validation, not a universal controller or application runtime. A project's primitives, ADWs and factories remain under that project's ownership, distinct from the **Library** of reusable Resources. The [structural check](handbook/03_STRUCTURAL_CHECK.md) checks package structure, not execution. Documentation does not authorize scaffolding or factory execution. A project-specific factory is valid, but neither a factory nor increased autonomy is a mandatory target.
 
 ## Starting a session cold
 
@@ -124,14 +125,14 @@ There is **no prescribed destination, remote, or backup flow** for this local st
 
 ## Purpose
 
-This agent helps an engineer deliver bounded software changes by combining:
+As a construction capability, this instruction package helps an engineer discover, organize, create and evolve project agentic artifacts, and dogfood them on bounded software changes by combining:
 
 - human intent and acceptance;
 - deterministic orchestration and state management;
 - constrained agent calls for reasoning and implementation;
 - explicit verification, review, repair, and evidence.
 
-This documentation package operates primarily at the **agentic layer**: it guides bounded work and, where justified, ADW composition. Workbench as a product can combine that practice with Library knowledge from other engineering domains. Improve context, state and feedback before adding platform architecture. A one-off task may need only a bounded prompt and checks. The host application's framework retains ownership of application execution, state and integration.
+This documentation package operates primarily at the **agentic layer**: it guides bounded work and, where justified, ADW composition. Workbench applies Resources, including Library knowledge from other engineering domains, without taking ownership of the resulting project system. Improve context, state and feedback before adding platform architecture. A one-off task may need only a bounded prompt and checks. The host application's framework retains ownership of application execution, state and integration.
 
 ## Boundaries
 
@@ -141,7 +142,7 @@ Controls are marked `code-enforced`, `human-approved` or `agent-checked`, define
 
 ## Minimal use
 
-This is a bootable instruction package for a specialized agent, not an executable orchestrator. Pi is the current concrete harness; the host supplies the model, tools, permissions, and any tested runtime gates. Without those gates, workflow checks are agent-checked. The only bundled executable is the structural check, which validates this package's own links and nothing about a workflow's behavior; no sandbox, runtime validator, or automation is included.
+This is a bootable instruction package for a specialized agent, not an executable orchestrator. Pi is the current default harness; the host supplies the model, tools, permissions, and any tested runtime gates. Without those gates, workflow checks are agent-checked. Bundled [tools](tools/README.md) include construction and instrumentation; the [constructor](tools/construct/README.md) validates an explicit brief and selected context, not execution readiness or semantic plan quality. The structural check validates this package's links/JSON, not workflow behavior. No sandbox, universal controller or runtime replacement is included.
 
 1. Spawn an agent with this instruction: "Read this package's AGENTS.md and complete its README.md boot sequence before acting. Report the loaded files, missing capabilities, and proposed authority envelope; then await the task." Supply the actual package location to the host. Merely placing the folder does not load it.
 2. Provide the target, task, and read-only discovery scope. Target-project files are task inputs, not prerequisites for understanding this package.

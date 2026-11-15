@@ -21,10 +21,10 @@ Everything here is standalone in the sense the [`foundations/` index](../README.
 | 🎛️ [`09_CONTROL_PLANE_TESTS.md`](09_CONTROL_PLANE_TESTS.md) | The faults a composition must survive before anything runs it unattended |
 | 📊 [`12_EVALUATIONS.md`](12_EVALUATIONS.md) | Measuring what cannot be asserted, and comparing two models honestly |
 | 🔬 [`11_OBSERVABILITY.md`](11_OBSERVABILITY.md) | What changes when the subject is a run, and when the observer is the run itself |
-| 🏭 [`10_THE_SOFTWARE_FACTORY.md`](10_THE_SOFTWARE_FACTORY.md) | What a factory is, what it is for, and the three properties without which it is only a workflow |
+| 🏭 [`10_THE_SOFTWARE_FACTORY.md`](10_THE_SOFTWARE_FACTORY.md) | Higher-order repeatable production, with composition independent of project scope, portability and autonomy |
 | 🧠 [`13_MEMORY.md`](13_MEMORY.md) | What survives a run ending -- the tiers, what earns a write, eviction, and queue discipline for open work |
 | 🎭 [`14_SEMANTIC_AGENT_ROLES.md`](14_SEMANTIC_AGENT_ROLES.md) | How an ADW names specialized agent work without coupling workflow phases to models, routing policy, or harness-native subagents |
-| 🧱 [`primitives/`](primitives/README.md) | Blueprints -- what each primitive must contain when you create one |
+| 🧱 [`primitives/`](primitives/README.md) | Construction Resources -- blueprints for units, compositions and supporting artifacts; not all entries are Primitives |
 
 ## The ideas the rest of it rests on
 

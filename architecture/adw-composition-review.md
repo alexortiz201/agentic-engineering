@@ -4,9 +4,11 @@
 
 **Architecture Gate:** `APPLIES` — this review refines a portable workflow contract that future controllers and migrated orchestration resources are expected to consume. It does not implement a controller or runtime.
 
+**Current terminology alignment:** the [top-level direction](../README.md) distinguishes construction Resources from project Primitives and compositions. The historical `primitives/` directory is a mixed blueprint catalogue; the kernel below names workflow responsibilities and supporting artifacts, not four necessarily minimal Primitives. Execution/state/child-workflow conclusions remain unchanged; the completion evidence at the end records the original review, not this alignment's tests.
+
 ## Status
 
-- Portable ADW doctrine and primitive blueprints: **IMPLEMENTED AND VERIFIED** as documentation contracts.
+- Portable ADW doctrine and construction blueprints: **IMPLEMENTED AND VERIFIED** as documentation contracts.
 - Portable semantic-role contract and Pi controlled-invocation boundary: **IMPLEMENTED AND VERIFIED** at their documented contract/test boundaries.
 - Declarative role records, operator role-policy storage, deterministic resolution, a portable controller, child-workflow invocation, and end-to-end role-based orchestration: **PLANNED**.
 - Authenticated Claude runtime discovery: **DEFERRED** by the existing migration decision and not reopened by this review.
@@ -43,7 +45,7 @@ The Pi adapter is a thin controlled-invocation boundary, not the controller. Its
 
 The minimum reusable execution model is four responsibilities, not a new workflow language:
 
-| Responsibility | Existing Workbench primitive | Boundary |
+| Responsibility | Existing construction blueprint | Boundary |
 |---|---|---|
 | Sequence and failure routing | `composition` | Owns identity, declared order, and per-phase failure policy; does not inspect phase internals |
 | One bounded unit of work | `phase` | Declares deterministic, agentic, or deferral invocation; owns its state writes and typed result |

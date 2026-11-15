@@ -4,7 +4,7 @@
 
 This is an engineering concern and not a convenience. A system with a volatile fast tier, a durable slow tier and an external source of truth has a memory hierarchy, and a memory hierarchy brings the same three problems it always has: **what to admit, what to evict, and how to stay coherent with the source.** Those problems do not become softer because the fast tier is a language model's context rather than a processor's cache. They become harder, because this cache can rewrite what it holds and will not report having done so.
 
-Read [`05_RECOVERY_AND_HANDOFF.md`](05_RECOVERY_AND_HANDOFF.md) for what a handoff must carry, and the [`record`](primitives/record.md), [`state`](primitives/state.md) and [`run_history`](primitives/run_history.md) primitives for the shapes a durable write takes. This file is about the policy governing them.
+Read [`05_RECOVERY_AND_HANDOFF.md`](05_RECOVERY_AND_HANDOFF.md) for what a handoff must carry, and the [`record`](primitives/record.md), [`state`](primitives/state.md) and [`run_history`](primitives/run_history.md) supporting-artifact blueprints for the shapes a durable write takes. This file is about the policy governing them.
 
 ## The three tiers, and the one rule that spans them
 

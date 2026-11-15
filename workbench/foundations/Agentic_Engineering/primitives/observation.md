@@ -2,7 +2,7 @@
 
 A bounded recording of **work being performed**, kept so that a workflow can later be derived from what actually happened rather than from what anyone remembers happening.
 
-Its subject is the process, not the code. Every other primitive here describes something the system does; this one describes something the system **watches** -- and the thing being watched is usually a person, whose actions the recorder did not perform and mostly cannot reproduce.
+Its subject is the process, not the code. This blueprint describes a supporting recording artifact, not an executable Primitive. The recorder is a separate capability: the thing being watched is usually a person, whose actions the recorder did not perform and mostly cannot reproduce.
 
 ## Must hold
 

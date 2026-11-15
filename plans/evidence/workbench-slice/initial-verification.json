@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "source": "executed",
+  "gate": "blocked",
+  "task_state": "validating",
+  "changed_files": [],
+  "failures": [
+    "Expected exactly one changed file: slug.mjs",
+    "Check did not pass: node --test slug.test.mjs"
+  ],
+  "checks": [
+    {
+      "source": "executed",
+      "command": [
+        "node",
+        "--test",
+        "slug.test.mjs"
+      ],
+      "status": "failed",
+      "exit_code": 1,
+      "signal": null,
+      "duration_ms": 53,
+      "stdout": "✖ lowercases and separates words (0.577292ms)\n✖ collapses punctuation and trims separators (0.069791ms)\n✖ retains ASCII digits and existing word boundaries (0.058333ms)\n✖ handles empty and punctuation-only strings (0.054792ms)\n✖ does not transliterate Unicode (0.0485ms)\n✖ rejects non-string inputs (0.315042ms)\nℹ tests 6\nℹ suites 0\nℹ pass 0\nℹ fail 6\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 31.14925\n\n✖ failing tests:\n\ntest at slug.test.mjs:5:1\n✖ lowercases and separates words (0.577292ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + '  Workbench Engineering  '\n  - 'workbench-engineering'\n  \n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:6:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.start (node:internal/test_runner/test:1096:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: '  Workbench Engineering  ',\n    expected: 'workbench-engineering',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at slug.test.mjs:8:1\n✖ collapses punctuation and trims separators (0.069791ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + '---Build...Verify___Deliver!!!'\n  - 'build-verify-deliver'\n  \n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:9:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n      at Test.postRun (node:internal/test_runner/test:1330:19)\n      at Test.run (node:internal/test_runner/test:1258:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: '---Build...Verify___Deliver!!!',\n    expected: 'build-verify-deliver',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at slug.test.mjs:11:1\n✖ retains ASCII digits and existing word boundaries (0.058333ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'API v2--READY'\n  - 'api-v2-ready'\n  \n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:12:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n      at Test.postRun (node:internal/test_runner/test:1330:19)\n      at Test.run (node:internal/test_runner/test:1258:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'API v2--READY',\n    expected: 'api-v2-ready',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at slug.test.mjs:14:1\n✖ handles empty and punctuation-only strings (0.054792ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  ' ' !== ''\n  \n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:15:54)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n      at Test.postRun (node:internal/test_runner/test:1330:19)\n      at Test.run (node:internal/test_runner/test:1258:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: ' ',\n    expected: '',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at slug.test.mjs:17:1\n✖ does not transliterate Unicode (0.0485ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'Crème brûlée'\n  - 'cr-me-br-l-e'\n  \n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:18:10)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n      at Test.postRun (node:internal/test_runner/test:1330:19)\n      at Test.run (node:internal/test_runner/test:1258:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'Crème brûlée',\n    expected: 'cr-me-br-l-e',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n\ntest at slug.test.mjs:20:1\n✖ rejects non-string inputs (0.315042ms)\n  AssertionError [ERR_ASSERTION]: Missing expected exception (TypeError).\n      at TestContext.<anonymous> (file:///private/tmp/workbench-construction/fixture/slug.test.mjs:22:12)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1201:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n      at Test.postRun (node:internal/test_runner/test:1330:19)\n      at Test.run (node:internal/test_runner/test:1258:12)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: undefined,\n    operator: 'throws',\n    diff: 'simple'\n  }\n",
+      "stderr": ""
+    },
+    {
+      "source": "executed",
+      "command": [
+        "node",
+        "--check",
+        "slug.mjs"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "duration_ms": 18,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "observed_files": {
+    "README.md": "81665d5ef3d211c8812c8ab5b4a132fa87f28fd51605eee2dbf1a2ffd48f2df6",
+    "slug.mjs": "2c07ee62c1f1ac934c56a0641e7a5f7636d591d9778b38e7bdc4088413f83c2d",
+    "slug.test.mjs": "5352f0deac1e73248954c93c1a1a90109ed4472f339c473defd6d9d5f355ae50"
+  }
+}

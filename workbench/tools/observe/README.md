@@ -2,7 +2,7 @@
 
 Records work as it happens, so a workflow can be derived from what occurred rather than from what anyone recalls occurring.
 
-**This is a reference implementation, not the standard.** The portable statement is [`primitives/observation.md`](../../foundations/Agentic_Engineering/primitives/observation.md); this is one adopter's answer in one language. Where the two disagree, the primitive is right and this is behind. How to actually run a recording is [`handbook/10_OBSERVING_A_PROCESS.md`](../../handbook/10_OBSERVING_A_PROCESS.md).
+**This is a reference implementation, not the standard.** The portable statement is [`primitives/observation.md`](../../foundations/Agentic_Engineering/primitives/observation.md); this is one adopter's answer in one language. The blueprint governs portable construction requirements; the executable recorder is distinct from the observation artifact. Adopter-specific extensions must be distinguished from those portable requirements. How to actually run a recording is [`handbook/10_OBSERVING_A_PROCESS.md`](../../handbook/10_OBSERVING_A_PROCESS.md).
 
 It is the first executable code in this package. Everything else here states what a thing must contain; this one does it, which is why it is fenced into `tools/` rather than sitting beside the discipline it implements.
 

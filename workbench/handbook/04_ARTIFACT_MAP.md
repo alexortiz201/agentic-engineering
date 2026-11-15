@@ -2,7 +2,7 @@
 
 `foundations/` names concepts and reaches nothing outside itself. This is the mapping it leaves out.
 
-**The blueprint is the definition** -- it says what each artifact must contain. If concrete starting files are ever added, this table gains a column for them.
+**The blueprint defines construction requirements**, not a homogeneous artifact kind. The historical `primitives/` catalogue holds Resources describing executable units, compositions and supporting artifacts; a resulting project Primitive is a bounded capability, not its blueprint. If concrete starting files are ever added, this table gains a column for them.
 
 | Concept in `foundations/` | Defined by |
 |---|---|

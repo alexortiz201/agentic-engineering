@@ -33,7 +33,7 @@ When a run disappoints, walk the list before reaching for a stronger model. Most
 
 ## Improve the agentic layer first
 
-Before adding infrastructure, improve context, task specificity, tool interfaces, state, feedback, and observability. Progress from focused prompt/skill -> bounded role -> ADW -> composition only when the work warrants it. A repeated correction is a reuse signal, not a mandate for a platform.
+Before adding infrastructure, improve context, task specificity, tool interfaces, state, feedback, and observability. Choose a contracted Primitive (deterministic or intelligent), compose an ADW when repeatable engineering work warrants it, and compose a Factory only for a justified class of repeated outcomes. Roles configure responsibility, not rungs of this hierarchy; composition level is independent of portability and autonomy. A repeated correction is a reuse signal, not a mandate for a platform.
 
 Move down into code/data/product details when understanding or evidence is weak; return to delegation when concrete checks support it. More autonomy never expands authority.
 
@@ -53,12 +53,12 @@ model.
 
 | Role | Context |
 |---|---|
-| Explorer | Task, repository instructions, read-only tools |
+| Product | Objective, user needs, constraints and tradeoffs |
+| Researcher | Task, relevant sources, repository instructions, bounded discovery scope |
 | Planner | Constraints, relevant code/tests, acceptance criteria |
-| Implementer | Approved plan, scope, conventions, allowed tools |
-| Verifier | Criteria, diff, check commands--not confidence claims |
+| Developer | Approved plan, scope, conventions, allowed tools; concrete failures for bounded repair |
 | Reviewer | Task, plan, diff, evidence, risk checklist |
-| Repairer | Concrete failures/findings and bounded scope |
+| Verifier | Criteria, diff, check commands--not confidence claims |
 
 **Return failures, not successes.** When a deterministic check passes, the agent that produced the work has nothing to do with that result -- feeding a green suite back into its context spends tokens and attention to communicate that nothing is required. Route the failure back, with enough of the output to act on, and let a pass simply advance the workflow. The same holds for any check whose only interesting outcome is the negative one.
 
@@ -68,7 +68,7 @@ Each invocation resolves context, model/provider, prompt and tools (Core Four), 
 
 ## Deterministic shell, probabilistic core
 
-Use code to validate inputs, track state, invoke tools, capture results, enforce gates, and bound retries. Use agents where interpretation and judgment are needed. Do not rely on conversational memory for workflow state.
+**Intelligence where judgment is required. Deterministic machinery where behavior can be specified.** Use code to validate inputs, track state, execute known tests/typechecking/linting, validate schema/JSON, verify artifacts and diffs, enforce permission/stop invariants, and bound retries. Use agents for interpretation, reasoning, synthesis, planning, implementation decisions and semantic review, not merely because an agent can execute a command. A deterministic commit operation still requires explicit authority. Do not rely on conversational memory for workflow state.
 
 ## Determinism buys measurement, not only safety
 

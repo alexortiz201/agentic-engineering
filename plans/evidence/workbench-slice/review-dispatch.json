@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "source": "executed",
+  "agent_label": "construction-review",
+  "definition": "reviewer",
+  "session": "01a1319d-e77a-774c-ab9e-443b0eb337ac",
+  "request": "4d226583-1861-4813-8ad4-5f6ae1b5030b",
+  "ownership": "Fresh independent read-only architecture/correctness/security/scope review; exclusive executor until resolved",
+  "scope": "AE-17/18 constructor, immutable synthetic gate/delivery artifacts, architecture/integration docs and check evidence explicitly transferred at dispatch",
+  "write_authority": [],
+  "task_state_at_dispatch": "reviewing",
+  "resolution": "completed",
+  "result_ref": "result:construction-review#1",
+  "verdict": "PASS",
+  "required_repairs": [],
+  "current_task_state": "acceptance_pending",
+  "next_safe_action": "Review resolved; Lead integrated verdict and validated documentation-only checkpoint updates. Human acceptance is next; no shipping or further execution authority."
+}

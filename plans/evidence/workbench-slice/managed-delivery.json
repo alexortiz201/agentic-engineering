@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "source": "asserted",
+  "result_ref": "result:slug-builder#1",
+  "run_id": "workbench-slug-slice",
+  "task_id": "T1",
+  "definition": "implementer",
+  "agent_label": "slug-builder",
+  "session": "01a13198-1e0f-75fb-ab58-f29550dfdf81",
+  "request": "28f8dda1-0ab9-4345-b503-e59e3b8c3d22",
+  "workspace": "/tmp/workbench-construction/fixture",
+  "physical_workspace": "/private/tmp/workbench-construction/fixture",
+  "reported_changed_paths": ["slug.mjs"],
+  "routing": {
+    "requested": {"provider": "openai-codex", "model": "gpt-6.1-sol", "effort": "high"},
+    "agent_observed": {"provider": "openai-codex", "model": "gpt-6.1-sol", "effort": null},
+    "observation_basis": "Agent reported PI_PROVIDER and PI_MODEL environment variables; effort unobserved. Requested high effort is not effective-effort evidence.",
+    "policy_exception": "Dotfiles-only routing presets unavailable to current managed roster. Used existing implementer with inherited OpenAI configuration, no preset creation/copy or configuration change. Tiny isolated fixture delegation is a vertical-slice acceptance test, not an optimal routine cost route."
+  },
+  "requirement_artifacts": {
+    "R1": "delivery/slug.mjs: lowercase, ASCII-alphanumeric run replacement, trim edges",
+    "R2": "delivery/slug.mjs: empty string handling and no Unicode transliteration",
+    "R3": "delivery/slug.mjs: typeof guard and TypeError"
+  },
+  "reported_checks": [{"argv": ["node", "--test", "slug.test.mjs"], "status": "passed", "exit_code": 0, "tests": 6}, {"argv": ["node", "--check", "slug.mjs"], "status": "passed", "exit_code": 0}],
+  "reported_failures": [],
+  "independent_evidence": "final-verification.json: independently executed checks, full fixture hashes, exact nonempty allowed diff and matching canonical workspace identity",
+  "acceptance": "not granted",
+  "shipping": "not authorized",
+  "cost_tokens": null,
+  "cost_currency": null,
+  "cost_observation": "Unavailable; do not infer actual cost from model choice or settlement"
+}

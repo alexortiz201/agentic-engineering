@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "source": "executed",
+  "gate": "pass",
+  "task_state": "validating",
+  "changed_files": [
+    "slug.mjs"
+  ],
+  "failures": [],
+  "checks": [
+    {
+      "source": "executed",
+      "command": [
+        "node",
+        "--test",
+        "slug.test.mjs"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "duration_ms": 56,
+      "stdout": "✔ lowercases and separates words (0.3315ms)\n✔ collapses punctuation and trims separators (0.042708ms)\n✔ retains ASCII digits and existing word boundaries (0.036667ms)\n✔ handles empty and punctuation-only strings (0.038917ms)\n✔ does not transliterate Unicode (0.037084ms)\n✔ rejects non-string inputs (0.407417ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 34.088125\n",
+      "stderr": ""
+    },
+    {
+      "source": "executed",
+      "command": [
+        "node",
+        "--check",
+        "slug.mjs"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "signal": null,
+      "duration_ms": 18,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "observed_files": {
+    "README.md": "81665d5ef3d211c8812c8ab5b4a132fa87f28fd51605eee2dbf1a2ffd48f2df6",
+    "slug.mjs": "d6ba5a3d0e877582a1d487eec099daf6c02d1dd37a4070927de62c63ac31fb05",
+    "slug.test.mjs": "5352f0deac1e73248954c93c1a1a90109ed4472f339c473defd6d9d5f355ae50"
+  }
+}

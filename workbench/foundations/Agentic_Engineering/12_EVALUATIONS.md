@@ -88,6 +88,6 @@ Two ways, both slow enough to go unnoticed.
 
 **Your workflow on your work** -- not a model on a public benchmark. A published score says something about a model in general and very little about whether it can carry one phase of one workflow against your codebase. The purpose here is choosing between options for a specific job, and only your own cases answer that.
 
-The unit is a **phase**, usually, rather than a whole workflow. Phases have different demands, and the model that wins at planning may lose at mechanical transformation -- which is the entire argument for holding a stack rather than picking a model, and it is unanswerable without per-phase measurement.
+The unit is a **phase**, usually, rather than a whole workflow. Phases have different demands, and the model that wins at planning may lose at another kind of semantic judgment; specified mechanical transformations should use code instead -- which is the entire argument for holding a stack rather than picking a model, and it is unanswerable without per-phase measurement.
 
 **Start with the regression question, which is cheaper and often enough:** did this change make things worse? Detecting degradation needs less rigor than ranking options, and it is the question asked far more often.

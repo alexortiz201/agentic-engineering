@@ -1,6 +1,6 @@
 # 🏗️ Agentic layer layout
 
-Where the primitives go in a target project. [`foundations/Agentic_Engineering/primitives/`](../foundations/Agentic_Engineering/primitives/README.md) says what each must contain; this says where we put them. A project that already has a convention keeps it -- **record the mapping instead of imposing this one.**
+Where project units, compositions and supporting artifacts go in a target project. [`foundations/Agentic_Engineering/primitives/`](../foundations/Agentic_Engineering/primitives/README.md) says what each must contain; this says where we put them. A project that already has a convention keeps it -- **record the mapping instead of imposing this one.**
 
 ## Start here
 
@@ -66,7 +66,7 @@ A layout that delivers those four is a good layout. Record whichever one the tar
 
 **The naming rule for an artifact belongs inside the command that produces it, not in a document about conventions.** A command that writes a spec states the filename pattern in its own text, so the convention is enforced at the point of use by the thing doing the writing. A convention documented only here is one every author has to remember; a convention stated in the producing command is one they cannot miss.
 
-## What is ours
+## One implementation convention (not a semantic requirement)
 
 | | |
 |---|---|
@@ -79,4 +79,4 @@ The port-contract-in-a-file detail is worth keeping deliberately: the contract l
 
 ## Where ADWs live for a given project
 
-**This package describes how ADWs are built; it neither holds nor generates them.** What it describes is built in the adopting organization's own library, and lives there.
+**This package describes how ADWs are built; it does not own the resulting workflows.** They live under the adopting project's or organization's authority, using its existing conventions. Its project workflow collection is not the cross-domain Library of reusable Resources. Future construction tooling may generate artifacts without taking ownership of their project instances.

@@ -1,32 +1,34 @@
 # 🏭 The software factory
 
-The composed set of workflows, together with the code and agents that run them, for one subject.
+A **Factory** is a higher-order composition of primitives, ADWs, deterministic machinery, intelligent invocations, knowledge, state, integrations, gates and/or other capabilities that can repeatedly produce a meaningful class of outcomes. Not every factory needs every component. Composition and repeatable production define it; it retains the contracts and authority boundaries of the units it composes.
+
+**Composition/capability and scope/reusability are independent axes:** Primitive → ADW → Factory describes composition; project-specific → reusable → portable/generalized describes scope. A project-specific software factory is valid. It may later be generalized, but cross-project portability is not required.
+
+**Supersession:** the former requirement that a factory must deploy into another subject is superseded by explicit human architecture disposition. Repeated production within one project is sufficient; cross-project portability is a separate property of an artifact or its construction tooling. A factory is not merely a multi-agent system, a large ADW, a portable template, a cross-project abstraction or a particular runtime. Use a primitive or ADW instead whenever it meets the need.
 
 ## What it is for
 
-**Leverage on a prompt.** That is the whole purpose, and stating it plainly is what keeps a factory from becoming an end in itself. One sentence of intent enters, and a system of code and agents carries it through work that would otherwise be typed, watched and corrected step by step.
+**Leverage on intent.** A system carries work through steps that would otherwise be typed, watched and corrected repeatedly. A prompt can express that intent, but prompt shape and number of agents do not define a factory.
 
-**How much leverage is proportional to what has been invested in it.** At the low end, a few agents chained with some configuration do slightly more than one would. At the high end, code and agents together carry work through end to end without a person in the loop, as well as that person would and sometimes better. There is no threshold between those; there is a continuum, and where a factory sits on it is a function of the work put into its workflows.
+Judge the investment across repeated useful outcomes, including runs within the same project, rather than the run in front of you. **Design for repeatable production**, not a successful demo. More composition or autonomy is not inherently more value.
 
-This also gives the honest answer to "is this worth building yet". A factory is worth what it saves across every future run, so the calculation is never about the run in front of you. **Design for the thousandth execution, not the first or the tenth.** A workflow that is barely worth the effort once is obviously worth it a thousand times, and one that cannot survive a thousand runs was never a factory, only a long prompt.
+## Engineering qualities
 
-## The three properties
+Observability, customization and reuse support reliable production and improvement. They are engineering guidance, not a requirement to transcend a project.
 
-A factory that lacks any one of these stops being a factory and becomes a workflow that happened to work once.
+**Observable**, in the sense [defined here](11_OBSERVABILITY.md). Every run exposes what it did: effective model, prompt and tools for each intelligent invocation; commands/results for deterministic work; what each phase cost and produced; and what each gate decided. **What is not measured cannot be improved**, and a system whose behaviour can only be inferred from its output is one whose defects can only be found by suffering them. Observability is not a dashboard; it is the precondition for the improvement loop existing at all -- and the loop only closes if the observations **accumulate somewhere**, which is what a [run history](primitives/run_history.md) is for. Retained per-run artifacts provide the detail; history makes runs comparable.
 
-**Observable**, in the sense [defined here](11_OBSERVABILITY.md). Every run exposes what it did: which model ran each phase, the prompts as they were actually compiled, the tools that were available, what each phase cost, what it produced, and what each gate decided. **What is not measured cannot be improved**, and a system whose behaviour can only be inferred from its output is one whose defects can only be found by suffering them. Observability is not a dashboard; it is the precondition for the improvement loop existing at all -- and the loop only closes if the observations **accumulate somewhere**, which is what a [run history](primitives/run_history.md) is for. Every other artifact a run writes dies with that run.
+**Customizable.** Resolve Core Four for each intelligent invocation, not for purely deterministic steps. Honor the owning project's tests, thresholds, quality bars and conventions. Reusable construction tooling can supply starting points, not impose another project's solution.
 
-**Customizable.** Every phase resolves its own context, model, prompt and tools. The defaults shipped with a factory are the author's, and the author's tests, thresholds and quality bars are not the adopter's -- so a factory that cannot be re-specified per phase forces its origin's judgement onto every subject it touches.
-
-**Reusable.** It deploys into another subject. A factory that only works where it was born is not a factory; it is one project's workflow, and the investment argument above never pays back because there is no second use to amortise it against.
+**Reusable.** Repeated production within one subject earns the investment. Cross-project reuse or portable construction templates may be valuable later; neither changes the composition level nor qualifies a system as a factory on its own.
 
 ## Agentic access
 
-A factory must be operable **by an agent**, not only by a person. That means its operations are discoverable, its inputs are stateable in a sentence, and an agent can select and run the right workflow without a human translating intent into invocations.
+Where agent operation is useful, expose discoverable bounded operations so an agent can select and invoke the right capability without a person translating each request. Agent-operability is a construction choice, not the defining criterion for a factory.
 
 **Agents only command what they can reach.** A capability that exists but is not exposed programmatically does not exist as far as the factory is concerned, and the gap shows up as a specific, diagnosable waste: work an agent performs **only because** it lacks direct access to the thing it needs. Re-deriving state nothing exposes, driving an interface built for a person because no programmatic one exists, reconstructing by inference what could have been read. Every one of those is effort spent on the absence of an interface rather than on the task, and it is paid again on every run.
 
-The reason is the same reason the factory exists. If a person must drive it, the factory's throughput is bounded by that person's typing, and the leverage stops at whatever they can personally supervise. **Anything routinely done by hand is a candidate for being taught**, and the only work that should remain manual is building the system that does the rest.
+The reason is the same reason the factory exists. If a person must drive it, the factory's throughput is bounded by that person's typing, and the leverage stops at whatever they can personally supervise. **Anything routinely done by hand is a candidate for being encoded**, but keep human intent, risk acceptance and consequential approvals where authority requires them. Use intelligence for judgment and code for specified behavior.
 
 The practical shape is progressive disclosure: a small always-loaded description of what the factory is and what it can do, plus a routing table from a stated request to the detailed procedure for it, with the detail loaded only when that path is taken. That is the same context discipline applied to operating the system rather than to doing the work -- and it matters more here, because the operating surface is loaded on every single run.
 
@@ -34,7 +36,7 @@ The practical shape is progressive disclosure: a small always-loaded description
 
 **The absolute form of that rule is wrong, and is worth refusing explicitly.** Discarding every candidate without a programmatic surface assumes a substitute always exists, and sometimes the capability is available nowhere else. The honest move there is to take the dependency, record the driver as a standing per-run cost rather than a one-off integration, and hold it behind a single boundary -- so that the day a programmatic surface appears, adopting it is a local change instead of an excavation.
 
-## Its output is shippable work, not merely working code
+## For software delivery, output is shippable work, not merely working code
 
 A factory that emits functionally-correct output which somebody then has to rewrite has not produced output. It has produced **rework**, and rework is worse than nothing, because the reviewer now pays the cost of reading it as well as the cost of redoing it. The leverage argued for above is a claim about work that lands, and output that does not land is not a smaller amount of leverage -- it is negative.
 

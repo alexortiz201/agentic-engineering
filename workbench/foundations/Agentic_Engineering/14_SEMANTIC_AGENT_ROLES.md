@@ -25,6 +25,10 @@ Initial knowledge selection is intentionally simple: **Role configuration → ex
 
 ## Core Four and concrete execution
 
+**Configuration versus usage:** reusable Role/agent configuration defines what the intelligent unit is/can do, including capability requirements and authority ceiling; the workflow call site defines how it is used for this task, with inputs, actual grant, limits and expected evidence. Do not permanently couple it to one ADW.
+
+**Core Four configure the intelligent invocation, not the entire work-unit contract.** Role, Domain/Specialization, Knowledge, Authority, Expected Evidence, Stop Conditions, Runtime Behaviors and Harness Realization govern its surrounding composition without becoming extra Core Four members.
+
 **Context, Model, Prompt, Tools** are exactly the Core Four composed for each concrete Agent invocation according to task, faithful Role, Domain/Specialization as relevant, selected knowledge/resources, authority, evidence requirements and current harness realization:
 
 - **Context:** lean relevant facts and selected Library/package resources, with provenance, freshness, limitations and deliberate exclusions; do not preload a whole corpus.
@@ -32,7 +36,7 @@ Initial knowledge selection is intentionally simple: **Role configuration → ex
 - **Prompt:** task, Role responsibility, specialization lens, constraints, evidence and return obligations, authority ceiling and stop/defer conditions. Prompt text does not enforce permission.
 - **Tools:** bounded executable mechanisms appropriate to the task and actual grant; availability alone does not authorize their use.
 
-Actual permission is explicit and runtime-constrained; intersect task need, Role ceiling, human/operator grant and harness limits. Pi currently realizes concrete agents/subagents, provider/model calls, tool enforcement, lifecycle and state. None is intrinsic to portable Workbench semantics. Another harness could in principle realize the same contracts, but this chapter specifies no future adapter. The host application's framework continues to own its execution, state and integration.
+**Tools describe capability; Authority describes permission.** Shell/bash/write capability does not authorize arbitrary repository mutation. Actual permission is explicit and runtime-constrained; intersect task need, Role ceiling, human/operator grant and harness limits. Verify/enforce authority and deterministic stop conditions mechanically where practical rather than trusting prompt compliance. Agents may propose/report evidence; independent code should verify objectively checkable claims (executed tests, artifact existence, schema/JSON, actual versus declared diff, protected files unchanged). Pi is currently the default harness realizing concrete agents/subagents, provider/model calls, tool enforcement, lifecycle and state. None is intrinsic to portable Workbench semantics. Another harness could in principle realize the same contracts, but this chapter specifies no future adapter. The host application's framework continues to own its execution, state and integration.
 
 ## Workflows and possible realizations
 

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "source": "executed",
+  "command": ["node", "--test", "plans/evidence/workbench-slice/verify-fixture.test.mjs"],
+  "workspace": "repository root",
+  "attempts": [
+    {"status": "failed", "exit_code": 1, "tests": 5, "passed": 4, "failed": 1, "finding": "Inherited NODE_TEST_CONTEXT suppressed standalone nested test execution; failing-check control incorrectly passed", "return_to": "building"},
+    {"status": "passed", "exit_code": 0, "tests": 5, "passed": 5, "failed": 0, "repair": "Remove only the Node test runner's internal NODE_TEST_CONTEXT from child check environment; checks then execute as independent test runners"}
+  ],
+  "controls": [
+    "Exactly granted nonempty correct implementation: pass",
+    "No-op with passing behavioral checks: blocked",
+    "Out-of-scope file with passing behavioral checks: blocked",
+    "Nonempty in-scope edit with failing behavioral checks: blocked",
+    "Symlink contamination: rejected before checks"
+  ],
+  "caveats": ["Project-owned synthetic gate, not a sandbox or portable workflow-state engine", "Raw output retained locally; no private transcript or production subject"]
+}

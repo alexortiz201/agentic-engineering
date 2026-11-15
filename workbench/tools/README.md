@@ -14,6 +14,7 @@ That is the whole admission test, and it is a test about **subject**, not about 
 
 | Tool | What it does | Ever run? |
 |---|---|---|
+| [`construct/`](construct/README.md) | Validates an explicitly authored brief, retrieves selected context and renders bounded assignments; declarative dependencies never imply execution readiness | Yes — 19 constructor tests and isolated slug packet construction; managed target verification is recorded separately |
 | [`observe/`](observe/README.md) | Records work as it happens, so a workflow can be derived from what occurred rather than from what anyone recalls occurring | Yes -- repeatedly, and its gap contract was revised from what the recordings showed |
 | [`triage/flake_triage.sh`](triage/flake_triage.sh) | Re-runs named failing suites **in isolation** and returns a verdict per suite: likely load flake vs. likely real | No. Authored, never executed |
 | [`triage/pr_preflight.sh`](triage/pr_preflight.sh) | Reports a pull request's base, labels, milestone, mergeability, review decision, and the check rollup **collapsed to the latest run per context** | Yes -- once, read-only, and that run found a defect in the script itself |

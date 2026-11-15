@@ -1,6 +1,6 @@
 # 🧩 Compose Agentic Developer Workflows
 
-An **ADW (Agentic Developer Workflow)** is executable orchestration combining deterministic code, bounded agent judgment, and deferrals to workflows it does not own, to deliver a defined outcome. A prompt is an instruction; a phase is a contracted unit of work; an ADW can contain one or several phases; a composition reuses contracted phase entry points. Calling an owned ADW as a typed child workflow is a separate, not-yet-established contract; calling an external workflow is a deferral. A skill makes the workflow discoverable and operable--it is not the controller.
+An **ADW (AI Developer Workflow, also called Agentic Developer Workflow)** is a repeatable project workflow composing bounded capabilities/phases toward a developer or engineering outcome. Prefer deterministic code outside prompts for sequencing, objective gates, known commands, bounded policy-driven corrections/retries, persistence and acceptance predicates. Agents operate in portions requiring intelligence; external-workflow deferrals preserve the existing continuation contract. A prompt is an instruction; a phase is a contracted execution boundary; an ADW can contain one or several phases. It is a Project Artifact, not Workbench's construction toolkit. Compose only as far as useful: a Primitive may suffice, and a Factory is not a mandatory destination. Current execution compositions reuse contracted phase entry points. Calling an owned ADW as a typed child workflow is a separate, not-yet-established contract; calling an external workflow is a deferral. A skill makes the workflow discoverable and operable--it is not the controller.
 
 Select primitives by kind, and name them consistently within a workflow. These are portable design conventions, not installed commands or claims that every workflow needs every component.
 
@@ -9,7 +9,7 @@ This file is the shape of a composition and the order in which one is authored. 
 ## Authoring process
 
 1. **Define the outcome before the technology.** Preserve the original request; specify trigger, input, target, criteria, non-goals, acceptance owner, and side effects. Decide whether one focused prompt is sufficient.
-2. **Inspect existing primitives.** Locate relevant instructions, prompt/command templates, scripts, tools, types, checks, state and workspace helpers. Trace implementations, not just descriptions. Reuse before scaffolding.
+2. **Inspect existing units and supporting assets.** Locate relevant instructions, prompt/command templates, scripts, tools, types, checks, state and workspace helpers. Distinguish bounded capabilities from construction knowledge, compositions and passive artifacts; reuse the existing blueprint catalogue without treating every entry as a Primitive. Trace implementations, not just descriptions. Reuse before scaffolding.
 3. **Draw the sequence and failure routes.** Label every node human judgment, agent judgment, deterministic code, or a deferral to something the workflow does not own. Known commands, IDs, counters, routing enums, and receipts belong in code. Classification needs an agent only when meaning is ambiguous; validate its output against an allowed set.
 4. **Salvage before contracting.** Before contracting the chosen design, enumerate the **mechanisms** in every rejected design and classify each one **promote / defer / drop**, with a reason. Record the classification in the design artifact; "nothing to salvage" is a claim that requires justification, not a default.
 5. **Contract each phase.** Define required predecessor artifacts, actor and, for an agentic step, its [semantic role](14_SEMANTIC_AGENT_ROLES.md); specify Core Four requirements, cwd, allowed mutations, output schema, limits, checks, and next transitions. Concrete provider/model and reasoning effort come from operator routing policy or a recorded nonportable exact override, not from a portable role. Build uses the approved plan; review uses the original criteria AND actual diff/evidence.
@@ -73,7 +73,7 @@ That is enough to do real work. When the workflow itself needs a reusable execut
 
 1. a **composition** owns run identity, declared phase order, and per-phase failure policy;
 2. a **phase** owns one bounded unit of deterministic, agentic, or deferred work;
-3. validated **state, records, and run history** provide the only phase-to-phase handoff and durable evidence;
+3. validated **state, records, and run history** are supporting artifacts providing the only phase-to-phase handoff and durable evidence;
 4. an independent **gate** permits or blocks each material transition.
 
 These are responsibilities, not a mandate for four files or a new workflow language. A command is an agent prompt/report contract, a module is shared code, and a semantic role is an invocation-requirements contract; none is another control-flow node. Validation is performed by checks and interpreted by a gate rather than promoted to a fourth step kind. Linear order, typed conditionals, and bounded failure routing remain ordinary composition code. Add a branch DSL, workflow AST, recursion, generic DAG engine, scheduler, or child-workflow primitive only after a real consumer demonstrates the missing boundary.
@@ -272,7 +272,7 @@ A composition may delegate through intermediate actors -- one actor directing le
 
 The question "which model is best" is the wrong question for a composition, and it gets less useful as the field moves. A workflow runs many phases with different demands, and the useful operator-owned object is a **stack**: a small roster of models held at distinct capability, cost and latency points, with each semantic role/phase requirement assigned the cheapest one that can do its work.
 
-Three tiers are usually enough to reason with -- the frontier tier for work where being wrong is expensive, a workhorse tier that handles most of the volume, and a lightweight tier for mechanical steps. What matters is not the count but that **the assignment is per phase and recorded**, so a phase's model is a decision with a reason rather than an inheritance from whatever the composition was started with. The reason has to come from somewhere, and the only honest source is [measurement on your own work](12_EVALUATIONS.md) -- a published benchmark says something about a model in general and very little about whether it can carry one phase of one workflow.
+Three tiers are usually enough to reason with -- the frontier tier for work where being wrong is expensive, a workhorse tier that handles most of the volume, and a lightweight tier for low-complexity judgment. Specified mechanical steps belong to deterministic code, not a model tier. What matters is not the count but that **the assignment is per phase and recorded**, so a phase's model is a decision with a reason rather than an inheritance from whatever the composition was started with. The reason has to come from somewhere, and the only honest source is [measurement on your own work](12_EVALUATIONS.md) -- a published benchmark says something about a model in general and very little about whether it can carry one phase of one workflow.
 
 **Effort is a second axis, and it does not behave like the first.** Where a model exposes a reasoning or deliberation setting, that setting is part of the per-phase assignment and is recorded alongside the model. Unlike the capability tier, **it is not monotonic**: a higher setting can consume several times the tokens and return a result that is no better, or worse, because extended deliberation on a problem that did not need it is the same failure as a person overthinking a simple decision. Assume nothing about the direction, and measure it the way the tier is measured -- on your own phases, against your own work.
 
@@ -314,7 +314,7 @@ Two consequences follow, and they point in different directions. In the short te
 
 **A context bundle is an index, not memory and not instructions.** Validate containment and freshness. Never capture secret values by default.
 
-A higher-order prompt consumes a prompt or plan; a metaprompt produces one. **Neither authorizes running arbitrary supplied instructions.**
+A higher order prompt records choices while the procedure is not yet known; a command consuming another command's output is a composition, not that unknown-procedure concept. A metaprompt produces a prompt. **None authorizes running arbitrary supplied instructions.**
 
 ## Composition examples
 

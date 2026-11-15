@@ -50,4 +50,4 @@ A trigger is the last step, not the first. Before adding one: claims are atomic 
 
 ## Throughout
 
-**Reuse must be earned.** Build for this project. Extract a primitive on the second real use, not the first -- and record what you chose not to extract, because that is the note that keeps the rule honest.
+**Generalized reuse must be earned.** Build contracted Primitives for this project when needed; extract a shared/generalized unit after a second real use demonstrates the boundary, not in anticipation. Record what you chose not to generalize. Project-specific Primitives are valid before cross-project reuse, and an ADW need not grow into a Factory.

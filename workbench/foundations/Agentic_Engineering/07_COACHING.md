@@ -34,7 +34,7 @@ Most confusion in this discipline reduces to one of these being collapsed:
 - phase completion vs. outcome acceptance
 - output structure vs. verified meaning
 - retry vs. repair vs. workflow loop
-- project-specific implementation vs. reusable primitive
+- composition level (Primitive / ADW / Factory) vs. scope (project-specific / reusable / portable)
 
 When an explanation sounds right but lands wrong, check whether two sides of one of these pairs have been treated as the same thing. The symptom is consistent: the reasoning is internally sound and the conclusion is unsafe, because a step in it silently swapped one side for the other. Forcing the distinction out loud -- *which of those two is this* -- resolves it faster than arguing with the conclusion.
 
@@ -42,9 +42,9 @@ When an explanation sounds right but lands wrong, check whether two sides of one
 
 Roughly ordered by what each one requires the previous to be in place:
 
-problem modeling -> workflow decomposition -> a deterministic quality adapter -> a typed handoff -> an evidence-producing gate -> a bounded repair loop -> explicit acceptance -> execution trace and observability -> isolation and permissions -> reuse across a second real project -> extracting proven primitives -> composing larger workflows
+problem modeling -> workflow decomposition -> a deterministic quality adapter -> a typed handoff -> an evidence-producing gate -> a bounded repair loop -> explicit acceptance -> execution trace and observability -> isolation and permissions -> reuse across a second real project -> generalizing proven units -> composing larger workflows only when useful
 
-The ordering is a dependency claim, not a syllabus. A bounded repair loop cannot be built by someone who has not yet made a gate produce evidence, because the loop's exit condition is that evidence; extracting primitives before running the same thing on a second real project encodes a guess. Each rung is a candidate for the next exercise, and the rung chosen is the difficulty set at the start of a session -- **on progressively harder real work, never on a constructed exercise**, for the reasons in [`Coaching/01_THE_SESSION_LOOP.md`](../Coaching/01_THE_SESSION_LOOP.md).
+The ordering is a dependency claim, not a syllabus. A bounded repair loop cannot be built by someone who has not yet made a gate produce evidence, because the loop's exit condition is that evidence; generalizing units before repeated real use encodes a guess. A project-specific Primitive is valid without that generalization; the progression is not a mandatory factory target. Each rung is a candidate for the next exercise, and the rung chosen is the difficulty set at the start of a session -- **on progressively harder real work, never on a constructed exercise**, for the reasons in [`Coaching/01_THE_SESSION_LOOP.md`](../Coaching/01_THE_SESSION_LOOP.md).
 
 ---
 

@@ -1,29 +1,33 @@
-# 🧱 Primitives
+# 🧱 Construction blueprints
 
-Blueprints. Each file answers one question: **what must this thing contain when I create one?**
+The historical `primitives/` path is preserved for existing readers. This is a **Resources catalogue**, not a homogeneous set of project Primitives. Each blueprint answers: **what must this thing contain when I create one?** The blueprint is knowledge about construction; the resulting capability, workflow or supporting artifact belongs to its project.
+
+A **Primitive** is the smallest useful contracted compositional unit in a project's agentic system. It can be deterministic or intelligent, not necessarily an agent. State inputs/preconditions, outputs/effects, authority, expected evidence, failure and stop behavior appropriate to the unit. Do not label an entire workflow, a pattern or passive knowledge as a Primitive merely because it can be reused.
 
 They are requirements, not tutorials -- the reasoning lives in the rest of `foundations/`, and the step-by-step construction lives in the handbook. If a blueprint needs a paragraph to justify a line, the justification belongs elsewhere.
 
-| Primitive | Is |
+| Blueprint | Result / compositional kind |
 |---|---|
-| ⌨️ [`command.md`](command.md) | A named, reusable prompt with a declared output contract |
-| 📋 [`spec.md`](spec.md) | The detail a command is deliberately missing -- one task, machine-generated |
-| 🪜 [`phase.md`](phase.md) | One step of a workflow, as code that invokes agents |
-| 🔗 [`composition.md`](composition.md) | Phases in sequence, with a failure policy |
-| 📦 [`module.md`](module.md) | Shared code a phase depends on |
-| 🧾 [`record.md`](record.md) | What every durable artifact carries, and how versioning works |
-| 🚦 [`gate.md`](gate.md) | An independent check on whether a transition may happen |
-| 💾 [`state.md`](state.md) | What a run persists so it can be resumed or handed off |
-| 📒 [`run_history.md`](run_history.md) | The append-only record of every run, and the only thing that makes behaviour visible over time |
-| ⚡ [`trigger.md`](trigger.md) | How a run starts without a person |
-| 🪝 [`hook.md`](hook.md) | Code that observes or blocks at a lifecycle event |
-| 📌 [`pinned_reference.md`](pinned_reference.md) | External documentation frozen in the repository |
-| 📐 [`design_document.md`](design_document.md) | Why the system is shaped this way -- outlives any run |
-| 🔭 [`observation.md`](observation.md) | A bounded recording of work being performed, from which a workflow can be derived |
+| ⌨️ [`command.md`](command.md) | Prompt/report contract; an invocation using it can be an intelligent Primitive when bounded by the surrounding contract, not just prompt text |
+| 📋 [`spec.md`](spec.md) | Supporting task artifact, not executable capability |
+| 🪜 [`phase.md`](phase.md) | Code-owned execution boundary for deterministic, intelligent or deferred work; may contain one Primitive or several, not automatically minimal |
+| 🔗 [`composition.md`](composition.md) | Sequence and failure policy; a workflow composition, not a minimal Primitive |
+| 📦 [`module.md`](module.md) | Shared code; a bounded exported operation may realize a deterministic Primitive, not every module as a whole |
+| 🧾 [`record.md`](record.md) | Supporting durable-artifact/versioning contract |
+| 🚦 [`gate.md`](gate.md) | Independent transition check; an objective code-enforced check can be a deterministic Primitive, approval/review is a different control |
+| 💾 [`state.md`](state.md) | Supporting persisted run facts and handoff contract, not the executable operations that store/load them |
+| 📒 [`run_history.md`](run_history.md) | Supporting append-only record across runs |
+| ⚡ [`trigger.md`](trigger.md) | Optional ingress/claim/dispatch pattern; contracted operations may be Primitives, the whole pattern need not be minimal |
+| 🪝 [`hook.md`](hook.md) | Event-driven code; a bounded observing/guarding operation can realize a deterministic Primitive, with project or harness ownership determined by purpose |
+| 📌 [`pinned_reference.md`](pinned_reference.md) | Supporting knowledge/reference artifact, not executable capability |
+| 📐 [`design_document.md`](design_document.md) | Supporting architecture/decision artifact, not executable capability |
+| 🔭 [`observation.md`](observation.md) | Supporting process recording; the recorder is a separate executable capability |
+
+These distinctions supersede defining Primitive by membership in this catalogue. No paths, blueprints or consumer record formats are renamed. Reuse the construction guidance without assuming all entries occupy the same composition level.
 
 ## Prove it at the consuming interface
 
-Before a primitive is used by anything, exercise **six cases** -- not at its own boundary, but at the interface of whatever calls it:
+For executable units (including Primitives and compositions), exercise **six cases** at the consuming interface, not merely the unit's own boundary. For passive artifacts, test the corresponding producer/consumer validation and record which execution cases do not apply:
 
 | Case | Must |
 |---|---|

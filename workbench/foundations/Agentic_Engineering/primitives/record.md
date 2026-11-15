@@ -1,6 +1,6 @@
 # 🧾 Record
 
-Any durable artifact a run writes for something else to read -- state, a phase result, a gate decision, a handoff. The rules here apply to all of them; each primitive states its own fields.
+Any durable artifact a run writes for something else to read -- state, a phase result, a gate decision, a handoff. The rules here apply to all of them; each artifact blueprint states its own fields. The record is a supporting artifact, not the executable capability that writes or validates it.
 
 ## Every record carries
 

@@ -2,6 +2,33 @@
 
 Open source, MIT, `earendil-works/pi`, by Mario Zechner.
 
+## Supporting realization and context lifecycle purpose
+
+Pi is currently Workbench's **default harness/runtime for executing agents**, not another product layer beside Resources, Workbench and Project Artifacts. Portable semantic requirements are realized through the harness and its native mechanisms; they are not defined by those mechanisms.
+
+```text
+Workbench semantic behavior → Harness → Harness-native realization
+context lifecycle          → Pi      → agent-lifecycle extension
+
+agent starts
+    ↓
+bounded semantic work proceeds
+    ↓
+context grows
+    ↓
+Pi safely compacts context
+    ↓
+same semantic task continues
+    ↓
+repeat as needed → task completes
+```
+
+The practical goal is substantial bounded work to completion without monotonically bloating context, unnecessary token usage/inference cost, or routine human context management. Compaction is a harness mechanism: it manages context while preserving the task, semantic owner, scope and authority. It is not task completion, a cold restart, or an authority transfer. Context maintenance belongs to the configured lifecycle mechanism, not a competing prompt-owned pressure loop or routine human `/compact` requests.
+
+Same-session correction within a bounded invocation can retain useful context when policy permits; correction budgets remain task-scoped, workflow seams still use explicit validated handoffs, and independent review may require fresh context. Compaction and correction solve different problems.
+
+This is the desired lifecycle behavior and ownership boundary, **not a claim that the extension is loaded/healthy in a particular live session**. Loading, supported recovery and tested implementation details belong to the owning harness package/operator documentation. No lifecycle implementation is specified or authorized here. The version-specific observations below retain their own verification dates.
+
 > **Verified 2026-09-13** against **v0.85.1**, commit `71dca87`. Read from source and in-repo docs. **Corrected 2026-09-13** after a demonstration contradicted one claim -- see *Where commands load from*. Re-verify before relying on any specific claim; this product changes weekly.
 
 The design thesis: a coding agent needs four tools -- read, write, edit, bash -- and a system prompt under a thousand tokens. Everything else is opt-in, composed as typed TypeScript extensions. That makes almost every capability below a thing you build rather than a thing you configure, which is the trade the product is making on purpose.
