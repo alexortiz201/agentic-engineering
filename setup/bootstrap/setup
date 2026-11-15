@@ -49,6 +49,6 @@ if [ ! -d "$root/cli/node_modules/@clack/prompts" ]; then
   printf 'Install locked CLI dependencies into cli/node_modules (no lifecycle scripts)? [y/N] '
   read -r reply || exit 1
   case "$reply" in y|Y|yes) ;; *) echo 'Cancelled.'; exit 1 ;; esac
-  "$node_cmd" "$npm_cli" --prefix "$root/cli" ci --ignore-scripts
+  (cd "$root/cli" && "$node_cmd" "$npm_cli" ci --ignore-scripts)
 fi
 exec "$node_cmd" --experimental-strip-types "$root/cli/src/index.ts" setup "$@"

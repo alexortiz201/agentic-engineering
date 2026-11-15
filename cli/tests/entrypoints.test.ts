@@ -77,7 +77,7 @@ test('fresh bootstrap verifies and stages local runtime plus locked CLI dependen
   fs.mkdirSync(path.join(payload, release, 'bin'), { recursive: true });
   fs.mkdirSync(path.join(payload, release, 'lib/node_modules/npm/bin'), { recursive: true });
   fs.writeFileSync(path.join(payload, release, 'lib/node_modules/npm/bin/npm-cli.js'), '// fixture');
-  script(path.join(payload, release, 'bin/node'), 'if [ "$1" = -e ]; then exit 0; fi; case "$1" in */npm-cli.js) /bin/mkdir -p "$FIXTURE_CHECKOUT/cli/node_modules/@clack/prompts"; echo "$*" > "$FIXTURE_CHECKOUT/deps-evidence" ;; *) echo fixture-wizard-launched ;; esac');
+  script(path.join(payload, release, 'bin/node'), 'if [ "$1" = -e ]; then exit 0; fi; case "$1" in */npm-cli.js) /bin/mkdir -p "$FIXTURE_CHECKOUT/cli/node_modules/@clack/prompts"; echo "$*" > "$FIXTURE_CHECKOUT/deps-evidence"; pwd > "$FIXTURE_CHECKOUT/deps-cwd" ;; *) echo fixture-wizard-launched ;; esac');
   const archive = path.join(dir, release + '.tar.gz');
   assert.equal(spawnSync('tar', ['-czf', archive, '-C', payload, release]).status, 0);
   const sums = path.join(dir, 'sums'); fs.writeFileSync(sums, createHash('sha256').update(fs.readFileSync(archive)).digest('hex') + '  ' + release + '.tar.gz\n');
@@ -86,6 +86,7 @@ test('fresh bootstrap verifies and stages local runtime plus locked CLI dependen
   const r = spawnSync('/bin/sh', [path.join(checkout, 'setup/bootstrap/setup')], { input: 'y\ny\n', encoding: 'utf8', env: { HOME: dir, PATH: bin, FIXTURE_CHECKOUT: checkout } });
   assert.equal(r.status, 0, r.stderr); assert.match(r.stdout, /fixture-wizard-launched/);
   assert.match(fs.readFileSync(path.join(checkout, 'deps-evidence'), 'utf8'), /ci --ignore-scripts/);
+  assert.equal(fs.readFileSync(path.join(checkout, 'deps-cwd'), 'utf8').trim(), fs.realpathSync(path.join(checkout, 'cli')));
   assert.ok(fs.existsSync(path.join(checkout, '.bootstrap', release, 'bin/node')));
   assert.equal(fs.existsSync(path.join(dir, '.pi')), false);
 });
