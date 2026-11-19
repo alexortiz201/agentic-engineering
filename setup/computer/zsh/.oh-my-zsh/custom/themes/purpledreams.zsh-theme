@@ -2,6 +2,9 @@
 
 setopt PROMPT_SUBST
 
+# EPOCHSECONDS is provided by this module, not by zsh itself.
+zmodload zsh/datetime
+
 # ------------------------------------------------------------------------------
 # Colors
 # Purple Dreams palette
@@ -67,6 +70,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#8b93b5'
 # ------------------------------------------------------------------------------
 
 theme_set_terminal_bg() {
+  # Background tinting is a Ghostty customization, not a portable prompt hook.
+  [[ "$TERM_PROGRAM" == ghostty ]] || return 0
   if [[ -n "$SSH_CONNECTION" ]]; then
     printf '\033]11;%s\033\\' "$SSH_BG"
   else
@@ -124,7 +129,8 @@ theme_command_status() {
 }
 
 theme_command_duration() {
-  local duration=$(( EPOCHSECONDS - ${THEME_CMD_START:-EPOCHSECONDS} ))
+  [[ -n "${THEME_CMD_START:-}" ]] || return 0
+  local duration=$(( EPOCHSECONDS - THEME_CMD_START ))
   [[ $duration -lt 2 ]] && return
 
   if [[ $duration -lt 60 ]]; then
@@ -208,6 +214,7 @@ theme_set_prompt() {
   ssh_segment="$(theme_ssh_segment)"
   docker_segment="$(theme_docker_segment)"
   timing_segment="$(theme_command_duration)"
+  unset THEME_CMD_START
   status_segment="$(theme_command_status "$last_exit")"
 
   PROMPT="${delimiter} "
@@ -219,6 +226,7 @@ theme_set_prompt() {
   [[ -n "$git_segment" ]] && RPROMPT="${RPROMPT}${SEPARATOR_COLOR}·${RESET}${git_segment}"
   [[ -n "$timing_segment" ]] && RPROMPT="${RPROMPT}${SEPARATOR_COLOR}·${RESET}${timing_segment}"
   [[ -n "$status_segment" ]] && RPROMPT="${RPROMPT}${SEPARATOR_COLOR}·${RESET}${status_segment}"
+  return 0
 }
 
 autoload -Uz add-zsh-hook

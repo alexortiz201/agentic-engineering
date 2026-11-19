@@ -73,7 +73,7 @@ fi
 # Terminal sanity
 # ------------------------------------------------------------------------------
 
-stty erase '^?' 2>/dev/null || true
+[[ -t 0 ]] && stty erase '^?' 2>/dev/null
 
 # ------------------------------------------------------------------------------
 # Plugins
@@ -110,12 +110,16 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(
   reverse-menu-complete
 )
 
-if [ -f "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-fi
-
-if [ -f "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# Resolve the prefix once, and remain usable when Homebrew isn't installed.
+if (( $+commands[brew] )); then
+  typeset _zsh_brew_prefix="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+  if [[ -f "$_zsh_brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "$_zsh_brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  fi
+  if [[ -f "$_zsh_brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "$_zsh_brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  fi
+  unset _zsh_brew_prefix
 fi
 
 export PROMPT_EOL_MARK=""

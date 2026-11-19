@@ -34,9 +34,6 @@ project_cd() {
 # Python virtualenvwrapper-style paths
 export WORKON_HOME="$HOME/.virtualenvs"
 
-# Backspace sanity for some terminal/SSH sessions
-stty erase '^?' 2>/dev/null || true
-
 # ------------------------------------------------------------------------------
 # Bun
 # ------------------------------------------------------------------------------
