@@ -34,6 +34,22 @@ test('every consolidated computer package installs/verifies/removes with actual 
   }
 });
 
+test('shell provisioning refuses an existing unmanaged zshenv without changing local content', t => {
+  const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ae-zshenv-conflict-')));
+  t.after(() => fs.rmSync(home, { recursive: true, force: true }));
+  const local = path.join(home, '.zshenv');
+  const original = '# Local shell prerequisites\nexport LOCAL_FIXTURE=preserve\n';
+  fs.writeFileSync(local, original);
+  const c = { ...catalog(root).find(c => c.id === 'config-zsh')!, dependencies: [] };
+  const ctx: Context = { root, home, platform: 'darwin', run };
+  const install = plan([c], detectAll(ctx, [c]), { [c.id]: { action: 'install' } });
+  assert.ok(install.conflicts.length > 0);
+  assert.throws(() => execute(ctx, [c], install, true), /Resolve all plan conflicts/);
+  assert.equal(fs.readFileSync(local, 'utf8'), original);
+  assert.equal(fs.lstatSync(local).isFile(), true);
+  assert.deepEqual(fs.readdirSync(home), ['.zshenv']);
+});
+
 test('canonical Pi packages have exactly the supported regular discovery leaves', () => {
   const mapping: Record<string, string> = {
     'pi-instructions': 'AGENTS.md', 'pi-theme': 'themes/purple-dreams.json',
@@ -100,7 +116,7 @@ test('canonical Pi sources install/repeat/remove without legacy root or generati
 });
 
 test('shell source parses; portable configuration has no old-repository runtime dependencies', () => {
-  for (const file of ['setup/computer/zsh/.zshrc', 'setup/computer/zsh/.oh-my-zsh/custom/env.sh']) {
+  for (const file of ['setup/computer/zsh/.zshenv', 'setup/computer/zsh/.zshrc', 'setup/computer/zsh/.oh-my-zsh/custom/env.sh']) {
     const check = spawnSync('zsh', ['-n', path.join(root, file)], { encoding: 'utf8' });
     assert.equal(check.status, 0, check.stderr);
     assert.doesNotMatch(fs.readFileSync(path.join(root, file), 'utf8'), /Projects\/dotfiles|Mac-mini\.local|Alex-O-Air-M2/);

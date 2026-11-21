@@ -21,8 +21,28 @@ function run(script: string, env: NodeJS.ProcessEnv = {}): string {
   return result.stdout;
 }
 
-// All shell fixtures are non-login shells with controlled environment/commands;
-// no real HOME startup files, SSH connections, brew installs or clipboard access.
+// Shell fixtures use controlled commands; startup tests isolate HOME/ZDOTDIR.
+// No SSH connections, brew installs or clipboard access.
+test('Pi clipboard forwarding reaches child processes in fresh shells and preserves explicit opt-out', t => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'ae-clipboard-'));
+  t.after(() => fs.rmSync(home, { recursive: true, force: true }));
+  fs.copyFileSync(path.join(shell, '.zshenv'), path.join(home, '.zshenv'));
+  for (const args of [['-c'], ['-lc'], ['-ic']]) {
+    for (const value of [undefined, '', '0', '1']) {
+      const result = spawnSync('/bin/zsh', [...args, `/bin/sh -c 'printf "%s" "$PI_CLIPBOARD_OSC52"'`], {
+        env: {
+          HOME: home, ZDOTDIR: home, PATH: '/usr/bin:/bin', TERM: 'xterm-256color',
+          ...(value === undefined ? {} : { PI_CLIPBOARD_OSC52: value }),
+        },
+        encoding: 'utf8',
+      });
+      assert.equal(result.status, 0, result.stderr || result.stdout);
+      assert.equal(result.stderr, '');
+      assert.equal(result.stdout, value || '1');
+    }
+  }
+});
+
 test('Homebrew plugins resolve the prefix once, reuse an exported prefix, and tolerate missing brew', t => {
   const fragment = zshrc.slice(zshrc.indexOf('ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='), zshrc.indexOf('export PROMPT_EOL_MARK='));
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ae-startup-'));

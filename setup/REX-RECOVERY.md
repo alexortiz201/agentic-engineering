@@ -183,12 +183,39 @@ Claude's existing setup declaration uses the Homebrew cask. No npm launcher repa
 or npm install-script policy is part of this bootstrap. Do not reinstall or switch
 a working npm/native Claude to Homebrew without separate approval.
 
-Copying selected remote-pane text with Cmd+C should use the viewing Mac's
-clipboard. Copy-on-selection can replace clipboard contents after another
-selection; keep it if desired. A program using `pbcopy` on the remote host writes
-to that host's clipboard. Copying on one physical Mac and pasting on another is
-macOS Universal Clipboard, independent of shared Rex sessions. Test with harmless
-text; do not expose clipboard contents or credentials while diagnosing.
+Native Rex text selection and Cmd+C use the viewing Mac's clipboard.
+Copy-on-selection can replace clipboard contents after another selection; keep
+it if desired. Pi fullscreen owns ordinary mouse selection instead; Shift-drag
+bypasses it and uses Rex's native selection.
+
+The portable shell package includes `setup/computer/zsh/.zshenv`, which exports
+`PI_CLIPBOARD_OSC52=1` by default on either Mac. Pi then also forwards its fullscreen
+copies through the terminal using OSC 52, even when Rex remote access supplies no
+SSH environment markers. This is event-based forwarding to the connected terminal,
+not continuous clipboard synchronization. The local host clipboard is still
+written; use only trusted terminal clients and do not test with secrets. This does
+not make Pi's application-owned selection into a native Rex selection or guarantee
+that Cmd+C acts on it.
+
+For a one-process test in an existing shell:
+
+```sh
+PI_CLIPBOARD_OSC52=1 pi
+```
+
+New zsh shells inherit the default after the shell package is installed; existing
+Pi processes must be relaunched. Explicit `PI_CLIPBOARD_OSC52=0 pi` opts out. Test
+Mini-hosted Pi to Air and Air-hosted Pi to Mini separately with harmless text,
+pasting into a local app on the viewing Mac. Startup/environment tests do not
+establish GUI or OSC 52 acceptance.
+
+An existing unmanaged `~/.zshenv` is a provisioning conflict, not permission to
+overwrite it. Preserve local content (for example RVM/Cargo setup) and review a
+merge/ownership handoff before installing the package. The setup wizard must not
+adopt or replace it automatically.
+
+A standalone `pbcopy` on the remote host still writes only to that host's
+clipboard. macOS Universal Clipboard is separate from Rex/Pi forwarding.
 
 ## Acceptance and backup limits
 
