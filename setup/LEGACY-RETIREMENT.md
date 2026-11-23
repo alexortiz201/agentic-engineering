@@ -4,7 +4,101 @@ November 2026 focused reconciliation. **Retirement is blocked. No archive move o
 
 See [ownership map](OWNERSHIP.md), [migration gates](MIGRATION.md), [home lab](HOME-LAB.md), and [NAS status](NAS-SSH.md). Historical statements about active dotfiles development do not override this checkpoint.
 
-## Live implementation checkpoint — November 23, 2026
+## Further verified handoffs — November 23, 2026
+
+This supersedes the earlier checkpoint's pending SSH/Air-GH statements.
+
+- **Mini SSH:** `~/.ssh/config` now links into canonical `setup/computer/ssh/.ssh/config`;
+  private host blocks are preserved in 0600 `~/.ssh/config.local`. Receipt
+  `~/.local/state/ae/handoffs/mini-ssh-20261123T160352Z/manifest.json`.
+- **Air SSH:** the same relative canonical target is in Air's physically local
+  checkout, with its own private include. Receipt `air-ssh-PwJoME` under Air's
+  `~/.local/state/ae/handoffs/`.
+- **Air GH:** `~/.config/gh/config.yml` now links into Air-local canonical
+  `setup/computer/gh/.config/gh/config.yml`; receipt `air-gh-6dIt2r`.
+  `hosts.yml` remains at its original local path and inode. Only filesystem metadata
+  was inspected before/after: no credential contents were read, hashed, copied,
+  published or relocated.
+- **Air Herdr:** a local regular `~/.config/herdr/config.toml`, not legacy-owned.
+  Bounded content inspection found no legacy source reference. Its existing local
+  preferences are intentionally retained; no adoption, restart or session change
+  is needed for legacy retirement.
+
+Each SSH handoff checked seven complete effective option dumps (including Mini's
+NAS alias) against the old configuration, prepared a temporary candidate include,
+rehearsed native Stow install/delete, and tested restoring the exact old link then
+reapplying canonical ownership. All comparisons passed independently. The initial
+Mini fixture check caught a Stow argument-order issue before any live write; the
+corrected `--delete`-before-package fixture passed. Private receipts record exact
+old/new targets, hashes, source revision and created-include metadata. Independent
+Rex access was verified before SSH mutation. No NAS-side connection test or change
+was made, and NAS authentication remains unverified/previously denied.
+
+### Ghostty: exact preference decision
+
+Git history establishes the newer authored version: canonical commit `e838453`
+(`fix(theme): refine Purple Dreams brand palette on plum background`, authored
+November 17). Both Macs still use the same older legacy palette (May-era history).
+Canonical changes are intentional, not evidence that the live theme file is corrupt.
+The current request requires a clear preference decision before changing appearance;
+**neither palette has been overwritten and neither Ghostty handoff has occurred**.
+
+| Entry | Current live, both Macs | Newer canonical |
+|---|---|---|
+| palette 0 | `#12333f` | `#0d2630` |
+| palette 1 | `#ee5f5b` | `#d84c48` |
+| palette 2 | `#bada55` | `#99b73b` |
+| palette 3 | `#dfb626` | `#ad6f17` |
+| palette 4 | `#19b5fe` | `#178cc3` |
+| palette 5 | `#fe57a1` | `#e73182` |
+| palette 6 | `#33ccba` | `#328f84` |
+| palette 7 | `#d4d4d4` | `#b2aab3` |
+| palette 8 | `#0c2732` | `#7a7483` |
+| palette 9 | `#bc5329` | `#ee5f5b` |
+| palette 10 | `#5c6d74` | `#bada55` |
+| palette 11 | `#697a81` | `#f89406` |
+| palette 12 | `#7fdbff` | `#19b5fe` |
+| palette 13 | `#9b72cf` | `#fe57a1` |
+| palette 14 | `#95a0a0` | `#33ccba` |
+| background | `#1b1224` | `#160d1b` |
+
+Palette 15 (`#fbf6e4`), foreground and the other inspected theme content are unchanged.
+The source of intended portable defaults is canonical; adopting its newer look on
+live hosts or retaining the older look as a local preference needs the operator's
+choice. Do not silently roll canonical back to legacy to satisfy byte equality.
+
+### Exact remaining dependencies and required dispositions
+
+- **Mini GH:** `~/.config/gh` still points to legacy `gh/.config/gh`. Its `config.yml`
+  is nonsecret, but `hosts.yml` is a 0600 regular file physically inside that legacy
+  directory. Path/mode metadata only was inspected. It cannot remain at that exact
+  physical location if the directory is archived, and this task prohibits relocating
+  or reading credentials. Operator action/separate authorization is required for a
+  secure locally owned authentication transition; do not introduce a path shim.
+- **Mini Ghostty:** folded `~/.config/ghostty` and Application Support config still
+  resolve through legacy `ghostty/`; Air Ghostty uses its local legacy release.
+- **Mini shell:** `~/.zshrc`, custom env/theme/plugins and `~/.local/bin/aircopy`
+  still consume legacy `zsh/`; canonical differs in identity/navigation handling.
+  Selected plugin inspection also found differing docker-compose README/git plugin
+  content. Preserve those customizations rather than force whole-package Stow.
+  The existing local `.zshenv` is not automatically adopted. Air's shell/resource
+  release links still require its own exact preservation review.
+- **Historical resource links:** Mini `~/.pi/{core,agents,docs,design,optional,packages,rules}`
+  and Air historical Pi/OMP links still reference old sources/checkout names.
+  Discovery/link presence is not proof of loading or approval to delete them.
+- **Supported legacy recovery:** `dotfiles/.no-stow/scripts/air-snapshot` requires
+  the original shared source path and Git revision history; whole-home release/SMB
+  procedures and `pi-resources` retain compatibility consumers. Canonical setup CLI,
+  selective Stow and the bounded Rex procedure now cover the migrated packages;
+  **do not use whole-home legacy recovery to undo these new owners**. Original
+  sources remain solely for unmigrated resources and targeted receipt rollback.
+  No unverified wholesale replacement of Air network/release recovery was made.
+
+No full legacy snapshot or archive move was attempted while these dependencies
+remain. The original dirty repository/history is preserved. Neither new tooling nor
+Workbench changes were introduced.
+
+## Earlier live implementation checkpoint — November 23, 2026
 
 This checkpoint supersedes the Git/Herdr rows in the earlier inventory below;
 other consumers remain unresolved. The migration performed real bounded handoffs,

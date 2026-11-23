@@ -6,7 +6,7 @@ This is documentation of an existing local alias, not authorization for further 
 
 Agentic Engineering is the single authored setup authority. Its portable SSH template, `computer/ssh/.ssh/config`, includes `~/.ssh/config.local` before global defaults. Personal network aliases/accounts belong in that private local include after an approved handoff; do not copy private endpoint data into public source.
 
-The Mini has **not** completed that handoff. Its active `~/.ssh/config` still points into the legacy repository. The working NAS block there is preserved unchanged. Air SSH points into a local versioned legacy release; it does not yet contain the new NAS alias. No NAS-side changes were performed.
+**Update, November 23:** Mini and Air SSH now point to their respective local canonical `setup/computer/ssh/.ssh/config`, with private 0600 `~/.ssh/config.local` host entries. Mini's NAS options are preserved exactly; Air's pre-existing host behavior is also preserved (no new Air NAS alias was introduced). Seven effective alias dumps, private include resolution, native Stow rehearsal and live rollback/reapply passed separately on each host through independent Rex recovery access. See [handoff evidence](LEGACY-RETIREMENT.md). No NAS-side changes or successful NAS authentication are claimed. The earlier integration evidence below describes the before-state, not current ownership.
 
 Why legacy was used: the earlier task explicitly named that repository, and live symlink inspection confirmed it owned Mini SSH. The implementation followed the live owner, but mistakenly treated that as permission to author new authoritative documentation there. Live deployment ownership does not supersede canonical authoring authority.
 
@@ -31,7 +31,9 @@ The reported administrator shell is bash; the separate regular NAS account must 
 
 The existing public key is the first candidate to evaluate, not a reason to generate another key. A user can test interactive password authentication privately. Installing a key requires separate approval, inspection of actual account home/permissions and supported exact-version UGOS guidance. `authorized_keys` persistence across firmware updates is **unknown**; do not rely on it as the sole recovery route. No NAS login or authentication changes are authorized by the documentation reconciliation.
 
-## Future handoff, recovery, and Tailscale
+## Recovery and future Tailscale
+
+The SSH-only handoffs are now complete; the following constraints remain applicable to future computers and other configuration handoffs. Use current canonical owners, not the retired per-host legacy SSH leaf. Private rollback receipts retain the old literals and hashes without publishing account data.
 
 An approved SSH-only migration must privately preserve existing host entries, prepare the documented local include, preflight exact link ownership, preserve rollback material and validate both existing aliases and NAS behavior. Do not run whole-home legacy Air deployment simply for this alias: it includes protected historical Pi consumers. Do not edit a verified Air release in place or clone Mini private keys.
 
