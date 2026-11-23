@@ -4,7 +4,11 @@
 
 This repository is the single authored setup authority. For network/storage/access
 work or onboarding a home computer, read the public-safe [home-lab guide](setup/HOME-LAB.md)
-and [NAS SSH status](setup/NAS-SSH.md). Private network/account inventory stays outside Git.
+and [NAS access and tailnet DNS](setup/NAS-SSH.md). The current operator-confirmed
+Tailscale tailnet DNS name is **`tarsier-atlas.ts.net`** (renamed November 23, 2026).
+The expected NAS HTTPS endpoint still requires certificate/Serve verification.
+Only the explicitly supplied nonsecret NAS inventory is documented there; private
+configuration, credentials and keys stay outside Git.
 Legacy dotfiles remains only for verified live migration/compatibility/recovery
 consumers; [retirement is currently blocked](setup/LEGACY-RETIREMENT.md). Do not
 interpret deployed legacy links as permission to author new setup material there.

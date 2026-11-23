@@ -6,7 +6,7 @@ See [setup](../SETUP.md), [ownership](OWNERSHIP.md), [NAS access status](NAS-SSH
 
 ## Evidence and private inventory
 
-Observations below come from November 2026 discovery; equipment facts supplied by the operator are labeled reported. Reinspect before acting. Exact LAN addresses, account names, endpoint names, SSH fingerprints, reservation maps, private configuration and original detailed reports are intentionally excluded from public Git. Keep those in operator-controlled local records and approved independent private backups. Do not copy private records into this public repository to make onboarding easier.
+Observations below come from November 2026 discovery; equipment facts supplied by the operator are labeled reported. Reinspect before acting. The operator-supplied nonsecret NAS addresses, administrator name and tailnet rename are now documented explicitly in [NAS access](NAS-SSH.md#current-configuration--november-23-2026). These are reported configuration, not fresh connectivity-test results. SSH fingerprints, private configuration, credentials, enrollment keys, reservation maps and original detailed reports remain outside public Git; keep them in approved private records/backups.
 
 The original detailed home-lab and NAS reports were preserved byte-for-byte in a private local recovery directory before reconciliation. That local preservation is not an offsite backup or a complete dotfiles repository snapshot. Ask the operator for its location/access if needed.
 
@@ -16,7 +16,7 @@ The original detailed home-lab and NAS reports were preserved byte-for-byte in a
 |---|---|---|
 | Mac mini | Primary always-on development/agent host; M4, 10 CPU cores, 24 GB RAM, nominal 256 GB internal SSD; 10GbE-capable controller | Observed; Ethernet negotiated 1GbE during audit |
 | MacBook Air | Interactive/mobile development; can execute local agents or view Mini-hosted terminals | Rex connectivity observed; exact hardware/storage not inventoried |
-| UGREEN NASync DXP4800 Plus | Intended centralized durable storage; SSH enabled LAN-only on port 22 | Model/access policy reported; SSH endpoint responds, administrator login not yet accepted |
+| UGREEN NASync DXP4800 Plus | Centralized storage, SMB shares, UGOS management; Tailscale in persistent host-networked Compose project | Operator-reported current configuration November 23; earlier discovery did not authenticate. Current SSH/HTTPS/SMB acceptance still needs independent verification; see [access details](NAS-SSH.md). |
 | NAS disk | 8 TB WD Red Plus | Reported; actual pool, health, firmware, free space, snapshots and UPS unknown |
 | TP-Link TL-SG2210P V3 / Omada | Home Ethernet switch, 1GbE ports | Reported; controller configuration, VLANs, DHCP/DNS ownership and recovery exports unknown |
 | DevDrive | Mini-attached SanDisk Extreme 55AE, approximately 2 TB APFS | Observed case-insensitive, unencrypted, noowners; **480 Mb/s USB negotiation** during audit, cause unknown |
@@ -39,9 +39,9 @@ Mini Rex client <-- Tailscale --> Air Rex server
 Air's physical access medium/uplink: not established
 ```
 
-Mini Ethernet and Wi-Fi were both active; default route used Ethernet. Exact routing, reservations, mDNS names, and access controls belong in private inventory. A LAN mDNS name need not resolve remotely. Tailscale OS peers and Rex-managed endpoints can coexist; distinguish them. NAS Tailscale enrollment is future work, not existing verified infrastructure. Never assume router port forwarding is required.
+Mini Ethernet and Wi-Fi were both active; default route used Ethernet. Routing, reservations and access controls belong in private inventory. A LAN mDNS name need not resolve remotely. Tailscale OS peers and Rex-managed endpoints can coexist; distinguish them. The operator now reports NAS enrollment as device `nas` and HTTPS Serve to UGOS; the tailnet was renamed to `tarsier-atlas.ts.net` on November 23, 2026, confirmed by the operator in the Admin Console. The expected NAS HTTPS URL needs new-name certificate issuance and endpoint verification; it is **not yet tested here**. See [current NAS access and rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification). Never assume router port forwarding is required.
 
-SSH uses existing aliases and per-machine keys. Canonical portable defaults are in `computer/ssh/.ssh/config`; personal host entries belong in **local** `~/.ssh/config.local`. Their actual live ownership is still transitional; see the retirement report. Do not put private hosts into the portable template or automatically overwrite an existing file. Validate hostname, quoted username, port and effective options with `ssh -G` before connecting. Host-specific options must precede wildcard defaults because OpenSSH uses the first obtained value.
+SSH uses existing aliases and per-machine keys. Canonical portable defaults are in `computer/ssh/.ssh/config`; personal host entries belong in **local** `~/.ssh/config.local`. Both Macs' SSH ownership handoffs are verified; other resources remain transitional (see the retirement report). Do not put private hosts into the portable template or automatically overwrite an existing file. Validate hostname, quoted username, port and effective options with `ssh -G` before connecting. Host-specific options must precede wildcard defaults because OpenSSH uses the first obtained value.
 
 ## Execution and storage boundaries
 
@@ -76,12 +76,13 @@ Bounded read-only discovery tools include `networksetup`, `ifconfig`, `route -n 
 
 ## Unfinished work
 
-- NAS authenticated administrator identity/shell, supported key installation and persistence across exact UGOS firmware updates.
+- Independently verify the operator-reported NAS key login, effective administrator identity/shell and key persistence across exact UGOS firmware updates; do not reinstall keys based solely on historical failed probes.
+- Verify new-name HTTPS certificate issuance, MagicDNS, Serve backend and NAS SMB access after the tailnet rename; review [manual client follow-ups](NAS-SSH.md#manual-client-follow-ups).
 - Actual NAS pool/filesystem, health/capacity, SMB capabilities, snapshots, APFS USB support, backup and UPS policy.
 - Switch/controller management owner and privately stored recovery export; DHCP/DNS/firewall source of truth.
 - StartOS service inventory, backup freshness/schedule and restore test.
-- Air mounts/runtime ownership review and separately approved SSH handoff.
+- Air mounts/runtime ownership review; SSH ownership is already handed off, but endpoint changes still require separate review.
 - Controlled local APFS versus NAS SMB performance/semantics tests before active-storage migration.
 - Complete the explicit legacy-consumer retirement gates before archiving dotfiles.
 
-Future NAS Tailscale access should retain the same alias and update only its privately configured HostName after approved enrollment, ACL/DNS validation and host-key continuity checks. No new configuration layer is necessary.
+NAS Tailscale enrollment is operator-reported current configuration, not future work. Retain stable local aliases; any private HostName update still requires ACL/DNS validation and host-key continuity checks. The tailnet rename does not itself authorize SSH, Rex or NAS changes. No new configuration layer is necessary.

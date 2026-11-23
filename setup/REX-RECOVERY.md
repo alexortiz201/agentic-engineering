@@ -90,6 +90,24 @@ such as `air` does not issue a certificate for `https://air`. Never disable TLS
 verification to shorten the address. SSH is encrypted too, but the selected Rex
 recovery path uses its authenticated Tailscale HTTPS endpoint in both directions.
 
+## Tailnet rename follow-up
+
+The operator confirmed the tailnet DNS name changed to **`tarsier-atlas.ts.net`**
+on November 23, 2026. Rex certificates and saved endpoints must be checked against
+each server's actual advertised URL, not changed by blind suffix substitution.
+Certificates for a previous hostname do not validate its renamed replacement;
+verify supported reissuance and readiness independently on both Macs.
+
+Inspect app Remote Hosts/bookmarks and CLI labels separately. A local saved Rex
+host label still contains the previous suffix; that is a manual-review finding,
+not proof its endpoint is broken. Validate the intended host ID, TLS and both
+connection directions before separately approved record edits. Preserve existing
+sessions and working recovery access; do not restart servers or delete sessions
+to rename a bookmark. The [NAS rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification)
+records the DNS transition and NAS-specific Serve mapping; that NAS URL is not a
+Rex server URL. No client records or live configuration were changed by this
+update.
+
 ## 3. Restore both app connections, not just one
 
 - On the Mini, **Add Remote Host…** using the Air's actual Rex HTTPS URL; use the
