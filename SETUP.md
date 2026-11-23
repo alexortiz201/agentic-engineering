@@ -1,5 +1,14 @@
 # Developer environment setup
 
+## Home lab and setup authority
+
+This repository is the single authored setup authority. For network/storage/access
+work or onboarding a home computer, read the public-safe [home-lab guide](setup/HOME-LAB.md)
+and [NAS SSH status](setup/NAS-SSH.md). Private network/account inventory stays outside Git.
+Legacy dotfiles remains only for verified live migration/compatibility/recovery
+consumers; [retirement is currently blocked](setup/LEGACY-RETIREMENT.md). Do not
+interpret deployed legacy links as permission to author new setup material there.
+
 The standalone setup wizard lives in [`cli/`](cli/README.md). Clone this repository, then run:
 
 ```sh
