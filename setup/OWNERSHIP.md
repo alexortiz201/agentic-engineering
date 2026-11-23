@@ -11,11 +11,11 @@ Baseline: `e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354` (portable Pi); both Macs' P
 | Resource | Current owner / installation | Replacement | Portability / reuse / migration |
 |---|---|---|---|
 | Shell, custom plugins/theme, aircopy | dotfiles `zsh/`, Stow | `setup/computer/zsh/` | Portable except local identity/navigation; reuse Stow. Live ownership handoff required. Oh My Zsh itself stays upstream-owned and must already exist. |
-| Git | dotfiles `git/`, Stow | `setup/computer/git/` | Portable defaults; identity moves to local `~/.gitconfig.local`. Stow handoff required. |
+| Git | Mini and Air: canonical `setup/computer/git/`, Stow; Air source is physically local | Same owner | November 23 handoffs verified; per-host private `~/.gitconfig.local` preserves identity. See [receipts/checks](LEGACY-RETIREMENT.md#live-implementation-checkpoint--november-23-2026). |
 | GH | dotfiles `gh/`, Stow | `setup/computer/gh/` | Only tracked config, never hosts/tokens. Stow handoff required. |
 | SSH | dotfiles `ssh/`, Stow | `setup/computer/ssh/` | Portable defaults; hosts remain local in `~/.ssh/config.local`; keys never copied. Stow handoff required. |
 | Ghostty | dotfiles `ghostty/`, Stow | `setup/computer/ghostty/` | Preserve XDG-to-Application Support source link and palette. Reuse Stow. |
-| Herdr configuration | dotfiles `herdr/`, Stow | `setup/computer/herdr/` | Independent of Pi; runtime/socket/state remain local. Reuse Stow. |
+| Herdr configuration | Mini: canonical `setup/computer/herdr/`, Stow. Air: unmanaged regular file, unchanged | Same Mini owner; Air reconciliation still gated | Mini November 23 leaf handoff verified; non-comment content unchanged, no reload. Runtime/socket/state remain local. |
 | Homebrew declarations | dotfiles `.no-stow/brew/` | `setup/computer/manifests/brew/` | Preserve useful shared/additive organization. Wizard selects individual declarations, never runs whole Bundle or cleanup. Old host files are reference inventories, not identity-based profiles. |
 | npm / Bun globals | dotfiles `.no-stow/{npm,bun}/` | `setup/computer/manifests/{npm,bun}/` | Inventory preserved; bulk global installation deferred (competing ownership). |
 | Pi executable | Official managed local 1.5.2 | Same local owner | No reinstallation/migration. Wizard detects receipt and shim; installer/update/uninstall remain manual pending an approved exact-version official route. |

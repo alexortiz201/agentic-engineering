@@ -162,6 +162,34 @@ Rex HTTPS access does not depend on SSH authorization. For SSH administration:
 Do not commit `authorized_keys`, known-host files, actual host mappings or private
 keys as part of this portable procedure. No copy of credentials is needed here.
 
+## Bounded checks during setup migration
+
+Use the terminal host actually running the session. Rex does not require
+`HERDR_ENV=1`; that guard applies only to Herdr operations. Use the installed
+`rex __internal skill` and command help as the syntax authority.
+
+For an already configured remote host, inspect before running anything:
+
+```sh
+rex --autostart=false hosts list --json
+rex --autostart=false -S air whoami --json
+rex --autostart=false -S air ls --json
+```
+
+Verify remote identity, select the returned remote session explicitly, and keep
+`-S air` on every remote command. A local session/block ID does not identify an
+Air pane. Never set a guessed `REX_SERVER` or accept a fallback to local execution.
+For approved bounded shell checks, use a separate `run --focus=false` block with
+`--shell=none`, an explicit command and `--wait`; capture its returned block ID.
+Do not inject commands into an occupied user/agent pane. Retain non-secret results
+as evidence; do not restart servers, alter enrollment, or interrupt active sessions.
+
+Use physically local canonical sources and verified local tools on Air. Rex
+transport success alone does not establish source ownership, offline readiness,
+Git availability or recovery acceptance. An unavailable Herdr context is not a
+blocker for Rex operations. Conversely, having Rex access does not authorize
+Herdr control from outside a Herdr-managed pane.
+
 ## 6. Fresh-shell and copy checks
 
 Open a new local terminal on each Mac and inspect:

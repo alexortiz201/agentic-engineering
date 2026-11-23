@@ -216,6 +216,8 @@ Do not invoke blanket Stow deletion or restore a HOME snapshot.
 
 ## Approved handoff transaction, one host at a time
 
+Terminal transport is context-dependent, not Herdr-only. From Rex use the installed Rex skill and the [bounded remote-check procedure](REX-RECOVERY.md#bounded-checks-during-setup-migration), verify the remote host/session, and preserve active panes. Herdr commands require actual Herdr context; its absence does not block Rex checks. Neither transport relaxes source, locality, preservation or rollback gates below.
+
 This is an operator-run transaction, not an automatic CLI migration. First rehearse it with temporary homes (as in tests). Obtain approval naming the chosen source commit, selected packages, exact occupied leaves/parent links, private backup locations and rollback route.
 
 1. Coordinate affected sessions only; do not stop unrelated processes. Do not edit a resource while its live target is being transferred.

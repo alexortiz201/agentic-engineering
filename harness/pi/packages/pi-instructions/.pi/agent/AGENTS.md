@@ -1,6 +1,6 @@
 # Engineering environment
 
-Pi executes agents; Herdr owns terminal/workspace integration. Use native Pi context maintenance. No custom lifecycle fence, authority transfer, rollover, scheduler or role hierarchy is required.
+Pi executes agents; the actual terminal host (Rex or Herdr) owns terminal/workspace integration. Use the matching installed skill and verified session context; Herdr-only context requirements do not apply to Rex operations. Use native Pi context maintenance. No custom lifecycle fence, authority transfer, rollover, scheduler or role hierarchy is required.
 
 Read the current project's instructions and preserve its existing changes. For company work, retain SDLC plugin profiles, specification links, conventions and commands in their required locations. Pi reading a Markdown file does not execute Claude plugins.
 

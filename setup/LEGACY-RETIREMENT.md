@@ -4,7 +4,67 @@ November 2026 focused reconciliation. **Retirement is blocked. No archive move o
 
 See [ownership map](OWNERSHIP.md), [migration gates](MIGRATION.md), [home lab](HOME-LAB.md), and [NAS status](NAS-SSH.md). Historical statements about active dotfiles development do not override this checkpoint.
 
-## Observed consumers
+## Live implementation checkpoint — November 23, 2026
+
+This checkpoint supersedes the Git/Herdr rows in the earlier inventory below;
+other consumers remain unresolved. The migration performed real bounded handoffs,
+not just source copying. No NAS authentication/settings or private credentials changed.
+
+| Host / exact home leaf | Previous owner | Current canonical target |
+|---|---|---|
+| Mini `~/.gitconfig` | legacy `git/.gitconfig` | local checkout `setup/computer/git/.gitconfig` |
+| Mini `~/.gitignore_global` | legacy `git/.gitignore_global` | local checkout `setup/computer/git/.gitignore_global` |
+| Mini `~/.config/herdr/config.toml` | legacy `herdr/.config/herdr/config.toml` | local checkout `setup/computer/herdr/.config/herdr/config.toml` |
+| Air `~/.gitconfig` | local legacy release `git/.gitconfig` | **Air-local** checkout `setup/computer/git/.gitconfig` |
+| Air `~/.gitignore_global` | local legacy release `git/.gitignore_global` | **Air-local** checkout `setup/computer/git/.gitignore_global` |
+
+Both hosts preserve their own Git identity in private `~/.gitconfig.local`.
+All effective Git values were compared before/after, excluding only the new include
+directive. Herdr non-comment content is unchanged. No application reload/restart
+was required or performed; Herdr UI acceptance was not independently exercised.
+Native Stow install/remove rehearsals ran in temporary homes before live handoff;
+new realpaths/hashes passed. Private 0700 receipt directories contain 0600 manifests
+with exact old link literals, source revision, hashes, new targets and created-include
+metadata. Failed live transactions were guarded to restore only matching resources.
+No failure rollback was needed. Receipts: Mini `mini-git-herdr-20261123T152650Z`;
+Air `air-git-LwJ5Tu`, under each host's `~/.local/state/ae/handoffs/`.
+
+Air execution used the installed Rex skill: verified remote identity, explicit
+remote session and separate unfocused blocks, no input into existing panes. The
+working tools are Homebrew Git/Stow and the existing user-local Node. System Git
+hits an existing Xcode library error; the first attempted Homebrew Node path did
+not exist and the command did not launch. The corrected user-local Node route passed.
+No Xcode repair, package installation or session restart was performed. Air source
+was clean at `bdcbc167b62052e22e726eaeab0f1a78d4671e97`; migrated Git bytes match
+reviewed canonical files. Sources remain physically local, not SMB-backed.
+
+Remaining current → proposed package ownership:
+- Mini SSH: legacy `ssh/.ssh/config` → canonical `setup/computer/ssh/.ssh/config`
+  plus private host include; **not changed**, preserve current NAS behavior and
+  verify independent recovery before switching SSH.
+- Mini shell/custom resources: legacy `zsh/` → canonical `setup/computer/zsh/`
+  plus private shell overrides; **not changed**. Host-aware navigation and identity
+  must be preserved explicitly; occupied `.zshenv` is not automatically adopted.
+- Mini Ghostty: legacy folded `.config/ghostty` plus Application Support leaf →
+  canonical `setup/computer/ghostty/` leaves. **Preflight stopped before writes**:
+  the live palette/background differs from canonical. Do not overwrite either
+  version or change appearance implicitly. Two child paths were enumerated.
+- Mini GH: legacy folded `.config/gh` → canonical config leaf plus local private
+  credential file. **Not changed**: `hosts.yml` is present and credentials must
+  not be modified or dropped during parent conversion.
+- Air SSH/shell/GH/Ghostty: existing local release → corresponding **Air-local**
+  canonical packages/private overrides, pending exact per-resource preservation.
+- Air Herdr: unmanaged regular config → no automatic adoption; preserve it until
+  its ownership/customizations are explicitly reconciled.
+- Historical Pi/OMP links and legacy Air release/SMB/recovery callers still need
+  explicit disposition. A successful Git handoff does not retire these consumers.
+
+**Archival remains blocked.** No full legacy recovery snapshot or archive move was
+performed because live/recovery dependencies still require the original location.
+The canonical Rex instructions now recognize Rex rather than demanding Herdr context.
+See [bounded Rex checks](REX-RECOVERY.md#bounded-checks-during-setup-migration).
+
+## Earlier observed consumers (before the implementation checkpoint)
 
 Read-only, depth-bounded link inspection on both Macs and selected recovery entry-point inspection found:
 
