@@ -373,6 +373,36 @@ test('application and configuration removal plans paired owned config before pac
   assert.equal(result.find(v => v.component === 'brew-git')?.status, 'success');
 });
 
+test('Claude cask blocks an existing unreceipted CLI without invoking it', t => {
+  const f = fixture(t);
+  const c = f.component('brew-claude-code');
+  const components = [f.component('homebrew'), c];
+  const selections = { [c.id]: selection('install') };
+  const originallyMissing = detectAll(f.ctx, components);
+  assert.equal(originallyMissing[c.id].status, 'missing');
+  const freshPlan = plan(components, originallyMissing, selections);
+  assert.equal(freshPlan.operations.find(op => op.component === c.id)?.kind, 'install');
+
+  const originalRun = f.ctx.run;
+  f.ctx.run = (cmd, args, env) => cmd === 'which' && args[0] === 'claude'
+    ? { code: 0, stdout: `${f.ctx.home}/.n/bin/claude\n`, stderr: '' }
+    : originalRun(cmd, args, env);
+  const states = detectAll(f.ctx, components);
+  assert.equal(states[c.id].status, 'conflict');
+  assert.equal(states[c.id].ownership, 'unmanaged');
+  const requested = plan(components, states, selections);
+  assert.equal(requested.operations.find(op => op.component === c.id)?.kind, 'conflict');
+  assert.throws(() => execute(f.ctx, components, freshPlan, true), /State\/source changed after preview: brew-claude-code/);
+  assert.deepEqual(f.calls, [['brew', 'info', '--json=v2', '--installed'], ['which', 'claude'], ['brew', 'info', '--json=v2', '--installed']]);
+
+  f.ctx.run = (cmd, args, env) => cmd === 'which' && args[0] === 'claude'
+    ? { code: 127, stdout: '', stderr: 'fixture lookup unavailable' }
+    : originalRun(cmd, args, env);
+  assert.equal(detect(f.ctx, c).status, 'unknown');
+  f.setBrew({ formulae: [], casks: [{ token: 'claude-code', installed: '2.1.329' }] });
+  assert.equal(detect(f.ctx, c).status, 'current');
+});
+
 test('claude-code: detected as missing when CLI absent, current with version when found; never reads credentials or settings', t => {
   const f = fixture(t);
   // Fixture runner returns code 1 for 'which claude' — absent by default

@@ -23,6 +23,10 @@ This page covers **computer/home provisioning**. For explicit capability discove
 
 Nothing installs on clone. Bootstrap asks before fetching a checkout-local Node runtime or locked CLI dependencies; it does not install Pi, Herdr, Homebrew or the whole workstation.
 
+For macOS developer-tool installation prompts despite working Homebrew tools,
+see the [Air diagnosis and reversible CLT procedure](setup/DEVELOPER-TOOLS.md).
+The setup wizard does not change the system developer directory.
+
 For manual Rex beta recovery, native CLI setup, bidirectional Tailscale HTTPS hosts and verification, see [Rex workstation recovery](setup/REX-RECOVERY.md). It distinguishes portable shell source from private enrollment/host records and live session state; these are not additional automated wizard operations.
 
 Choose a profile, choose components, set `[x]` install/update, `[−]` guided removal or `[ ]` no change, review dependencies/conflicts, then explicitly approve. For preview only:

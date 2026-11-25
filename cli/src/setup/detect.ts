@@ -77,6 +77,17 @@ export function detect(ctx: Context, c: Component): State {
       const entry = brewEntry(ctx, c);
       const versions = c.brewKind === 'cask' ? entry?.installed : entry?.installed?.map((v: any) => v.version);
       const installed = Array.isArray(versions) ? versions.length > 0 : !!versions;
+      // A PATH-visible Claude CLI is not a cask receipt. Refuse a second install
+      // until its existing manager is reviewed, without running the executable.
+      if (!installed && c.brewKind === 'cask' && c.packageName === 'claude-code') {
+        const cli = ctx.run('which', ['claude']);
+        const resolved = cli.code === 0 ? cli.stdout.trim() : '';
+        if (resolved) return { ...state('conflict', false, 'unknown',
+          ['Claude CLI already resolves on PATH without a matching cask receipt; keep its existing manager or review a separate handoff'],
+          { resolved }), ownership: 'unmanaged' };
+        if (cli.code !== 1) return state('unknown', 'unknown', 'unknown',
+          ['Unable to verify Claude CLI resolution; cask changes require review'], cli.code);
+      }
       // Detect a common unreceipted app, not just a matching executable name.
       const apps: Record<string, string> = { ghostty: 'Ghostty.app', 'docker-desktop': 'Docker.app', 'ollama-app': 'Ollama.app', 'visual-studio-code': 'Visual Studio Code.app' };
       const artifact = apps[c.packageName!];
