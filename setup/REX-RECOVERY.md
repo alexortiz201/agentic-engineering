@@ -87,28 +87,44 @@ rex --autostart=false whoami --json
 Confirm the local account and host ID, `tailscale.state`, and
 `tailscale.https.url`. HTTPS must validate normally. A hosts-file or SSH alias
 such as `air` does not issue a certificate for `https://air`. Never disable TLS
-verification to shorten the address. SSH is encrypted too, but the selected Rex
-recovery path uses its authenticated Tailscale HTTPS endpoint in both directions.
+verification to shorten the address. If direct HTTPS is unavailable, the [verified SSH transport fallback](#verified-ssh-transport-fallback)
+can retain encrypted cross-device Rex CLI access.
 
 ## Tailnet rename follow-up
 
-The operator confirmed the tailnet DNS name changed to **`tarsier-atlas.ts.net`**
-on November 23, 2026. Rex certificates and saved endpoints must be checked against
+The operator confirmed the tailnet DNS rename on November 23, 2026. Rex certificates and saved endpoints must be checked against
 each server's actual advertised URL, not changed by blind suffix substitution.
 Certificates for a previous hostname do not validate its renamed replacement;
 verify supported reissuance and readiness independently on both Macs.
 
-Inspect app Remote Hosts/bookmarks and CLI labels separately. A local saved Rex
-host label still contains the previous suffix; that is a manual-review finding,
-not proof its endpoint is broken. Validate the intended host ID, TLS and both
-connection directions before separately approved record edits. Preserve existing
-sessions and working recovery access; do not restart servers or delete sessions
-to rename a bookmark. The [NAS rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification)
-records the DNS transition and NAS-specific Serve mapping; that NAS URL is not a
-Rex server URL. No client records or live configuration were changed by this
-update.
+Inspect app Remote Hosts/bookmarks and CLI labels separately. A saved CLI record
+used a previous-suffix endpoint that no longer resolved. Both Rex servers now
+advertise the new suffix, but direct Rex HTTPS probes timed out. A Tailscale ping
+is not a Rex application check. Keep working SSH transport until HTTPS and TLS
+are verified in both directions; do not restart servers or delete sessions to
+rename a bookmark. The [NAS rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification)
+is separate; a NAS Serve URL is not a Rex server URL.
+
+### Verified SSH transport fallback
+
+Mini's `air` CLI record now uses `ssh://air`; Air's existing `mini` record uses
+`ssh://mini`. The private SSH aliases target the regular Mac nodes, not Rex's
+separate Tailscale nodes. Verify SSH aliases with fresh BatchMode connections and
+strict host-key checking before using them for Rex. Verify the returned remote
+account with `rex -S air whoami --json` or `rex -S mini whoami --json` before
+issuing commands. Both directions and a bounded remote command on Air passed.
+
+Rex must be on the noninteractive shell PATH of the destination. Air uses a
+machine-local CLI link to the existing managed Rex binary and its local shell
+startup; no Rex reinstall or restart was needed. Keep exact paths, host trust
+and recovery receipts private. GUI Remote Hosts and the extra old saved record
+were not changed. See the [retirement checkpoint](LEGACY-RETIREMENT.md#resume-report--verified-cross-device-recovery-archival-blocked)
+for scope and rollback.
 
 ## 3. Restore both app connections, not just one
+
+Use these steps when direct HTTPS has been independently verified; the CLI SSH
+fallback is not evidence that the GUI Remote Hosts path works.
 
 - On the Mini, **Add Remote Host…** using the Air's actual Rex HTTPS URL; use the
   display label `air` where the installed UI permits naming.

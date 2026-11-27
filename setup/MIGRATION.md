@@ -1,6 +1,17 @@
 # Approval-gated source handoff and dotfiles retirement
 
-## Current execution status — 2026-11-14
+## Latest resume checkpoint
+
+[Current consolidation report](LEGACY-RETIREMENT.md#consolidation-checkpoint):
+`setup/` is the canonical workstation source; dotfiles is temporary compatibility
+and recovery material pending archival. Air's saved release, canonical Stow
+payload, and local SMB boot files were restored with legacy-source and network
+access denied. Launchd/Finder/Keychain remount recovery and the disposition of
+fresh legacy release staging are not yet accepted. Finish the remaining gates
+before any approved archive move. The dated sections below preserve earlier
+decisions and are not current deployment instructions.
+
+## Earlier execution status — 2026-11-14
 
 The current mission explicitly authorized bounded completion and main publication after validation. Both Macs' five selective leaf handoffs are now verified: [Mini evidence](../plans/handoffs/MINI_LIVE_HANDOFF_RESULT.md), [Air execution](../plans/handoffs/AIR_LIVE_HANDOFF_RESULT.md). Air's local source-only update and link transaction preserved old bytes/private state and require no runtime reinstall. Main verified the source-transition gate and integrated the canonical `harness/pi/` workflow; overwrite-prone generation is retired. All 13 root files and the old installer remain frozen for named compatibility/recovery consumers, **not** independently authored source. General computer configuration, dirty dotfiles, SMB services and destructive source retirement remain untouched. Older pending/unapproved statements below describe prior checkpoints, not the current handoff outcome. New live changes still require exact scope and immediate checks. See [current execution decisions](../plans/handoffs/LIVE_HANDOFF_EXECUTION.md).
 
@@ -22,14 +33,14 @@ Checks use isolated dependencies and temporary homes; existing Mini resources an
 
 Mini acceptance is **closed**. The operator also confirms Air runtime and cold loading with network and `/Volumes` denied are **accepted**; do not repeat or reinstall. Current direction and exact publication proposal: [shared DevDrive handoff](../plans/handoffs/SHARED_DEVDRIVE_PUBLICATION.md). Both machines intentionally use DevDrive as the active project workspace; Air keeps its local checkout as offline Pi resource owner. These are distinct roles.
 
-The existing Herdr **Air** Pi agent read the shared handoff and produced [actual local-checkout evidence](../plans/handoffs/AIR_LOCAL_CHECKOUT_EVIDENCE.md). Local root `L=/Users/alexanderortiz/Github/agentic-engineering` is clean on `main` at `e9c0a625`; all five accepted links resolve into `L/pi/`, with the accepted hashes below. Its filesystem is local. No local harness/setup/CLI files exist at HEAD or untracked. SMB-root inspector warnings were cross-checkout comparisons, **not** evidence of unmanaged/broken Air resources. Publication and optional local Git synchronization—not runtime acceptance—are the next decisions.
+The existing Herdr **Air** Pi agent read the shared handoff and produced [actual local-checkout evidence](../plans/handoffs/AIR_LOCAL_CHECKOUT_EVIDENCE.md). Local root `L=$HOME/Github/agentic-engineering` is clean on `main` at `e9c0a625`; all five accepted links resolve into `L/pi/`, with the accepted hashes below. Its filesystem is local. No local harness/setup/CLI files exist at HEAD or untracked. SMB-root inspector warnings were cross-checkout comparisons, **not** evidence of unmanaged/broken Air resources. Publication and optional local Git synchronization—not runtime acceptance—are the next decisions.
 
 ### Recorded Air evidence and later source-only verification
 
 The completed Air report already covers revision/status, local storage, real parents, five current resolved targets/hashes and candidate absence. Do not repeat it merely to reconfirm accepted runtime behavior. After an **approved Git update** has actually added the source files to L, a local metadata-only source check may use:
 
 ```sh
-L=/Users/alexanderortiz/Github/agentic-engineering
+L=$HOME/Github/agentic-engineering
 node "$L/setup/inspect-links.mjs" --pi
 ```
 
@@ -47,7 +58,7 @@ New CLI/harness changes are uncommitted in DevDrive and absent from the local Ai
 
 ### Five paths for the later exact Air approval manifest
 
-For Air resource ownership, `A=L=/Users/alexanderortiz/Github/agentic-engineering`, **never DevDrive**. Current resolved targets are known: `L/pi/.pi/agent/<suffix>`. New local packages are absent until approved Git synchronization. Exact old literal strings remain private and must be captured/reverified immediately before any separately approved handoff; do not guess their relative spelling.
+For Air resource ownership, `A=L=$HOME/Github/agentic-engineering`, **never DevDrive**. Current resolved targets are known: `L/pi/.pi/agent/<suffix>`. New local packages are absent until approved Git synchronization. Exact old literal strings remain private and must be captured/reverified immediately before any separately approved handoff; do not guess their relative spelling.
 
 | Air destination under its actual HOME | Proposed source under approved A |
 |---|---|
@@ -89,7 +100,7 @@ Do not turn step 5 into a new infrastructure project: capture the actual approve
 **Operator-confirmed complete on Mini, 2026-11-14:** workstation-profile and 15-component dry-runs passed, including direct tri-state actions, Backspace/preserved choices, conflict explanations and no live changes. See [acceptance](ACCEPTANCE.md#mac-mini-interactive-host-acceptance--confirmed). The checklist below is retained as evidence/retest guidance, **not authorization to deploy**. Use a new Ghostty tab in the existing local checkout, not an agent input field:
 
 ```sh
-cd /Volumes/DevDrive/Projects/agentic-engineering
+cd /Volumes/<shared-volume>/Projects/agentic-engineering
 sh setup/bootstrap/setup --dry-run
 ```
 
@@ -127,15 +138,15 @@ Current independent Mini preview: 13 requested, 9 no-ops, 4 blocked migration co
 
 Historical pre-execution manifest, reverified **2026-11-14** against accepted HEAD `e9c0a625f0ad07a134eab7e8a07fd23ad4bd7354` and the staged working tree. The heading/anchor is retained for approval references. **The operator subsequently explicitly approved this exact Mini-only manifest; all five proposed targets are now applied and verified.** Do not rerun the old-link detachment procedure as if this remained pending.
 
-Exact roots: `H=/Users/tailr.fit`, `A=/Volumes/DevDrive/Projects/agentic-engineering`. Live paths below are relative to H; both target columns are the **literal relative symlink strings**, not abbreviated patterns. Resolving the current column leads to `A/pi/`; resolving the proposed column leads to `A/harness/pi/packages/`.
+The historical table below uses a redacted volume-name placeholder. For recovery, use the exact literals from the private before-state receipt, not these examples.
 
 | Exact live path under H | Current literal target | Proposed literal target |
 |---|---|---|
-| `.pi/agent/AGENTS.md` | `../../../../Volumes/DevDrive/Projects/agentic-engineering/pi/.pi/agent/AGENTS.md` | `../../../../Volumes/DevDrive/Projects/agentic-engineering/harness/pi/packages/pi-instructions/.pi/agent/AGENTS.md` |
-| `.pi/agent/themes/purple-dreams.json` | `../../../../../Volumes/DevDrive/Projects/agentic-engineering/pi/.pi/agent/themes/purple-dreams.json` | `../../../../../Volumes/DevDrive/Projects/agentic-engineering/harness/pi/packages/pi-theme/.pi/agent/themes/purple-dreams.json` |
-| `.pi/agent/skills/workbench/SKILL.md` | `../../../../../../Volumes/DevDrive/Projects/agentic-engineering/pi/.pi/agent/skills/workbench/SKILL.md` | `../../../../../../Volumes/DevDrive/Projects/agentic-engineering/harness/pi/packages/workbench-skill/.pi/agent/skills/workbench/SKILL.md` |
-| `.pi/agent/skills/agentic-engineering/SKILL.md` | `../../../../../../Volumes/DevDrive/Projects/agentic-engineering/pi/.pi/agent/skills/agentic-engineering/SKILL.md` | `../../../../../../Volumes/DevDrive/Projects/agentic-engineering/harness/pi/packages/study-skill/.pi/agent/skills/agentic-engineering/SKILL.md` |
-| `.pi/agent/extensions/composer-highlight.ts` | `../../../../../Volumes/DevDrive/Projects/agentic-engineering/pi/.pi/agent/extensions/composer-highlight.ts` | `../../../../../Volumes/DevDrive/Projects/agentic-engineering/harness/pi/packages/composer/.pi/agent/extensions/composer-highlight.ts` |
+| `.pi/agent/AGENTS.md` | `../../../../Volumes/<shared-volume>/Projects/agentic-engineering/pi/.pi/agent/AGENTS.md` | `../../../../Volumes/<shared-volume>/Projects/agentic-engineering/harness/pi/packages/pi-instructions/.pi/agent/AGENTS.md` |
+| `.pi/agent/themes/purple-dreams.json` | `../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/pi/.pi/agent/themes/purple-dreams.json` | `../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/harness/pi/packages/pi-theme/.pi/agent/themes/purple-dreams.json` |
+| `.pi/agent/skills/workbench/SKILL.md` | `../../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/pi/.pi/agent/skills/workbench/SKILL.md` | `../../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/harness/pi/packages/workbench-skill/.pi/agent/skills/workbench/SKILL.md` |
+| `.pi/agent/skills/agentic-engineering/SKILL.md` | `../../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/pi/.pi/agent/skills/agentic-engineering/SKILL.md` | `../../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/harness/pi/packages/study-skill/.pi/agent/skills/agentic-engineering/SKILL.md` |
+| `.pi/agent/extensions/composer-highlight.ts` | `../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/pi/.pi/agent/extensions/composer-highlight.ts` | `../../../../../Volumes/<shared-volume>/Projects/agentic-engineering/harness/pi/packages/composer/.pi/agent/extensions/composer-highlight.ts` |
 
 All five live links and both source copies are owned by operator UID **501**. All traversed parents are real directories, not parent links; both source copies are regular files with mode **0644**. Each selected package has exactly its one listed file. Root source bytes, staged source bytes and accepted Git blob bytes all match:
 
@@ -187,7 +198,7 @@ Do not invoke blanket Stow deletion or restore a HOME snapshot.
 - Native Stow simulation and selective apply both exited **0**. All five new literal targets, resolved sources, hashes, modes and ownership verified after apply and again after loading checks.
 - Native Pi 1.5.2 resource loading passed before/after: AGENTS context, both Skills with zero diagnostics, full-schema Purple Dreams validation and composer extension import/startup editor-factory registration. Workbench Skill still identifies the same canonical checkout/Foundations. These were isolated loader checks, not a new agent session or live UI reload; Jiti disk cache disabled, no settings/session/model APIs invoked.
 - Unselected known config/link inventory, including settings digest and general computer links, stayed identical across handoff/loading verification. No credentials/sessions were read or backed up. No Todos/private overrides/Workbench source/Air operation.
-- Rollback receipt: `~/.local/state/ae/handoffs/mini-pi-five-20261114T042028.825620Z/manifest.json`; `result.json` records `applied-and-verified`, five verified links and `rollback_performed: false`. Directory **0700**, metadata files **0600**. Targeted rollback above remains available. No rollback was necessary.
+- Private rollback receipt records `applied-and-verified`, five verified links and no rollback. Do not copy over later changes; no rollback was necessary.
 
 **Mini slice complete; stop for review.** All five proposed literals in the table are now the current Mini literals. Root `pi/` stays authored authority; both trees are retained. The staged untracked files are now live Mini dependencies: do not remove/regenerate/move them or change checkout paths casually. No physical relocation, legacy retirement, Air migration, commit or push was performed. Future actions need separate approval.
 

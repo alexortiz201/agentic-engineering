@@ -4,8 +4,7 @@
 
 This repository is the single authored setup authority. For network/storage/access
 work or onboarding a home computer, read the public-safe [home-lab guide](setup/HOME-LAB.md)
-and [NAS access and tailnet DNS](setup/NAS-SSH.md). The current operator-confirmed
-Tailscale tailnet DNS name is **`tarsier-atlas.ts.net`** (renamed November 23, 2026).
+and [NAS access and tailnet DNS](setup/NAS-SSH.md). The operator confirmed a tailnet rename on November 23, 2026. Read the current DNS suffix from the authorized control plane; do not copy it into this repository.
 The expected NAS HTTPS endpoint still requires certificate/Serve verification.
 Only the explicitly supplied nonsecret NAS inventory is documented there; private
 configuration, credentials and keys stay outside Git.
@@ -13,7 +12,16 @@ Legacy dotfiles remains only for verified live migration/compatibility/recovery
 consumers; [retirement is currently blocked](setup/LEGACY-RETIREMENT.md). Do not
 interpret deployed legacy links as permission to author new setup material there.
 
-The standalone setup wizard lives in [`cli/`](cli/README.md). Clone this repository, then run:
+The standalone setup wizard lives in [`cli/`](cli/README.md). On Air, use a
+physically local checkout. Do not run legacy `bootstrap` or `stow-all` over
+migrated homes. Use the canonical manifests to select required components;
+package recommendations are not requirements, and a missing Brew receipt does
+not justify reinstalling an app already supplied by another owner. For Air's
+machine-local SMB and retained releases, follow the
+[isolated recovery procedure](setup/LEGACY-RETIREMENT.md#air-independent-file-recovery),
+not a legacy whole-home restore.
+
+Clone this repository, then run:
 
 ```sh
 sh setup/bootstrap/setup
@@ -45,9 +53,9 @@ All 13 root `pi/` files, historical docs/managed locks and `scripts/install-pi` 
 
 ## Shared development and offline Pi
 
-Use `/Volumes/DevDrive/Projects/agentic-engineering` as the active project workspace on both Macs when connected. This intentionally shared working tree requires nonoverlapping edits and one Git writer; it does not require Air to load Pi resources from SMB.
+Use `/Volumes/<shared-volume>/Projects/agentic-engineering` as the active project workspace on both Macs when connected. This intentionally shared working tree requires nonoverlapping edits and one Git writer; it does not require Air to load Pi resources from SMB.
 
-Air's accepted local checkout `/Users/alexanderortiz/Github/agentic-engineering` remains its offline resource owner. Its source-only fast-forward to `8656a797` and five local-to-local selective links are now verified; exact subsequent accepted revisions are recorded in the [execution report](plans/handoffs/LIVE_HANDOFF_EXECUTION.md). Do not reinstall accepted runtimes or automatically synchronize. Future source updates and link changes remain explicitly reviewed operations.
+Air's accepted local checkout `$HOME/Github/agentic-engineering` remains its offline resource owner. Its source-only fast-forward to `8656a797` and five local-to-local selective links are now verified; exact subsequent accepted revisions are recorded in the [execution report](plans/handoffs/LIVE_HANDOFF_EXECUTION.md). Do not reinstall accepted runtimes or automatically synchronize. Future source updates and link changes remain explicitly reviewed operations.
 
 Read the [durable status/publication plan](plans/handoffs/SHARED_DEVDRIVE_PUBLICATION.md). Cross-machine handoffs are files on DevDrive; pass their paths through Herdr and have the receiver read the files. Do not rely on clipboard/pane history, auto-sync, or new services.
 

@@ -4,18 +4,113 @@ November 2026 focused reconciliation. **Retirement is blocked. No archive move o
 
 See [ownership map](OWNERSHIP.md), [migration gates](MIGRATION.md), [home lab](HOME-LAB.md), and [NAS status](NAS-SSH.md). Historical statements about active dotfiles development do not override this checkpoint.
 
+## Consolidation checkpoint
+
+**Canonical ownership is settled; archival is not approved.** `setup/` owns
+workstation provisioning and configuration sources, `cli/` owns the setup
+workflow, and `harness/pi/` owns the portable Pi resource leaves. Legacy dotfiles
+remains a compatibility and recovery source. Keep host identities, credentials,
+preferences, runtime state, and exact recovery receipts outside Git.
+
+- **Completed:** selective Pi handoffs and Air offline resource loading; live
+  and isolated shell/Ghostty handoffs on both Macs; Mini's GitHub CLI handoff
+  to a real local configuration directory; and verified cross-Mac SSH, Rex CLI
+  over SSH, and [NAS SSH](NAS-SSH-DIAGNOSIS-REPORT.md). Both Macs retained their
+  already-working palettes; do not apply the portable palette over those local
+  preferences. Exact link receipts and original bytes are retained privately.
+- **Connectivity boundaries:** strict, fresh cross-Mac SSH passed both ways;
+  this does not attest unrelated devices. Direct Rex HTTPS timed out; the
+  [verified SSH fallback](REX-RECOVERY.md#verified-ssh-transport-fallback) does
+  not prove native GUI Remote Hosts or HTTPS acceptance. Air's nonsecret GH
+  configuration is canonical; the last scoped Air GH CLI authentication check
+  returned HTTP 401. If needed, reauthenticate in a trusted terminal as the
+  operator and verify from a fresh shell. Do not transfer credentials.
+- **Package acceptance:** the tested setup/recovery path used Git, Node/npm,
+  Homebrew and native Stow. Shared and host-additive Brew declarations matched
+  legacy; npm/Bun inventories were retained, not replayed. App presence can
+  differ from receipt presence; a missing receipt does not justify reinstalling
+  an application or changing its owner. `ripgrep`, App Store tooling and other
+  optional declarations were not required for this recovery path. Full clean-Mac
+  reproduction of optional apps and third-party accounts was not attempted.
+  Preserve the [accepted developer-tool ownership](DEVELOPER-TOOLS.md).
+
+### Air independent file recovery
+
+**File recovery passed without access to the original source.** Staging used
+local APFS, an alternate HOME, and a sandbox denying network, the shared and
+legacy/live source roots, and writes outside staging. Negative controls confirmed
+source access was denied. No live mount, Finder action or LaunchAgent activation
+was part of the rehearsal.
+
+1. Verify the private receipt's archive checksums. Extract the runtime archive
+   into an empty staged runtime directory. Check the relative `current` link,
+   both retained release manifests and the preserved FIFO. In the rehearsal,
+   the existing verifier passed in isolated mode; a separate private history
+   copy matched all 77 manifest paths, modes and blob digests for each release.
+   Do not bypass the production source guard or rely on the offline clone alone
+   for historical objects it does not contain.
+2. Restore the saved helper/plist pair into the alternate HOME **for inspection
+   only**. Check owner, group, mode, `bash -n` on the helper and `plutil -lint`
+   on the plist. Compare literal links, bytes, flags, ACLs, and extended
+   attributes. The rehearsal matched 362 runtime entries and both boot files.
+   The plist's installed home path is an intentional host binding; never load
+   it in the alternate HOME or convert it into a portable template.
+3. Use the physically local [canonical setup](../SETUP.md), not the old
+   whole-home installer. In a separately staged HOME the six computer packages
+   and five selective Pi resource packages installed with native Stow and
+   `--no-folding`. The recreated cmux link matched the retained local release.
+   This was not a repeat of the live handoffs or runtime acceptance.
+
+**Live recovery not yet accepted:** an approved console rehearsal must verify
+cold remount of both expected SMB shares using the existing local GUI context,
+including a second trigger without duplicate mountpoints. Do not load jobs,
+force unmounts, inspect credentials, or invoke the legacy installer under this
+checkpoint. Keep the local runtime, the verified private recovery artifacts and
+the original compatibility source available until the separate gate is closed.
+
+### Remaining legacy consumers and rollback
+
+| Consumer | Disposition |
+|---|---|
+| Air cmux local configuration and the retained runtime releases | Keep the verified local release and private archive. The live cmux leaf does not require the original shared checkout. Do not replay an old whole-home transaction over migrated leaves. |
+| Legacy `air-snapshot`, `install-air-home --release` and `install-air-smb` | Production staging/activation still has original-path and history assumptions. Decide explicitly whether fresh legacy-format releases or whole-home activation are still supported; replace and test that route or retire it by approval. Keep `host-role` with the historical tooling. |
+| Legacy `bootstrap`, `stow-all`, `pi-resources` and their documented callers | Normal provisioning uses the canonical selective path. Retain frozen root `pi/` and `scripts/install-pi` for remaining callers and tests. Do not replay old global npm or prefix mutations. |
+| Historical Pi/OMP links and manual readers | Resolving links are not proof of runtime loading; dangling links are not permission to delete. Identify actual manual readers, preserve necessary material privately, and disposition links explicitly before moving their sources. |
+
+Both hosts had private source/history preservation verified. Mini's checkout
+copy agreed on path inventory, Git integrity, refs and dirty status; provenance
+metadata differences prevented claiming byte-for-byte filesystem metadata
+fidelity. Air's local source copy passed Git/index checks but did not establish
+full-tree equality. The separate Air runtime/boot-file comparison above passed.
+Refresh private backups and restore checks before archival, including required
+metadata. A Git bundle alone does not capture a dirty checkout or ignored data.
+For rollback, use verified private before-state receipts to restore only the
+approved leaf/record if its after-state still matches. Never overwrite newer
+private edits or restore an entire HOME to undo a selective handoff.
+
+Close the independent Air recovery and remaining-consumer gates first. Then
+verify no required reader uses the original path, refresh the private restore
+evidence, and obtain separate approval for the exact archive move and rollback.
+No archive move or live migration is authorized by this report.
+
+## Resume report — verified cross-device recovery; archival blocked
+
+The earlier resume checkpoint verified fresh, strict SSH in both directions,
+separate Rex CLI SSH checks, and a bounded remote command. It did not change the
+Rex server, unrelated devices, or live sessions. Its older shell/Ghostty and
+Mini GH dependencies were superseded by the completed handoffs above. Exact
+configuration changes and rollback strings stay in the private per-host receipts.
+
 ## Further verified handoffs — November 23, 2026
 
 This supersedes the earlier checkpoint's pending SSH/Air-GH statements.
 
 - **Mini SSH:** `~/.ssh/config` now links into canonical `setup/computer/ssh/.ssh/config`;
-  private host blocks are preserved in 0600 `~/.ssh/config.local`. Receipt
-  `~/.local/state/ae/handoffs/mini-ssh-20261123T160352Z/manifest.json`.
+  private host blocks are preserved in 0600 `~/.ssh/config.local`. Exact receipt details stay private.
 - **Air SSH:** the same relative canonical target is in Air's physically local
-  checkout, with its own private include. Receipt `air-ssh-PwJoME` under Air's
-  `~/.local/state/ae/handoffs/`.
+  checkout, with its own private include and private receipt.
 - **Air GH:** `~/.config/gh/config.yml` now links into Air-local canonical
-  `setup/computer/gh/.config/gh/config.yml`; receipt `air-gh-6dIt2r`.
+  `setup/computer/gh/.config/gh/config.yml`; its receipt stays private.
   `hosts.yml` remains at its original local path and inode. Only filesystem metadata
   was inspected before/after: no credential contents were read, hashed, copied,
   published or relocated.
@@ -32,7 +127,7 @@ Mini fixture check caught a Stow argument-order issue before any live write; the
 corrected `--delete`-before-package fixture passed. Private receipts record exact
 old/new targets, hashes, source revision and created-include metadata. Independent
 Rex access was verified before SSH mutation. No NAS-side connection test or change
-was made, and NAS authentication remains unverified/previously denied.
+was made at that checkpoint; the later [NAS diagnosis](NAS-SSH-DIAGNOSIS-REPORT.md) records the successful independent validation.
 
 ### Ghostty: exact preference decision
 
@@ -120,8 +215,7 @@ Native Stow install/remove rehearsals ran in temporary homes before live handoff
 new realpaths/hashes passed. Private 0700 receipt directories contain 0600 manifests
 with exact old link literals, source revision, hashes, new targets and created-include
 metadata. Failed live transactions were guarded to restore only matching resources.
-No failure rollback was needed. Receipts: Mini `mini-git-herdr-20261123T152650Z`;
-Air `air-git-LwJ5Tu`, under each host's `~/.local/state/ae/handoffs/`.
+No failure rollback was needed. Exact receipts stay in each host’s private handoff storage.
 
 Air execution used the installed Rex skill: verified remote identity, explicit
 remote session and separate unfocused blocks, no input into existing panes. The

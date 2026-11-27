@@ -6,7 +6,7 @@ See [setup](../SETUP.md), [ownership](OWNERSHIP.md), [NAS access status](NAS-SSH
 
 ## Evidence and private inventory
 
-Observations below come from November 2026 discovery; equipment facts supplied by the operator are labeled reported. Reinspect before acting. The operator-supplied nonsecret NAS addresses, administrator name and tailnet rename are now documented explicitly in [NAS access](NAS-SSH.md#current-configuration--november-23-2026). These are reported configuration, not fresh connectivity-test results. SSH fingerprints, private configuration, credentials, enrollment keys, reservation maps and original detailed reports remain outside public Git; keep them in approved private records/backups.
+Observations below date from November 2026. Reinspect before acting. Keep actual addresses, accounts, hardware identifiers, trust, access-control settings, credentials, and original detailed reports in approved private records. See [current NAS access](NAS-SSH.md#current-configuration--november-23-2026) for separately verified SSH status.
 
 The original detailed home-lab and NAS reports were preserved byte-for-byte in a private local recovery directory before reconciliation. That local preservation is not an offsite backup or a complete dotfiles repository snapshot. Ask the operator for its location/access if needed.
 
@@ -14,14 +14,11 @@ The original detailed home-lab and NAS reports were preserved byte-for-byte in a
 
 | Resource | Role and capabilities | Evidence / limits |
 |---|---|---|
-| Mac mini | Primary always-on development/agent host; M4, 10 CPU cores, 24 GB RAM, nominal 256 GB internal SSD; 10GbE-capable controller | Observed; Ethernet negotiated 1GbE during audit |
-| MacBook Air | Interactive/mobile development; can execute local agents or view Mini-hosted terminals | Rex connectivity observed; exact hardware/storage not inventoried |
-| UGREEN NASync DXP4800 Plus | Centralized storage, SMB shares, UGOS management; Tailscale in persistent host-networked Compose project | Operator-reported current configuration November 23; earlier discovery did not authenticate. Current SSH/HTTPS/SMB acceptance still needs independent verification; see [access details](NAS-SSH.md). |
-| NAS disk | 8 TB WD Red Plus | Reported; actual pool, health, firmware, free space, snapshots and UPS unknown |
-| TP-Link TL-SG2210P V3 / Omada | Home Ethernet switch, 1GbE ports | Reported; controller configuration, VLANs, DHCP/DNS ownership and recovery exports unknown |
-| DevDrive | Mini-attached SanDisk Extreme 55AE, approximately 2 TB APFS | Observed case-insensitive, unencrypted, noowners; **480 Mb/s USB negotiation** during audit, cause unknown |
-| PortableDrive | Mini-attached SanDisk Extreme SSD, approximately 500 GB APFS | Observed case-insensitive, unencrypted, noowners; USB 5 Gb/s; includes personal assets and repository/build trees |
-| StartOS server | Separate server using a Mini-hosted network backup destination | Backup UI screenshot observed; server hardware/service inventory not inspected |
+| Mac mini | Primary development and agent host | Verify local interface and link speed before storage changes |
+| MacBook Air | Interactive/mobile client and local execution host | Remote visibility is not offline runtime ownership |
+| NAS | Centralized storage and separately managed SSH and HTTPS | [SSH verified](NAS-SSH-DIAGNOSIS-REPORT.md); HTTPS and SMB need independent checks |
+| Local attached storage | Active development and a backup destination | Check backing device, mount semantics and recovery independently |
+| Network and backup services | Separate infrastructure owners and recovery boundaries | Keep detailed equipment, routes and recovery policy private |
 
 Do not infer Docker/Ollama availability from installed binaries or empty directories. No default Docker daemon socket was available in the original discovery; Ollama's directly inspected model blobs directory was empty. Running capabilities must be revalidated.
 
@@ -39,7 +36,7 @@ Mini Rex client <-- Tailscale --> Air Rex server
 Air's physical access medium/uplink: not established
 ```
 
-Mini Ethernet and Wi-Fi were both active; default route used Ethernet. Routing, reservations and access controls belong in private inventory. A LAN mDNS name need not resolve remotely. Tailscale OS peers and Rex-managed endpoints can coexist; distinguish them. The operator now reports NAS enrollment as device `nas` and HTTPS Serve to UGOS; the tailnet was renamed to `tarsier-atlas.ts.net` on November 23, 2026, confirmed by the operator in the Admin Console. The expected NAS HTTPS URL needs new-name certificate issuance and endpoint verification; it is **not yet tested here**. See [current NAS access and rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification). Never assume router port forwarding is required.
+Routing, reservations and access controls belong in private inventory. A LAN mDNS name need not resolve remotely. Tailscale OS peers and Rex endpoints are separate. The operator confirmed the tailnet rename; the NAS HTTPS endpoint and certificate remain unverified. See the [NAS rename checklist](NAS-SSH.md#tailnet-rename-and-https-verification).
 
 SSH uses existing aliases and per-machine keys. Canonical portable defaults are in `computer/ssh/.ssh/config`; personal host entries belong in **local** `~/.ssh/config.local`. Both Macs' SSH ownership handoffs are verified; other resources remain transitional (see the retirement report). Do not put private hosts into the portable template or automatically overwrite an existing file. Validate hostname, quoted username, port and effective options with `ssh -G` before connecting. Host-specific options must precede wildcard defaults because OpenSSH uses the first obtained value.
 
@@ -47,7 +44,7 @@ SSH uses existing aliases and per-machine keys. Canonical portable defaults are 
 
 Pi, Claude, Rex and Herdr may execute on either Mac. Execution belongs to the terminal server host, not the viewing app. Mini-hosted terminals can survive Air client disconnection; that does not prove application checkpointing or automatic failover. Session labels do not establish a sole orchestration authority.
 
-Observed active Mini source is under `/Volumes/DevDrive/Projects`. Home navigation, shell/Git/terminal config and selected historical resources include external links. Dependencies, build outputs, Git worktrees and live process CWDs exist there: it is not passive storage. Sessions, sockets and most caches are per-host internal state. Shared trees need coordinated nonoverlapping edits and one Git writer; separate offline Air resources must stay local.
+The active Mini source lives on attached storage. Home navigation, shell/Git/terminal config and selected historical resources include external links. Dependencies, build outputs, Git worktrees and live process CWDs exist there: it is not passive storage. Sessions, sockets and most caches are per-host internal state. Shared trees need coordinated nonoverlapping edits and one Git writer; separate offline Air resources must stay local.
 
 Existing navigation checks backing filesystem/server identity, not just the mount name. A NAS mount with the same name will not automatically preserve those assumptions. Before relocation, inspect symlinks, saved CWDs, app databases, permissions, metadata, case behavior and watcher semantics on both Macs. Do not move Unix sockets, live VM disks or runtime databases onto unvalidated SMB.
 
@@ -57,11 +54,11 @@ Pi fullscreen copies can be forwarded with `PI_CLIPBOARD_OSC52=1` on the executi
 
 ## Backups and recovery
 
-StartOS was configured to use a network folder under DevDrive on the Mini. The screenshot showed destination availability and a last-backup display of July 31, 2026, 1:34:43 PM. This is not proof of freshness, payload integrity or recoverability; timestamp scope, schedule, retention and independent copies need confirmation. Exact destination and recovery-key custody stay private.
+The prior audit observed a configured StartOS network backup destination. That is not proof of freshness, payload integrity or recoverability. Keep exact destinations and recovery-key custody private.
 
 This backup path depends on Mini + DevDrive + LAN. NAS-native backup storage could remove Mini from that chain, but requires an approved supported destination change, preserved original set, fresh backup and controlled restore test. Never casually copy an actively changing application backup set or assume copying it updates the server's saved destination.
 
-No Mini Time Machine destination was configured during the audit; other backup methods remain unknown. One NAS HDD is not redundancy; RAID/snapshots are not independent backups. Preserve offline/offsite copies and recovery keys through a separate secure process. Mini SMB share configuration showed guest-enabled writable shares; effective authorization was not tested and requires review, not an assumption of safety. Application libraries such as Photos/databases need explicit network-storage support checks.
+Do not infer backup coverage from an available destination. RAID and snapshots are not independent backups. Verify offline/offsite copies and recovery keys separately. Review effective share authorization privately; application libraries and databases need explicit network-storage support checks.
 
 ## Onboard or recover a computer
 
@@ -76,7 +73,7 @@ Bounded read-only discovery tools include `networksetup`, `ifconfig`, `route -n 
 
 ## Unfinished work
 
-- Independently verify the operator-reported NAS key login, effective administrator identity/shell and key persistence across exact UGOS firmware updates; do not reinstall keys based solely on historical failed probes.
+- NAS SSH authentication passed independently on both Macs. Recheck key persistence after a future firmware change rather than reinstalling keys based on historical failed probes.
 - Verify new-name HTTPS certificate issuance, MagicDNS, Serve backend and NAS SMB access after the tailnet rename; review [manual client follow-ups](NAS-SSH.md#manual-client-follow-ups).
 - Actual NAS pool/filesystem, health/capacity, SMB capabilities, snapshots, APFS USB support, backup and UPS policy.
 - Switch/controller management owner and privately stored recovery export; DHCP/DNS/firewall source of truth.

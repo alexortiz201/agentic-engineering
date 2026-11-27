@@ -9,10 +9,9 @@ these documentation changes and pushing to GitHub. Identify their revision with
 
 ## DNS name and evidence
 
-- Current Tailscale tailnet DNS name: **`tarsier-atlas.ts.net`**.
-- Historical previous DNS name: `tailbe49f8.ts.net`.
+- Current and prior tailnet DNS names remain in private operator records.
 - The operator confirmed the rename in the Tailscale Admin Console on November 23.
-- Expected NAS HTTPS URL: `https://nas.tarsier-atlas.ts.net` — **not tested**.
+- The expected NAS HTTPS URL is private and was **not tested**.
 - Current NAS runtime, SSH-key access, SMB shares and Serve mapping are
   operator-reported configuration, not independently validated by this task.
 - Earlier failed SSH probes remain explicitly historical. No new authentication,
@@ -22,7 +21,7 @@ these documentation changes and pushing to GitHub. Identify their revision with
 
 | File | Change |
 |---|---|
-| [SETUP.md](../SETUP.md) | Discoverable current tailnet DNS name and NAS reference |
+| [SETUP.md](../SETUP.md) | Discoverable tailnet rename status and NAS reference |
 | [HOME-LAB.md](HOME-LAB.md) | Updated NAS/Tailscale status, evidence boundaries and outstanding checks |
 | [NAS-SSH.md](NAS-SSH.md) | Single detailed inventory/access guide; LAN vs Tailscale, SSH/SMB, Compose/Serve, rename and certificate checklist; preserved historical evidence |
 | [REX-RECOVERY.md](REX-RECOVERY.md) | Rename/certificate and saved-client-record follow-ups without session disruption |
@@ -34,8 +33,7 @@ these documentation changes and pushing to GitHub. Identify their revision with
   hidden and ignored files, excluding `.git` internals and `node_modules`.
   Neither old nor new suffix occurred in the searched tree; no repository scripts,
   configuration examples or machine-specific records required domain replacement.
-- Existing historical/retirement records were not rewritten. Old-domain mentions
-  introduced in the NAS guide and this report are intentional rename history.
+- Existing historical/retirement records were not rewritten. Literal names are omitted from the current documentation.
 - Bounded local nonsecret client checks found three old-suffix references in the
   Mini's private `~/.ssh/config.local` and an old-suffix Rex saved-host label.
   A label match alone does not prove the saved connection URL is stale.
@@ -43,8 +41,7 @@ these documentation changes and pushing to GitHub. Identify their revision with
 - No password-manager vault, authentication file, private key, Tailscale state,
   session token or Docker secret was opened/copied/published.
 - **Validation passed:** `git diff --check`; five Markdown files and 41 relative
-  links/heading anchors checked; key-payload marker check; old-domain occurrences
-  confined to intentional history in the NAS guide and this report. No runtime
+  links/heading anchors checked; key-payload marker check; original rename history retained in private records. No runtime
   code changed; application/network tests were not run.
 
 ## Remaining verification and manual follow-ups
@@ -53,8 +50,8 @@ these documentation changes and pushing to GitHub. Identify their revision with
    endpoint from Mini and Air, including permitted off-LAN access. Verify the
    reported HTTPS 443 → loopback HTTP 9999 mapping and actual UGOS UI behavior.
    Never bypass TLS checks. The new URL must not be described as working until tested.
-2. Test NAS SSH trust/key login and SMB independently; HTTPS success does not
-   establish either. Keep existing LAN access and permissions intact.
+2. The later [NAS diagnosis](NAS-SSH-DIAGNOSIS-REPORT.md) verifies SSH on both Macs.
+   Neither that result nor HTTPS establishes SMB readiness. Preserve existing LAN access.
 3. Review the observed private SSH references and Rex label; verify each actual
    advertised Rex URL/host identity before any separately approved change.
    Check app bookmarks and CLI hosts on both Macs separately, preserving sessions.
