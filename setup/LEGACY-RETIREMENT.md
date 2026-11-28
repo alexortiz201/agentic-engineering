@@ -1,16 +1,17 @@
 # Legacy dotfiles retirement checkpoint
 
-November 2026 focused reconciliation. **Retirement is blocked. No archive move or live ownership switch was performed.** Agentic Engineering is the single authored setup authority; legacy deployment dependencies do not make dotfiles a second authoring source.
+November 2026 focused reconciliation. **The original shared checkout path is retired.** The private archive and isolated restore are verified. The unchanged repository contents remain in a temporary rollback hold; its final disposition is pending. Agentic Engineering is the single authored setup authority.
 
 See [ownership map](OWNERSHIP.md), [migration gates](MIGRATION.md), [home lab](HOME-LAB.md), and [NAS status](NAS-SSH.md). Historical statements about active dotfiles development do not override this checkpoint.
 
 ## Consolidation checkpoint
 
-**Canonical ownership is settled; archival is not approved.** `setup/` owns
+**Canonical ownership is settled; cutover is verified.** `setup/` owns
 workstation provisioning and configuration sources, `cli/` owns the setup
-workflow, and `harness/pi/` owns the portable Pi resource leaves. Legacy dotfiles
-remains a compatibility and recovery source. Keep host identities, credentials,
-preferences, runtime state, and exact recovery receipts outside Git.
+workflow, and `harness/pi/` owns the portable Pi resource leaves. Legacy material
+is retained for compatibility and recovery, not as an active setup source. Each
+Mac keeps its credentials, preferences, and runtime state local. Keep exact
+recovery receipts outside Git.
 
 - **Completed:** selective Pi handoffs and Air offline resource loading; live
   and isolated shell/Ghostty handoffs on both Macs; Mini's GitHub CLI handoff
@@ -21,10 +22,9 @@ preferences, runtime state, and exact recovery receipts outside Git.
 - **Connectivity boundaries:** strict, fresh cross-Mac SSH passed both ways;
   this does not attest unrelated devices. Direct Rex HTTPS timed out; the
   [verified SSH fallback](REX-RECOVERY.md#verified-ssh-transport-fallback) does
-  not prove native GUI Remote Hosts or HTTPS acceptance. Air's nonsecret GH
-  configuration is canonical; the last scoped Air GH CLI authentication check
-  returned HTTP 401. If needed, reauthenticate in a trusted terminal as the
-  operator and verify from a fresh shell. Do not transfer credentials.
+  not prove native GUI Remote Hosts or HTTPS acceptance. Air uses the canonical
+  nonsecret GH configuration; its authentication is local and was not retested
+  during retirement.
 - **Package acceptance:** the tested setup/recovery path used Git, Node/npm,
   Homebrew and native Stow. Shared and host-additive Brew declarations matched
   legacy; npm/Bun inventories were retained, not replayed. App presence can
@@ -61,37 +61,112 @@ was part of the rehearsal.
    `--no-folding`. The recreated cmux link matched the retained local release.
    This was not a repeat of the live handoffs or runtime acceptance.
 
-**Live recovery not yet accepted:** an approved console rehearsal must verify
-cold remount of both expected SMB shares using the existing local GUI context,
-including a second trigger without duplicate mountpoints. Do not load jobs,
-force unmounts, inspect credentials, or invoke the legacy installer under this
-checkpoint. Keep the local runtime, the verified private recovery artifacts and
-the original compatibility source available until the separate gate is closed.
+**Live automounter recovery: PASS.** In the approved Air console test, both
+expected shares were absent after normal Finder ejection. The unchanged local
+automounter was re-registered; both shares returned automatically at their
+expected sources and paths, with one mount each. The run count reached 3 and
+the last scheduled run exited 0 without duplicates. No rollback was needed.
+The operator completed an automatic SMB authentication prompt earlier in the
+sequence; no prompt was reported during the subsequent bootstrap or scheduled
+verification. This was **not** an end-to-end credential-prompt-free recovery.
+The exact receipt and local recovery artifacts are retained privately. This
+acceptance does not authorize another live remount test or a change to sharing.
 
-### Remaining legacy consumers and rollback
+### Private archive and isolated restore
+
+The Mini's complete legacy checkout was copied with macOS metadata to private
+internal storage outside configured SMB exports. All **22,688 paths** matched
+for regular-file checksum or literal link target, modes, observed UID/GID,
+flags, ACLs and extended attributes other than macOS provenance. Both the main
+and nested historical repository passed full Git integrity checks; HEAD, refs,
+raw and semantic indexes, and status including ignored and untracked work
+matched. The original matched its before-state inventory after the rehearsal.
+
+The copy differed from the source in 125 `com.apple.provenance` values or
+presences, 16 symlink modification times, and 22,681 creation times. These did
+not affect the tested recovery, but this is not an exact filesystem metadata
+image. Ownership was compared as presented by the source mount. Existing
+private backups and Air's retained releases were not changed.
+
+A fresh alternate-HOME restore used only the staged archive. Negative controls
+confirmed that the original, older local backup, network, and writes outside
+scratch were blocked. The restored checkout passed full content and Git
+comparisons, and both retained Air release commits and selected historical Pi,
+SMB, and recovery artifacts were readable. No legacy installer was run or
+live runtime path changed. Exact locations, results and rollback receipts are
+kept outside Git.
+
+### Legacy material and supported consumers
 
 | Consumer | Disposition |
 |---|---|
 | Air cmux local configuration and the retained runtime releases | Keep the verified local release and private archive. The live cmux leaf does not require the original shared checkout. Do not replay an old whole-home transaction over migrated leaves. |
-| Legacy `air-snapshot`, `install-air-home --release` and `install-air-smb` | Production staging/activation still has original-path and history assumptions. Decide explicitly whether fresh legacy-format releases or whole-home activation are still supported; replace and test that route or retire it by approval. Keep `host-role` with the historical tooling. |
+| Legacy `air-snapshot`, `install-air-home --release` and `install-air-smb` | Fresh legacy-format staging and whole-home activation are retired as supported operations. Preserve the original-path guards, `host-role`, and other historical tools and fixtures; do not replay them over migrated homes. |
 | Legacy `bootstrap`, `stow-all`, `pi-resources` and their documented callers | Normal provisioning uses the canonical selective path. Retain frozen root `pi/` and `scripts/install-pi` for remaining callers and tests. Do not replay old global npm or prefix mutations. |
-| Historical Pi/OMP links and manual readers | Resolving links are not proof of runtime loading; dangling links are not permission to delete. Identify actual manual readers, preserve necessary material privately, and disposition links explicitly before moving their sources. |
+| Historical Pi/OMP links and manual readers | Mini's required historical Pi material is readable from its private local reference copy. Air's verified references use its local checkout or retained local release. Previously dangling links are not working consumers and were left alone. |
 
-Both hosts had private source/history preservation verified. Mini's checkout
-copy agreed on path inventory, Git integrity, refs and dirty status; provenance
-metadata differences prevented claiming byte-for-byte filesystem metadata
-fidelity. Air's local source copy passed Git/index checks but did not establish
-full-tree equality. The separate Air runtime/boot-file comparison above passed.
-Refresh private backups and restore checks before archival, including required
-metadata. A Git bundle alone does not capture a dirty checkout or ignored data.
-For rollback, use verified private before-state receipts to restore only the
-approved leaf/record if its after-state still matches. Never overwrite newer
-private edits or restore an entire HOME to undo a selective handoff.
+### Controlled cutover result
 
-Close the independent Air recovery and remaining-consumer gates first. Then
-verify no required reader uses the original path, refresh the private restore
-evidence, and obtain separate approval for the exact archive move and rollback.
-No archive move or live migration is authorized by this report.
+After approval, both Macs passed a fresh reader and dependency check. The Mini
+used one no-overwrite, same-volume rename to a temporary sibling hold. Both
+Macs confirmed the original path was vacant. The hold retained the recorded
+inode, file contents, and Git state; macOS added a provenance attribute to
+its root. The verified private archive was unchanged. No rollback was needed.
+
+### Coordinated Mini and Air acceptance
+
+The Mini orchestrator assigned the Air-local agent a bounded check over the
+existing Rex-over-SSH route and received its independent **PASS** directly.
+No new session infrastructure was needed. The Mini also corroborated the
+Air result with a targeted read-only check. Both Macs still see the original
+path vacant and the temporary hold present. No additional rename or rollback
+was needed.
+
+- **Mini — PASS.** Pi, the private historical reference, and supported shell,
+  Git, SSH, GH, Ghostty, and helper configuration passed scoped checks. The
+  existing Rex and Pi orchestrator responded. The hold retained the recorded
+  identity and matched its verified post-cutover contents and Git data. The
+  private archive again matched its checksum and metadata baseline. Both Git
+  repositories passed integrity checks in the archive and older private backup;
+  the older backup retains its previously documented index and metadata limits.
+- **Air — PASS.** Native or user-local Pi, Claude, Rex, Git, Homebrew, Node/npm,
+  Bun, and Stow ran from the intended paths. The local canonical checkout was
+  clean relative to its cached upstream. The Air agent confirmed Pi docs,
+  design, skill and extension resources, and valid cmux JSON on internal
+  storage. The earlier cutover check also read Pi and cmux with the network and
+  shared volumes denied. Both retained local releases are present.
+- **Cross-machine and SMB — PASS.** Fresh strict SSH worked in both directions,
+  and the existing Rex route remained functional. Air observed one mount per
+  expected share and a registered automounter with its last exit status zero.
+  No test remount, restart, or legacy install was run. The earlier automatic
+  authentication prompt remains part of the accepted recovery record.
+- **Dependencies and regression checks.** Neither host found a required live
+  or supported recovery dependency on the original shared path, or a scoped
+  reader or writer using the hold. Previously dangling historical links were
+  left unchanged. Five focused tests passed for canonical Stow packages,
+  portable Pi resources, and shell startup without legacy sources.
+
+### Archive and temporary hold decision
+
+The verified private archive and isolated restore cover the approved
+source-code, configuration, Git history, and historical recovery needs without
+relying on the hold. No uncopied work was identified in the held tree. The
+archive is not an exact filesystem image. Keep it and the older private backups.
+
+The temporary hold is not an active checkout or private storage. It remains
+reachable through a guest-enabled SMB export that is not configured read-only;
+this does not establish guest read or write access to each file. A dot prefix is
+not an access control. Keep the hold only for a short rollback window. The only
+outstanding operator decision is whether to approve removal of the verified
+hold after rechecking archive integrity, hold identity, new work, and active
+users. Do not delete or relocate it without that separate approval.
+
+If rollback is required while the hold exists, verify the recorded hold
+identity and state, quiesce users, and confirm the original name is vacant
+before reversing the exclusive rename. Never overwrite newer edits or replay a
+whole-home restore. Exact paths and private evidence stay outside Git. This
+report is the only retirement update intended for GitHub; the private handoff,
+archive, and receipts are excluded.
 
 ## Resume report — verified cross-device recovery; archival blocked
 
@@ -285,4 +360,4 @@ That narrow preservation is **not a full recovery snapshot** of the dirty legacy
 4. Preserve **all** legacy Git history, dirty tracked content, ignored/untracked/private content and needed release artifacts in a private recovery snapshot outside the active workspace; verify content/manifests and actual restoreability. Do not publish secrets or mistake `git bundle` alone for a complete dirty snapshot.
 5. Reinspect for direct legacy-source and recovery dependencies on both hosts. Only when none remain, select a labeled archive location outside active Projects, move with approval, verify both hosts, and record that actual location.
 
-**Final archive location: none.** The repository remains at its original path because verified live consumers still require it. No second active source is created by leaving those consumers intact. New setup changes must be authored here; legacy changes are restricted to explicitly scoped compatibility, migration or recovery needs.
+**Current disposition:** the original path is vacant after verified cutover. The private archive is recovery material, not an active provisioning source. The temporary hold is pending a separate disposition decision. New setup changes are authored here.
