@@ -1,12 +1,15 @@
 # Legacy dotfiles retirement checkpoint
 
-November 2026 focused reconciliation. **The original shared checkout path is retired.** The private archive and isolated restore are verified. The unchanged repository contents remain in a temporary rollback hold; its final disposition is pending. Agentic Engineering is the single authored setup authority.
+November 2026. **Legacy dotfiles retirement is complete.** The original shared
+checkout and its temporary rollback hold are both gone. The private archive
+and isolated restore remain verified. Agentic Engineering is the single
+maintained workstation setup source.
 
 See [ownership map](OWNERSHIP.md), [migration gates](MIGRATION.md), [home lab](HOME-LAB.md), and [NAS status](NAS-SSH.md). Historical statements about active dotfiles development do not override this checkpoint.
 
 ## Consolidation checkpoint
 
-**Canonical ownership is settled; cutover is verified.** `setup/` owns
+**Canonical ownership is settled; retirement is verified.** `setup/` owns
 workstation provisioning and configuration sources, `cli/` owns the setup
 workflow, and `harness/pi/` owns the portable Pi resource leaves. Legacy material
 is retained for compatibility and recovery, not as an active setup source. Each
@@ -115,26 +118,24 @@ its root. The verified private archive was unchanged. No rollback was needed.
 
 ### Coordinated Mini and Air acceptance
 
-The Mini orchestrator assigned the Air-local agent a bounded check over the
-existing Rex-over-SSH route and received its independent **PASS** directly.
-No new session infrastructure was needed. The Mini also corroborated the
-Air result with a targeted read-only check. Both Macs still see the original
-path vacant and the temporary hold present. No additional rename or rollback
-was needed.
+The Mini orchestrator coordinated preflight and final verification directly
+with the Air-local agent over the existing Rex-over-SSH route. Air reported
+an independent **PASS** before and after hold removal; the Mini corroborated
+its final result with a read-only probe. Both Macs confirmed that neither the
+original path nor the hold exists, including as a symlink.
 
 - **Mini — PASS.** Pi, the private historical reference, and supported shell,
   Git, SSH, GH, Ghostty, and helper configuration passed scoped checks. The
-  existing Rex and Pi orchestrator responded. The hold retained the recorded
-  identity and matched its verified post-cutover contents and Git data. The
-  private archive again matched its checksum and metadata baseline. Both Git
-  repositories passed integrity checks in the archive and older private backup;
-  the older backup retains its previously documented index and metadata limits.
+  existing Rex and Pi orchestrator responded. After removal the private archive
+  again matched its checksum and metadata baseline. Both Git repositories
+  passed integrity checks in the archive and older private backup; the older
+  backup retains its previously documented index and metadata limits.
 - **Air — PASS.** Native or user-local Pi, Claude, Rex, Git, Homebrew, Node/npm,
   Bun, and Stow ran from the intended paths. The local canonical checkout was
   clean relative to its cached upstream. The Air agent confirmed Pi docs,
   design, skill and extension resources, and valid cmux JSON on internal
-  storage. The earlier cutover check also read Pi and cmux with the network and
-  shared volumes denied. Both retained local releases are present.
+  storage. Pi and cmux checks also passed with the network and shared volumes
+  denied. Both retained local releases are present.
 - **Cross-machine and SMB — PASS.** Fresh strict SSH worked in both directions,
   and the existing Rex route remained functional. Air observed one mount per
   expected share and a registered automounter with its last exit status zero.
@@ -146,27 +147,28 @@ was needed.
   left unchanged. Five focused tests passed for canonical Stow packages,
   portable Pi resources, and shell startup without legacy sources.
 
-### Archive and temporary hold decision
+### Final hold removal and retained recovery
 
-The verified private archive and isolated restore cover the approved
-source-code, configuration, Git history, and historical recovery needs without
-relying on the hold. No uncopied work was identified in the held tree. The
-archive is not an exact filesystem image. Keep it and the older private backups.
+With separate approval, the Mini removed only the temporary hold. Immediately
+before removal its filesystem identity, Git state, full path inventory, and
+checksums matched the verified cutover, including dirty, untracked, and ignored
+work. There was no new work to preserve and neither Mac found a scoped reader
+or writer. The removal did not follow symlinks or cross filesystem boundaries.
+It eliminated the redundant SMB-accessible copy without changing sharing.
 
-The temporary hold is not an active checkout or private storage. It remains
-reachable through a guest-enabled SMB export that is not configured read-only;
-this does not establish guest read or write access to each file. A dot prefix is
-not an access control. Keep the hold only for a short rollback window. The only
-outstanding operator decision is whether to approve removal of the verified
-hold after rechecking archive integrity, hold identity, new work, and active
-users. Do not delete or relocate it without that separate approval.
+The private archive and older backup remain local to the Mini. The verified
+archive preserves the complete legacy checkout and nested Git repository,
+including history, tracked and dirty files, untracked and ignored material, and
+historical recovery tools. The isolated restore and post-removal comparison
+cover the approved recovery needs; the archive is not an exact filesystem
+image. Air's retained local release, cmux configuration, and historical Pi
+resources were not changed.
 
-If rollback is required while the hold exists, verify the recorded hold
-identity and state, quiesce users, and confirm the original name is vacant
-before reversing the exclusive rename. Never overwrite newer edits or replay a
-whole-home restore. Exact paths and private evidence stay outside Git. This
-report is the only retirement update intended for GitHub; the private handoff,
-archive, and receipts are excluded.
+The temporary rename rollback is closed. If recovery is needed, verify the
+private archive and restore into a fresh isolated location before approving
+any live use. Never overwrite newer edits or replay a whole-home restore.
+Exact paths, receipts, and the private handoff are excluded from GitHub. No
+further retirement action or approval is pending.
 
 ## Resume report — verified cross-device recovery; archival blocked
 
@@ -360,4 +362,6 @@ That narrow preservation is **not a full recovery snapshot** of the dirty legacy
 4. Preserve **all** legacy Git history, dirty tracked content, ignored/untracked/private content and needed release artifacts in a private recovery snapshot outside the active workspace; verify content/manifests and actual restoreability. Do not publish secrets or mistake `git bundle` alone for a complete dirty snapshot.
 5. Reinspect for direct legacy-source and recovery dependencies on both hosts. Only when none remain, select a labeled archive location outside active Projects, move with approval, verify both hosts, and record that actual location.
 
-**Current disposition:** the original path is vacant after verified cutover. The private archive is recovery material, not an active provisioning source. The temporary hold is pending a separate disposition decision. New setup changes are authored here.
+**Current disposition:** both the original shared path and its temporary hold
+are absent. The private archive is verified recovery material, not an active
+provisioning source. New setup changes are authored here.
